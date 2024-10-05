@@ -26,6 +26,13 @@
 			{
 				"navigationBarTitleText" : ""
 			}
+		},
+		{
+			"path" : "pages/consult/consult",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
 		}
 	],
 	"globalStyle": {
@@ -49,10 +56,10 @@
 			"selectedIconPath": "static/images/tabber/treehole-selected.png",
 			"text": "情绪树洞"
 		}, {
-			"pagePath": "pages/aiconsult/aiconsult",
+			"pagePath": "pages/consult/consult",
 			"iconPath": "static/images/tabber/consult-unselected.png",
 			"selectedIconPath": "static/images/tabber/consult-selected.png",
-			"text": "AI咨询"
+			"text": "咨询"
 		}, {
 			"pagePath": "pages/my/my",
 			"iconPath": "static/images/tabber/my-unselected.png",
