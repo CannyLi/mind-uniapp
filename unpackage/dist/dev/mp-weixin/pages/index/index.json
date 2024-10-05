@@ -1,4 +1,6 @@
 {
-  "navigationBarTitleText": "uni-app",
-  "usingComponents": {}
+  "navigationBarTitleText": "mind",
+  "usingComponents": {
+    "index-swiper": "../../components/index/IndexSwiper"
+  }
 }

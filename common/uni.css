@@ -95,10 +95,10 @@
 }
 
 .uni-flex {
-  /* #ifdef WEB */
+ /*/ #ifdef WEB */
   display: flex;
-  /* #endif */
-  flex-direction: row;
+  /* /#endif */
+/*  flex-direction: row; */
 }
 
 .uni-flex-item {

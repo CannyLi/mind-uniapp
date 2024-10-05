@@ -2,8 +2,8 @@
   "pages": [
     "pages/index/index",
     "pages/my/my",
-    "pages/consult/consult",
-    "pages/treehole/treehole"
+    "pages/treehole/treehole",
+    "pages/consult/consult"
   ],
   "window": {
     "navigationBarTextStyle": "black",
