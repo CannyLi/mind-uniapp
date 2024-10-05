@@ -5,6 +5,27 @@
 			"style": {
 				"navigationBarTitleText": "uni-app"
 			}
+		},
+		{
+			"path" : "pages/my/my",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/aiconsult/aiconsult",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/treehole/treehole",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
 		}
 	],
 	"globalStyle": {
@@ -12,6 +33,32 @@
 		"navigationBarTitleText": "uni-app",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"color": "#535353",
+		"selectedColor": "#4ac8bd",
+		
+		"list": [{
+			"pagePath": "pages/index/index",
+			"iconPath": "static/images/tabber/home-unselected.png",
+			"selectedIconPath": "static/images/tabber/home-selected.png",
+			"text": "首页"
+		}, {
+			"pagePath": "pages/treehole/treehole",
+			"iconPath": "static/images/tabber/treehole-unselected.png",
+			"selectedIconPath": "static/images/tabber/treehole-selected.png",
+			"text": "情绪树洞"
+		}, {
+			"pagePath": "pages/aiconsult/aiconsult",
+			"iconPath": "static/images/tabber/consult-unselected.png",
+			"selectedIconPath": "static/images/tabber/consult-selected.png",
+			"text": "AI咨询"
+		}, {
+			"pagePath": "pages/my/my",
+			"iconPath": "static/images/tabber/my-unselected.png",
+			"selectedIconPath": "static/images/tabber/my-selected.png",
+			"text": "我的"
+		}]
 	},
 	"uniIdRouter": {}
 }

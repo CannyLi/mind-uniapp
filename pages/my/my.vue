@@ -1,6 +1,6 @@
 <template>
-	<view class="index">
-		<view class="f-active-color"></view>
+	<view>
+		我的
 	</view>
 </template>
 
@@ -8,14 +8,11 @@
 	export default {
 		data() {
 			return {
-				title: 'Hello'
+				
 			}
 		},
-		onLoad() {
-
-		},
 		methods: {
-
+			
 		}
 	}
 </script>
