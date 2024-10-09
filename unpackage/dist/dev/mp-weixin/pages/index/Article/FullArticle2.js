@@ -1,3 +1,3 @@
 "use strict";
-const FullArticle = require("../../FullArticle.js");
+const FullArticle = require("../../../FullArticle.js");
 wx.createPage(FullArticle.MiniProgramPage);

@@ -1,0 +1,1 @@
+<view class="doctor-profile"><image src="{{a}}" class="doctor-image"></image><view class="doctor-info"><view class="doctor-name">医生姓名</view><view class="doctor-introduction">个人简介：这里是医生的个人简介信息。</view><view class="doctor-expertise">擅长领域：这里是医生擅长的领域。</view><view class="consultation-notes">咨询须知：这里是咨询的注意事项。</view><button class="book-button">立即咨询</button></view></view>

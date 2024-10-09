@@ -1,0 +1,43 @@
+
+.doctor-profile {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.doctor-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+}
+.doctor-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.doctor-name {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.doctor-introduction,
+.doctor-expertise,
+.consultation-notes {
+  margin-bottom: 10px;
+  color: #666;
+}
+.book-button {
+  background-color: #4ac8bd;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* .book-button:active {
+  opacity: 0.9;
+} */

@@ -7,13 +7,22 @@
 			}
 		},
 		{
-		    "path": "pages/index/FullArticle", 
+		    "path": "pages/index/Article/FullArticle", 
 		    "style": {
 				"navigationBarTitleText": "全部文章"
 		    }
 		},
 		{
-		    "path": "pages/index/ArticleContent" 
+		    "path": "pages/index/Article/ArticleContent" 
+		},
+		{
+		    "path": "pages/index/Doctor/AllDoctor" 
+		},
+		{
+		    "path": "pages/index/Doctor/DoctorInfo" 
+		},
+		{
+		    "path": "pages/index/Appointment/AppointmentTable" 
 		},
 		{
 			"path" : "pages/my/my",
@@ -22,6 +31,7 @@
 				"navigationBarTitleText" : ""
 			}
 		},
+		
 		{
 			"path" : "pages/treehole/treehole",
 			"style" : 

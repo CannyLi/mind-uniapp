@@ -17,5 +17,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     b: common_assets._imports_0
   };
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-6d05ef11"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-8bd2a792"]]);
 exports.MiniProgramPage = MiniProgramPage;

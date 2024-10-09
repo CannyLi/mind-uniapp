@@ -1,8 +1,11 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/index/FullArticle",
-    "pages/index/ArticleContent",
+    "pages/index/Article/FullArticle",
+    "pages/index/Article/ArticleContent",
+    "pages/index/Doctor/AllDoctor",
+    "pages/index/Doctor/DoctorInfo",
+    "pages/index/Appointment/AppointmentTable",
     "pages/my/my",
     "pages/treehole/treehole",
     "pages/consult/consult"

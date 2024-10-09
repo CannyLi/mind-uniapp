@@ -5,9 +5,9 @@
 			<input class="search-input" type="text" placeholder="输入搜索内容" />
 			<view class="iconfont icon-sangedian"></view>
 		</view>
-		<navigator class="article-list" url="/pages/index/ArticleContent">
+		<navigator class="article-list" url="/pages/index/Article/ArticleContent">
 			<view class="article-item">
-				<image class="article-image" src="../../static/images/Swiper/swiper1.jpg" ></image>
+				<image class="article-image" src="../../../static/images/Swiper/swiper1.jpg" ></image>
 				<view class="article-info">
 					<view class="article-title">文章标题</view>
 					<view class="article-meta">

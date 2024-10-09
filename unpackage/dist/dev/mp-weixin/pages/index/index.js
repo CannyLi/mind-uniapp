@@ -2,7 +2,7 @@
 const common_vendor = require("../../common/vendor.js");
 const common_assets = require("../../common/assets.js");
 const IndexSwiper = () => "../../components/index/IndexSwiper.js";
-const FullArticle = () => "./FullArticle2.js";
+const FullArticle = () => "./Article/FullArticle2.js";
 const _sfc_main = {
   data() {
     return {};

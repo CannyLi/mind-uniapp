@@ -1,0 +1,18 @@
+
+.article-container.data-v-3a803f59 {
+  padding: 20px;
+}
+.article-header.data-v-3a803f59 {
+  margin-bottom: 10px;
+}
+.article-title.data-v-3a803f59 {
+  font-size: 24px;
+  font-weight: bold;
+}
+.article-meta.data-v-3a803f59 {
+  color: #666;
+  margin-bottom: 10px;
+}
+.article-content.data-v-3a803f59 {
+  margin-top: 10px;
+}

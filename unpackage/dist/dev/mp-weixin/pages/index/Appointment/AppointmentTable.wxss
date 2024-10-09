@@ -1,0 +1,21 @@
+
+.appointment-form.data-v-3aff1a6e {
+  padding: 20px;
+}
+.form-item.data-v-3aff1a6e {
+  margin-bottom: 15px;
+}
+.form-item input.data-v-3aff1a6e,
+.picker.data-v-3aff1a6e {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  height: 50px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.submit-button.data-v-3aff1a6e {
+  background-color: #4ac8bd;
+  color: white;
+  padding: 10px;
+  border-radius: 4px;
+}

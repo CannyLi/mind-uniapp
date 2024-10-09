@@ -1,0 +1,33 @@
+
+.text.data-v-cb1005e8{
+	font-size: 80rpx;
+	text-align: center;
+}
+.doctor-profile.data-v-cb1005e8 {
+  display: flex;
+  align-items: center;
+  margin: 20px;
+}
+.doctor-image.data-v-cb1005e8 {
+  width: 100px; 
+  height: 100px; 
+  border-radius: 50%; 
+  object-fit: cover; 
+  margin-right: 20px;
+}
+.doctor-info.data-v-cb1005e8 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.doctor-name.data-v-cb1005e8 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.doctor-introduction.data-v-cb1005e8 {
+  margin-bottom: 10px;
+}
+.doctor-direction.data-v-cb1005e8 {
+  font-style: italic;
+}
