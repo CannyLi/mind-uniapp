@@ -44,6 +44,7 @@
 .article-list.data-v-1cf27b2a {
 	display: flex;
 	flex-direction: column;
+	height: 150rpx;
 }
 .article-item.data-v-1cf27b2a {
 	display: flex;

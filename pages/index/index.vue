@@ -7,17 +7,17 @@
 			<IndexSwiper></IndexSwiper>
 		</view>
 		<view class="uni-flex uni-row funtions">
-			<view class="flex-item iconfont icon-yuyue"></view>
-			<view class="flex-item iconfont icon-xiaoxi"></view>
-			<view class="flex-item iconfont icon-yishengxinxi"></view>
-			<view class="flex-item iconfont icon-yixuekepu"></view>
+			<navigator class="flex-item iconfont icon-yuyue"></navigator>
+			<navigator class="flex-item iconfont icon-xiaoxi" url="/pages/consult/consult" open-type="switchTab"></navigator>
+			<navigator class="flex-item iconfont icon-yixuekepu" url="/pages/index/FullArticle"></navigator>
+			<navigator class="flex-item iconfont icon-yishengxinxi"></navigator>
 		</view>
 		<view class="recommand-article">
 			<view class="recommand-header">
 				<text class="recommand-text">推荐科普</text>
-				<view class="more-btn f-active-color">更多></view>
+				<navigator class="more-btn f-active-color" url="/pages/index/FullArticle">更多></navigator>
 			</view>
-			<view class="article-list">
+			<navigator class="article-list" url="/pages/index/ArticleContent">
 				<view class="article-item">
 					<image class="article-image" src="../../static/images/Swiper/swiper1.jpg" mode=""></image>
 					<view class="article-info">
@@ -31,13 +31,16 @@
 						</view>
 					</view>
 				</view>
-			</view>
+			</navigator>
 		</view>
 	</view>
 </template>
 
 <script>
 	import IndexSwiper from '../../components/index/IndexSwiper.vue';
+	import FullArticle from '../../pages/index/FullArticle.vue';
+	import ArticleContent from './ArticleContent.vue';
+
 	export default {
 		data() {
 			return {
@@ -45,7 +48,8 @@
 			}
 		},
 		components:{
-			IndexSwiper
+			IndexSwiper,
+			FullArticle
 		},
 		onLoad() {
 
@@ -102,6 +106,7 @@
 .article-list {
 	display: flex;
 	flex-direction: column;
+	height: 150rpx;
 }
 .article-item {
 	display: flex;

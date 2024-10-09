@@ -1,6 +1,8 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/index/FullArticle",
+    "pages/index/ArticleContent",
     "pages/my/my",
     "pages/treehole/treehole",
     "pages/consult/consult"

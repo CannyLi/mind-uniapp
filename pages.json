@@ -3,9 +3,17 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "mind"
+				"navigationBarTitleText": "心灵"
 			}
-			
+		},
+		{
+		    "path": "pages/index/FullArticle", 
+		    "style": {
+				"navigationBarTitleText": "全部文章"
+		    }
+		},
+		{
+		    "path": "pages/index/ArticleContent" 
 		},
 		{
 			"path" : "pages/my/my",
