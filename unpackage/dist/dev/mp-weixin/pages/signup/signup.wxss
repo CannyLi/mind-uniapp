@@ -1,0 +1,65 @@
+
+.signup-container.data-v-69533909 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+.input-group.data-v-69533909 {
+  display: flex;
+  align-items: center;
+  width: 90%;
+  margin: 10px;
+}
+.label.data-v-69533909 {
+  width: 20%; /* 标签宽度 */
+  font-size: 16px;
+  font-weight: bold;
+  text-align: left;
+}
+.code-input-container.data-v-69533909 {
+  position: relative; /* 相对定位容器 */
+  flex: 1; /* 让容器占满剩余空间，保持和上面的输入框一致 */
+}
+input.data-v-69533909 {
+  width: 60%; 
+  padding-left: 5rpx;
+  padding: 15rpx;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  height: 40rpx;
+  display: flex;
+  justify-content: left;
+}
+.get-code-text.data-v-69533909 {
+  position: absolute;
+  right: 5px;
+  top: 50%; /* 垂直居中 */
+  transform: translateY(-50%); /* 垂直居中 */
+  color: #4ac8bd;
+  font-size: 14px;
+}
+button.data-v-69533909 {
+  width: 70%;
+  height: 100rpx;
+  text-align: center;
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  padding: 10px;
+  background-color: #4ac8bd;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  margin-top: 20px;
+}
+.login-prompt.data-v-69533909 {
+  display: flex;
+  justify-content: flex-end; 
+  width: 80%;
+  margin-top: 10px;
+}
+.login-link.data-v-69533909 {
+  color: #4ac8bd; /* 登录链接颜色 */
+}

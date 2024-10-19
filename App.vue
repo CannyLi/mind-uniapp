@@ -1,6 +1,7 @@
 <script>
 	export default {
 		onLaunch: function() {
+			this.$store .commit('initUser');
 			console.log('App Launch')
 		},
 		onShow: function() {

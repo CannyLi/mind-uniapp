@@ -8,7 +8,10 @@
     "pages/index/Appointment/AppointmentTable",
     "pages/my/my",
     "pages/treehole/treehole",
-    "pages/consult/consult"
+    "pages/consult/consult",
+    "pages/login/login",
+    "pages/signup/signup",
+    "pages/LoginSignupHome/LoginSignupHome"
   ],
   "window": {
     "navigationBarTextStyle": "black",

@@ -7,10 +7,7 @@
 			}
 		},
 		{
-		    "path": "pages/index/Article/FullArticle", 
-		    "style": {
-				"navigationBarTitleText": "全部文章"
-		    }
+		    "path": "pages/index/Article/FullArticle"
 		},
 		{
 		    "path": "pages/index/Article/ArticleContent" 
@@ -44,6 +41,42 @@
 			"style" : 
 			{
 				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/login/login",
+			"style" : 
+			{
+				"navigationBarTitleText": "登录",
+				//取消头部
+				"app-plus": {
+					"titleNView": false,
+					"scrollIndicator": "none"
+				}
+			}
+		},
+		{
+			"path" : "pages/signup/signup",
+			"style" : 
+			{
+				"navigationBarTitleText": "注册",
+				//取消头部
+				"app-plus": {
+					"titleNView": false,
+					"scrollIndicator": "none"
+				}
+			}
+		},
+		{
+			"path" : "pages/LoginSignupHome/LoginSignupHome",
+			"style" : 
+			{
+				"navigationBarTitleText": "登录注册",
+				//取消头部
+				"app-plus": {
+					"titleNView": false,
+					"scrollIndicator": "none"
+				}
 			}
 		}
 	],
@@ -80,4 +113,5 @@
 		}]
 	},
 	"uniIdRouter": {}
+
 }
