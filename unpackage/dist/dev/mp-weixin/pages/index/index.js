@@ -1,19 +1,78 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
-const common_assets = require("../../common/assets.js");
 const IndexSwiper = () => "../../components/index/IndexSwiper.js";
 const FullArticle = () => "./Article/FullArticle2.js";
 const _sfc_main = {
   data() {
-    return {};
+    return {
+      articles: [],
+      carouselImages: []
+      // 存储轮播图数据
+    };
   },
   components: {
     IndexSwiper,
     FullArticle
   },
   onLoad() {
+    this.fetchArticles();
+    this.fetchCarouselImages();
   },
-  methods: {}
+  methods: {
+    fetchArticles() {
+      common_vendor.index.request({
+        url: "http://localhost:3000/api/articles",
+        method: "GET",
+        success: (res) => {
+          console.log("Fetched article:", res.data);
+          if (res.data.success) {
+            this.articles = res.data.data;
+          } else {
+            common_vendor.index.showToast({
+              title: "获取文章失败",
+              icon: "none"
+            });
+          }
+        },
+        fail: () => {
+          common_vendor.index.showToast({
+            title: "请求失败，请稍后重试。",
+            icon: "none"
+          });
+        }
+      });
+    },
+    goToArticleContent(article) {
+      console.log("Navigating to article ID:", article.article_id);
+      common_vendor.index.navigateTo({
+        url: `/pages/index/Article/ArticleContent?article_id=${article.article_id}`
+        // 使用反引号
+      });
+    },
+    fetchCarouselImages() {
+      common_vendor.index.request({
+        url: "http://localhost:3000/api/getCarousels",
+        // 后端接口
+        method: "GET",
+        success: (res) => {
+          if (res.data.success === "0") {
+            this.carouselImages = res.data.data;
+          } else {
+            common_vendor.index.showToast({
+              title: "获取轮播图失败",
+              icon: "none"
+            });
+          }
+        },
+        fail: () => {
+          common_vendor.index.showToast({
+            title: "请求失败，请稍后重试",
+            icon: "none"
+          });
+        }
+      });
+    }
+  }
 };
 if (!Array) {
   const _component_IndexSwiper = common_vendor.resolveComponent("IndexSwiper");
@@ -21,7 +80,20 @@ if (!Array) {
 }
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
-    a: common_assets._imports_0
+    a: common_vendor.p({
+      images: $data.carouselImages
+    }),
+    b: common_vendor.f($data.articles, (article, k0, i0) => {
+      return {
+        a: article.article_image,
+        b: common_vendor.t(article.title),
+        c: common_vendor.t(article.publish_date),
+        d: common_vendor.t(article.likes),
+        e: common_vendor.t(article.favorites),
+        f: article.article_id,
+        g: common_vendor.o(($event) => $options.goToArticleContent(article), article.article_id)
+      };
+    })
   };
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-1cf27b2a"]]);

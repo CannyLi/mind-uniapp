@@ -1,89 +1,78 @@
-
 <template>
   <view class="container">
     <!-- 用户信息 -->
     <view class="user-info" @tap="goToLoginSignupHome">
-      <image class="avatar" :src="loginStatus ? userInfo.users_image : '../../static/images/Swiper/swiper1.jpg'" mode="aspectFill"></image>
+	<!-- loginStatus为真且userInfo.users_image存在，则显示userInfo.users_image作为头像 -->
+      <image class="avatar" :src="loginStatus && userInfo.users_image ? userInfo.users_image : '../../static/images/Swiper/swiper1.jpg'" mode="aspectFill"></image>
       <view class="user-details">
-        <text class="nickname">{{ loginStatus ? userInfo.nickname : "用户名称"  }}</text>
+        <text class="nickname">{{ loginStatus && userInfo.nickname ? userInfo.nickname : "用户登录" }}</text>
       </view>
     </view>
 
     <!-- 设置 -->
-    <view class="settings-section">
-<!--      <navigator url="/pages/settings/settings"> -->
-        <view class="settings-item">
-          <text>设置</text>
-          <text class="arrow">></text>
-        </view>
-<!--      </navigator> -->
-    </view>
+    <navigator class="settings-section" url="/pages/my/components/settings">
+      <view class="settings-item">
+        <text>设置</text>
+        <text class="arrow">></text>
+      </view>
+    </navigator>
 
     <!-- 我的预约 -->
-    <view class="section">
-<!--      <navigator url="/pages/reservation/reservation"> -->
-        <view class="item">
-          <text>我的预约</text>
-          <text class="arrow">></text>
-        </view>
-<!--      </navigator> -->
-    </view>
+    <navigator class="section" url="/pages/my/components/MyAppointment">
+      <view class="item">
+        <text>我的预约</text>
+        <text class="arrow">></text>
+      </view>
+    </navigator>
 
     <!-- 我的发布 -->
-    <view class="section">
-<!--      <navigator url="/pages/posts/posts"> -->
-        <view class="item">
-          <text>我的发布</text>
-          <text class="arrow">></text>
-        </view>
-<!--      </navigator> -->
-    </view>
+    <navigator class="section" url="/pages/my/components/MyRelease">
+      <view class="item">
+        <text>我的发布</text>
+        <text class="arrow">></text>
+      </view>
+    </navigator>
 
     <!-- 我的收藏 -->
-    <view class="section">
-<!--      <navigator url="/pages/collections/collections"> -->
-        <view class="item">
-          <text>我的收藏</text>
-          <text class="arrow">></text>
-        </view>
-<!--      </navigator> -->
-    </view>
+    <navigator class="section" url="/pages/my/components/Favorites">
+      <view class="item">
+        <text>我的收藏</text>
+        <text class="arrow">></text>
+      </view>
+    </navigator>
 
     <!-- 意见反馈 -->
-    <view class="section">
-<!--      <navigator url="/pages/feedback/feedback"> -->
-        <view class="item">
-          <text>意见反馈</text>
-          <text class="arrow">></text>
-        </view>
-<!--      </navigator> -->
-    </view>
+    <navigator class="section" url="/pages/my/components/FeedBack">
+      <view class="item">
+        <text>意见反馈</text>
+        <text class="arrow">></text>
+      </view>
+    </navigator>
   </view>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { useUserStore } from '@/stores/modules/users'; // 导入 Pinia store
 
 export default {
-  data() {
-    return {}
-  },
-  methods:{
-	  goToLoginSignupHome(){
-		  uni.navigateTo({
-		  	url:'/pages/LoginSignupHome/LoginSignupHome'
-		  })
-	  }
+  setup() {
+    const userStore = useUserStore(); // 使用 Pinia store
+    return { userStore };
   },
   computed: {
-	  ...mapState('users',{
-	  	// 从state中拿到数据
-	  	loginStatus: state => state.loginStatus,
-	  	userInfo: state => state.userInfo
-	  	// token: state => state.token
-	  })
+    loginStatus() {
+      return this.userStore.loginStatus; // 从 Pinia store 获取状态
+    },
+    userInfo() {
+      return this.userStore.userInfo; // 从 Pinia store 获取用户信息
+    }
+  },
+  methods: {
+    goToLoginSignupHome() {
+      uni.navigateTo({ url: '/pages/LoginSignupHome/LoginSignupHome' });
+    }
   }
-}
+};
 </script>
 
 <style scoped>
@@ -114,11 +103,6 @@ export default {
 .nickname {
   font-size: 32rpx;
   font-weight: bold;
-}
-
-.phone {
-  font-size: 28rpx;
-  color: #888;
 }
 
 .settings-section, .section {

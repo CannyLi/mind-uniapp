@@ -8,30 +8,29 @@
       <view class="label">密码</view>
       <input type="password" placeholder="6-16位字符" v-model="password" />
     </view>
-	<view class="others">
-		<view class="forget-btn" @click="sendSMS">忘记密码？</view>
-		<view class="gotologin" @click="goToLogin">去注册</view>
-	</view>
+    <view class="others">
+      <view class="forget-btn" @click="sendSMS">忘记密码？</view>
+      <view class="gotologin" @click="goToSignup">去注册</view>
+    </view>
 
     <button @click="handleLogin" class="login-button">登录</button>
 
     <view class="other-login">
       <view class="text2">--或者使用以下方式登录--</view>
-	<image class="wechat-icon" @click="handleWeChatLogin" 
-	src="../../static/images/WeChatLogo.png" alt="微信登录" />
+      <image class="wechat-icon" @click="handleWeChatLogin" 
+        src="../../static/images/WeChatLogo.png" alt="微信登录" />
     </view>
   </view>
 </template>
 
-
 <script>
-import { mapMutations } from 'vuex';
+import { useUserStore } from '@/stores/modules/users'; // 导入 Pinia store
+
 export default {
   data() {
     return {
       username: '',
       password: '',
-      // 验证规则
       rules: {
         username: {
           rule: /\S+/,
@@ -44,8 +43,11 @@ export default {
       }
     };
   },
+  setup() {
+    const userStore = useUserStore(); // 使用 Pinia store
+    return { userStore };
+  },
   methods: {
-	...mapMutations('users', ['login']),//对象展开运算符直接拿到login
     handleLogin() {
       // 验证账号和密码
       if (!this.validate('username')) return;
@@ -63,40 +65,33 @@ export default {
           password: this.password
         }
       }).then((res) => {
-        uni.hideLoading(); // 确保在请求完成后隐藏加载提示
-		console.log(res);
-		// this.login(res.data.data.msg);
-		
+        uni.hideLoading();
+        console.log(res);
+
         if (res.data.data.success) {
-		// 登录成功，提取必要的用户信息和token
-		const userInfo = {
-			nickname: res.data.data.data.nickname,
-			users_image: res.data.data.data.users_image,
-		// 可以添加更多需要的用户信息字段
-		};
-		const token = res.data.data.token; // 确保后端返回了token
-			
-		// 提交login mutation，包含用户信息和token
-		this.login({ userInfo, token });
-          // 登录成功，跳转到指定页面
+          const userInfo = {
+            nickname: res.data.data.data.nickname,
+            users_image: res.data.data.data.users_image,
+          };
+          const token = res.data.data.token;
+
+          // 使用 Pinia 的 login 方法
+          this.userStore.login({ userInfo, token });
           uni.showToast({
             title: res.data.data.msg,
             icon: 'success'
           });
           setTimeout(() => {
-            uni.navigateBack({
-              delta: 2
-            });
-          }, 1000); // 延迟1秒后返回
+            uni.navigateBack({ delta: 2 });
+          }, 1000);
         } else {
-          // 登录失败，显示错误信息
           uni.showToast({
             title: res.data.data.msg,
             icon: 'none'
           });
         }
       }).catch(() => {
-        uni.hideLoading(); // 确保在请求失败时隐藏加载提示
+        uni.hideLoading();
         uni.showToast({
           title: '请求失败',
           icon: 'none'
@@ -105,7 +100,6 @@ export default {
     },
     validate(key) {
       let isValid = true;
-      // 验证是否通过，如果未通过则弹出提示
       if (!this.rules[key].rule.test(this[key])) {
         uni.showToast({
           title: this.rules[key].msg,
@@ -117,9 +111,7 @@ export default {
     },
     handleWeChatLogin() {
       console.log('Login with WeChat');
-      uni.switchTab({
-        url: '/pages/index/index',
-      });
+      uni.switchTab({ url: '/pages/index/index' });
     },
     sendSMS() {
       console.log(`Sending SMS to the registered phone number for ${this.username}`);
@@ -129,10 +121,8 @@ export default {
         duration: 2000,
       });
     },
-    goToLogin() {
-      uni.navigateTo({
-        url: '/pages/signup/signup'
-      });
+    goToSignup() {
+      uni.navigateTo({ url: '/pages/signup/signup' });
     }
   }
 };

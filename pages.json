@@ -28,7 +28,21 @@
 				"navigationBarTitleText" : ""
 			}
 		},
-		
+		{
+		    "path": "pages/my/components/settings" 
+		},
+		{
+		    "path": "pages/my/components/MyAppointment" 
+		},
+		{
+		    "path": "pages/my/components/MyRelease" 
+		},
+		{
+		    "path": "pages/my/components/Favorites" 
+		},
+		{
+		    "path": "pages/my/components/FeedBack" 
+		},
 		{
 			"path" : "pages/treehole/treehole",
 			"style" : 

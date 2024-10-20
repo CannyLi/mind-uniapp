@@ -23,10 +23,6 @@
   font-size: 32rpx;
   font-weight: bold;
 }
-.phone.data-v-2f1ef635 {
-  font-size: 28rpx;
-  color: #888;
-}
 .settings-section.data-v-2f1ef635, .section.data-v-2f1ef635 {
   margin-top: 20rpx;
 }

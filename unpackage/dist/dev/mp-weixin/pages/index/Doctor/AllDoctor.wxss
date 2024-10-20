@@ -7,12 +7,13 @@
   display: flex;
   align-items: center;
   margin: 20px;
+  padding-bottom: 20rpx;
 }
 .doctor-image.data-v-cb1005e8 {
-  width: 100px; 
+  width: 250px; 
   height: 100px; 
-  border-radius: 50%; 
-  object-fit: cover; 
+  border-radius: 50%; /* 圆形 */
+  object-fit: cover;
   margin-right: 20px;
 }
 .doctor-info.data-v-cb1005e8 {

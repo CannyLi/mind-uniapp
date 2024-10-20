@@ -1,16 +1,23 @@
 <script>
-	export default {
-		onLaunch: function() {
-			this.$store .commit('initUser');
-			console.log('App Launch')
-		},
-		onShow: function() {
-			console.log('App Show')
-		},
-		onHide: function() {
-			console.log('App Hide')
-		}
-	}
+import { useUserStore } from '@/stores/modules/users'; 
+
+export default {
+  setup() {
+    const userStore = useUserStore();
+    userStore.initUser(); // 调用 initUser 方法
+
+    return {};
+  },
+  onLaunch() {
+    console.log('App Launch');
+  },
+  onShow() {
+    console.log('App Show');
+  },
+  onHide() {
+    console.log('App Hide');
+  }
+};
 </script>
 
 <style>

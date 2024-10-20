@@ -34,53 +34,50 @@ export default {
     };
   },
   methods: {
-    // 发送验证码
-    sendCode() {
-      if (!this.isValidPhone()) {
-        uni.showToast({
-          title: '请输入有效的手机号',
-          icon: 'none',
-        });
-        return;
-      }
-
-      if (this.isCodeSent) {
-        return;  // 如果验证码已经发送，避免重复点击
-      }
-      
-      // 调用后端 API 发送验证码
-      uni.request({
-        url: 'http://localhost:3000/api/registered', 
-        method: 'POST',
-        data: {
-          username: this.username,
-        }
-	  }).then((res)=>{
-		  uni.hideLoading();
-		  console.log(res);
-		  
-		  if (res.data.data.success) {
-		    uni.showToast({
-		      title: '验证码已发送',
-		      icon: 'success',
-		    });
-		    this.startCountdown();  // 开始倒计时
-		  } else {
-			//注册失败，显示错误信息
-		    uni.showToast({
-		      title: res.data.data.msg,
-		      icon: 'none'
-		    });
-		  }
-		  
-	  }).catch(()=>{
-		  uni.hideLoading();
-		  uni.showToast({
-		    title: '请求失败，请稍后重试',
-		    icon: 'none',
-		  });
-	  })
-    },
+	// 发送验证码
+	sendCode() {
+	  if (!this.isValidPhone()) {
+	    uni.showToast({
+	      title: '请输入有效的手机号',
+	      icon: 'none',
+	    });
+	    return;
+	  }
+	
+	  if (this.isCodeSent) {
+	    return;  // 如果验证码已经发送，避免重复点击
+	  }
+	  
+	  // 调用后端 API 发送验证码
+	  uni.request({
+	    url: 'http://localhost:3000/api/code', 
+	    method: 'POST',
+	    data: {
+	      username: this.username,
+	    },
+	    success: (res) => {
+	      if (res.data.success) {
+	        uni.showToast({
+	          title: '验证码已发送',
+	          icon: 'success',
+	        });
+	        this.startCountdown();  // 开始倒计时
+	      } else {
+			  console.log(res);
+	        uni.showToast({
+	          title: res.data.data.msg,
+	          icon: 'none'
+	        });
+	      }
+	    },
+	    fail: () => {
+	      uni.showToast({
+	        title: '请求失败，请稍后重试',
+	        icon: 'none',
+	      });
+	    },
+	  });
+	},
 
     // 开始倒计时
     startCountdown() {

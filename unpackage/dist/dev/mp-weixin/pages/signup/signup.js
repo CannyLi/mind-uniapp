@@ -29,32 +29,32 @@ const _sfc_main = {
         return;
       }
       common_vendor.index.request({
-        url: "http://localhost:3000/api/registered",
+        url: "http://localhost:3000/api/code",
         method: "POST",
         data: {
           username: this.username
-        }
-      }).then((res) => {
-        common_vendor.index.hideLoading();
-        console.log(res);
-        if (res.data.data.success) {
+        },
+        success: (res) => {
+          if (res.data.success) {
+            common_vendor.index.showToast({
+              title: "验证码已发送",
+              icon: "success"
+            });
+            this.startCountdown();
+          } else {
+            console.log(res);
+            common_vendor.index.showToast({
+              title: res.data.data.msg,
+              icon: "none"
+            });
+          }
+        },
+        fail: () => {
           common_vendor.index.showToast({
-            title: "验证码已发送",
-            icon: "success"
-          });
-          this.startCountdown();
-        } else {
-          common_vendor.index.showToast({
-            title: res.data.data.msg,
+            title: "请求失败，请稍后重试",
             icon: "none"
           });
         }
-      }).catch(() => {
-        common_vendor.index.hideLoading();
-        common_vendor.index.showToast({
-          title: "请求失败，请稍后重试",
-          icon: "none"
-        });
       });
     },
     // 开始倒计时

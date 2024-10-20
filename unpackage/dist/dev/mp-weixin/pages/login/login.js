@@ -1,12 +1,12 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
+const stores_modules_users = require("../../stores/modules/users.js");
 const common_assets = require("../../common/assets.js");
 const _sfc_main = {
   data() {
     return {
       username: "",
       password: "",
-      // 验证规则
       rules: {
         username: {
           rule: /\S+/,
@@ -19,9 +19,11 @@ const _sfc_main = {
       }
     };
   },
+  setup() {
+    const userStore = stores_modules_users.useUserStore();
+    return { userStore };
+  },
   methods: {
-    ...common_vendor.mapMutations("users", ["login"]),
-    //对象展开运算符直接拿到login
     handleLogin() {
       if (!this.validate("username"))
         return;
@@ -44,18 +46,15 @@ const _sfc_main = {
           const userInfo = {
             nickname: res.data.data.data.nickname,
             users_image: res.data.data.data.users_image
-            // 可以添加更多需要的用户信息字段
           };
           const token = res.data.data.token;
-          this.login({ userInfo, token });
+          this.userStore.login({ userInfo, token });
           common_vendor.index.showToast({
             title: res.data.data.msg,
             icon: "success"
           });
           setTimeout(() => {
-            common_vendor.index.navigateBack({
-              delta: 2
-            });
+            common_vendor.index.navigateBack({ delta: 2 });
           }, 1e3);
         } else {
           common_vendor.index.showToast({
@@ -84,9 +83,7 @@ const _sfc_main = {
     },
     handleWeChatLogin() {
       console.log("Login with WeChat");
-      common_vendor.index.switchTab({
-        url: "/pages/index/index"
-      });
+      common_vendor.index.switchTab({ url: "/pages/index/index" });
     },
     sendSMS() {
       console.log(`Sending SMS to the registered phone number for ${this.username}`);
@@ -96,10 +93,8 @@ const _sfc_main = {
         duration: 2e3
       });
     },
-    goToLogin() {
-      common_vendor.index.navigateTo({
-        url: "/pages/signup/signup"
-      });
+    goToSignup() {
+      common_vendor.index.navigateTo({ url: "/pages/signup/signup" });
     }
   }
 };
@@ -110,10 +105,10 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     c: $data.password,
     d: common_vendor.o(($event) => $data.password = $event.detail.value),
     e: common_vendor.o((...args) => $options.sendSMS && $options.sendSMS(...args)),
-    f: common_vendor.o((...args) => $options.goToLogin && $options.goToLogin(...args)),
+    f: common_vendor.o((...args) => $options.goToSignup && $options.goToSignup(...args)),
     g: common_vendor.o((...args) => $options.handleLogin && $options.handleLogin(...args)),
     h: common_vendor.o((...args) => $options.handleWeChatLogin && $options.handleWeChatLogin(...args)),
-    i: common_assets._imports_0$1
+    i: common_assets._imports_0
   };
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-e4e4508d"]]);

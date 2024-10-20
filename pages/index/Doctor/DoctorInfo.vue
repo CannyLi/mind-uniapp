@@ -1,12 +1,12 @@
 <template>
   <view class="doctor-profile">
-    <image src="../../../static/images/Swiper/swiper3.jpg" class="doctor-image"></image>
+    <image :src="doctor.doctor_image" class="doctor-image"></image>
     <view class="doctor-info">
-      <view class="doctor-name">医生姓名</view>
-      <view class="doctor-introduction">个人简介：这里是医生的个人简介信息。</view>
-      <view class="doctor-expertise">擅长领域：这里是医生擅长的领域。</view>
-      <view class="consultation-notes">咨询须知：这里是咨询的注意事项。</view>
-      <button class="book-button" >立即咨询</button>
+      <view class="doctor-name">{{ doctor.name }}</view>
+      <view class="doctor-introduction">个人简介：{{ doctor.introduction }}</view>
+      <view class="doctor-expertise">擅长领域：{{ doctor.expertise }}</view>
+      <view class="consultation-notes">咨询须知：{{ doctor.consultation_notice }}</view>
+      <button class="book-button">立即咨询</button>
     </view>
   </view>
 </template>
@@ -15,12 +15,38 @@
 export default {
   data() {
     return {
-      // 医生信息数据
+      doctor: {} // 存储医生信息
     };
   },
+  onLoad() {
+	const pages = getCurrentPages();
+	const currentPage = pages[pages.length - 1];
+	const doctorId = currentPage.options.doctor_id; // 获取 doctor_id
+    this.fetchDoctorInfo(doctorId);
+  },
   methods: {
-
-      // 可以跳转到预约页面或执行其他逻辑
+    fetchDoctorInfo(doctorId) {
+      uni.request({
+        url: `http://localhost:3000/api/doctors/${doctorId}`,
+        method: 'GET',
+        success: (res) => {
+          if (res.data.success === "0") {
+            this.doctor = res.data.data; // 更新医生信息
+          } else {
+            uni.showToast({
+              title: '获取医生信息失败',
+              icon: 'none'
+            });
+          }
+        },
+        fail: () => {
+          uni.showToast({
+            title: '请求失败，请稍后重试',
+            icon: 'none'
+          });
+        }
+      });
+    }
   }
 };
 </script>
@@ -36,7 +62,7 @@ export default {
 }
 
 .doctor-image {
-  width: 100px;
+  width: 250px;
   height: 100px;
   border-radius: 50%;
   object-fit: cover;

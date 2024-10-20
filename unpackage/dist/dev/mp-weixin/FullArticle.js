@@ -1,20 +1,61 @@
 "use strict";
 const common_vendor = require("./common/vendor.js");
-const common_assets = require("./common/assets.js");
 const _sfc_main = {
+  data() {
+    return {
+      articles: []
+      // 存储文章数据
+    };
+  },
+  onLoad() {
+    this.fetchArticles();
+  },
   methods: {
-    goBack() {
-      common_vendor.index.navigateBack({
-        delta: 1
-        // 返回的页面数，如果 delta 大于现有页面数，则返回到首页
+    fetchArticles() {
+      common_vendor.index.request({
+        url: "http://localhost:3000/api/articles",
+        // 后端接口
+        method: "GET",
+        success: (res) => {
+          if (res.data.success) {
+            this.articles = res.data.data;
+          } else {
+            common_vendor.index.showToast({
+              title: "获取文章失败",
+              icon: "none"
+            });
+          }
+        },
+        fail: () => {
+          common_vendor.index.showToast({
+            title: "请求失败，请稍后重试",
+            icon: "none"
+          });
+        }
+      });
+    },
+    goToArticleDetail(article) {
+      console.log("Navigating to article ID:", article.article_id);
+      common_vendor.index.navigateTo({
+        url: `/pages/index/Article/ArticleContent?article_id=${article.article_id}`
+        // 传递文章 ID
       });
     }
   }
 };
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
-    a: common_vendor.o((...args) => $options.goBack && $options.goBack(...args)),
-    b: common_assets._imports_0
+    a: common_vendor.f($data.articles, (article, k0, i0) => {
+      return {
+        a: article.article_image,
+        b: common_vendor.t(article.title),
+        c: common_vendor.t(article.publish_date),
+        d: common_vendor.t(article.likes),
+        e: common_vendor.t(article.favorites),
+        f: article.article_id,
+        g: common_vendor.o(($event) => $options.goToArticleDetail(article), article.article_id)
+      };
+    })
   };
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-8bd2a792"]]);

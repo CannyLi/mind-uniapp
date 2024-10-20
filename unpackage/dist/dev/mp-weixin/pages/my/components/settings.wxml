@@ -1,0 +1,1 @@
+<view class="settings data-v-c7527a9e"><button class="data-v-c7527a9e" bindtap="{{a}}">退出登录</button></view>

@@ -1,39 +1,64 @@
 <template>
 	<view class="wrapper">
-		<view class="search-box">
-			<view class="back-icon iconfont icon-zuojiantou" @click="goBack"></view>
-			<input class="search-input" type="text" placeholder="输入搜索内容" />
-			<view class="iconfont icon-sangedian"></view>
-		</view>
-		<navigator class="article-list" url="/pages/index/Article/ArticleContent">
-			<view class="article-item">
-				<image class="article-image" src="../../../static/images/Swiper/swiper1.jpg" ></image>
+		<view class="article-list">
+			<view v-for="article in articles" :key="article.article_id" class="article-item" @click="goToArticleDetail(article)">
+				<image class="article-image" :src="article.article_image"></image>
 				<view class="article-info">
-					<view class="article-title">文章标题</view>
+					<view class="article-title">{{ article.title }}</view>
 					<view class="article-meta">
-						<text>发布日期</text>
+						<text>{{ article.publish_date }}</text>
 						<view class="article-actions">
-							<text>点赞</text>
-							<text>收藏</text>
+							<text>{{ article.likes }} 点赞</text>
+							<text>{{ article.favorites }} 收藏</text>
 						</view>
 					</view>
 				</view>
 			</view>
-		</navigator>
+		</view>
 	</view>
 </template>
 
 <script>
-	import ArticleContent from './ArticleContent.vue';
 	export default {
-	  methods: {
-	    goBack() {
-	      uni.navigateBack({
-	        delta: 1 // 返回的页面数，如果 delta 大于现有页面数，则返回到首页
-	      });
-	    }
-	  }
-	};
+		data() {
+			return {
+				articles: [] // 存储文章数据
+			}
+		},
+		onLoad() {
+			this.fetchArticles(); // 页面加载时获取所有文章
+		},
+		methods: {
+			fetchArticles() {
+				uni.request({
+					url: 'http://localhost:3000/api/articles', // 后端接口
+					method: 'GET',
+					success: (res) => {
+						if (res.data.success) {
+							this.articles = res.data.data; // 更新文章数据
+						} else {
+							uni.showToast({
+								title: '获取文章失败',
+								icon: 'none'
+							});
+						}
+					},
+					fail: () => {
+						uni.showToast({
+							title: '请求失败，请稍后重试',
+							icon: 'none'
+						});
+					}
+				});
+			},
+			goToArticleDetail(article) {
+				console.log('Navigating to article ID:', article.article_id);
+				uni.navigateTo({
+					url: `/pages/index/Article/ArticleContent?article_id=${article.article_id}` // 传递文章 ID
+				});
+			}
+		}
+	}
 </script>
 
 <style scoped>

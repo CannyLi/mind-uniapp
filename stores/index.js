@@ -1,15 +1,8 @@
-// 页面路径：store/index.js
+// 页面路径：stores/index.js
 
-// 用户
-import users from '@/stores/modules/users.js';
+import { createPinia } from 'pinia';
 
-import { createStore } from 'vuex';
+const pinia = createPinia();
 
-const store = createStore({
-  modules: {
-    // 模块
-	users
-  }
-});
+export default pinia;
 
-export default store;

@@ -1,29 +1,29 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
+const stores_modules_users = require("../../stores/modules/users.js");
 const _sfc_main = {
-  data() {
-    return {};
+  setup() {
+    const userStore = stores_modules_users.useUserStore();
+    return { userStore };
+  },
+  computed: {
+    loginStatus() {
+      return this.userStore.loginStatus;
+    },
+    userInfo() {
+      return this.userStore.userInfo;
+    }
   },
   methods: {
     goToLoginSignupHome() {
-      common_vendor.index.navigateTo({
-        url: "/pages/LoginSignupHome/LoginSignupHome"
-      });
+      common_vendor.index.navigateTo({ url: "/pages/LoginSignupHome/LoginSignupHome" });
     }
-  },
-  computed: {
-    ...common_vendor.mapState("users", {
-      // 从state中拿到数据
-      loginStatus: (state) => state.loginStatus,
-      userInfo: (state) => state.userInfo
-      // token: state => state.token
-    })
   }
 };
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
-    a: _ctx.loginStatus ? _ctx.userInfo.users_image : "../../static/images/Swiper/swiper1.jpg",
-    b: common_vendor.t(_ctx.loginStatus ? _ctx.userInfo.nickname : "用户名称"),
+    a: $options.loginStatus && $options.userInfo.users_image ? $options.userInfo.users_image : "../../static/images/Swiper/swiper1.jpg",
+    b: common_vendor.t($options.loginStatus && $options.userInfo.nickname ? $options.userInfo.nickname : "用户登录"),
     c: common_vendor.o((...args) => $options.goToLoginSignupHome && $options.goToLoginSignupHome(...args))
   };
 }

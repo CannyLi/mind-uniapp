@@ -38,16 +38,16 @@ const isSet = (val) => toTypeString(val) === "[object Set]";
 const isFunction = (val) => typeof val === "function";
 const isString = (val) => typeof val === "string";
 const isSymbol = (val) => typeof val === "symbol";
-const isObject$1 = (val) => val !== null && typeof val === "object";
-const isPromise$1 = (val) => {
-  return (isObject$1(val) || isFunction(val)) && isFunction(val.then) && isFunction(val.catch);
+const isObject = (val) => val !== null && typeof val === "object";
+const isPromise = (val) => {
+  return (isObject(val) || isFunction(val)) && isFunction(val.then) && isFunction(val.catch);
 };
 const objectToString = Object.prototype.toString;
 const toTypeString = (value) => objectToString.call(value);
 const toRawType = (value) => {
   return toTypeString(value).slice(8, -1);
 };
-const isPlainObject = (val) => toTypeString(val) === "[object Object]";
+const isPlainObject$1 = (val) => toTypeString(val) === "[object Object]";
 const isIntegerKey = (key) => isString(key) && key !== "NaN" && key[0] !== "-" && "" + parseInt(key, 10) === key;
 const isReservedProp = /* @__PURE__ */ makeMap(
   // the leading comma is intentional so empty string "" is also included
@@ -100,7 +100,7 @@ const getGlobalThis = () => {
   return _globalThis || (_globalThis = typeof globalThis !== "undefined" ? globalThis : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : {});
 };
 const toDisplayString = (val) => {
-  return isString(val) ? val : val == null ? "" : isArray(val) || isObject$1(val) && (val.toString === objectToString || !isFunction(val.toString)) ? JSON.stringify(val, replacer, 2) : String(val);
+  return isString(val) ? val : val == null ? "" : isArray(val) || isObject(val) && (val.toString === objectToString || !isFunction(val.toString)) ? JSON.stringify(val, replacer, 2) : String(val);
 };
 const replacer = (_key, val) => {
   if (val && val.__v_isRef) {
@@ -121,7 +121,7 @@ const replacer = (_key, val) => {
     };
   } else if (isSymbol(val)) {
     return stringifySymbol(val);
-  } else if (isObject$1(val) && !isArray(val) && !isPlainObject(val)) {
+  } else if (isObject(val) && !isArray(val) && !isPlainObject$1(val)) {
     return String(val);
   }
   return val;
@@ -202,7 +202,7 @@ function getValueByDataPath(obj, path) {
 }
 function sortObject(obj) {
   let sortObj = {};
-  if (isPlainObject(obj)) {
+  if (isPlainObject$1(obj)) {
     Object.keys(obj).sort().forEach((key) => {
       const _key = key;
       sortObj[_key] = obj[_key];
@@ -216,7 +216,7 @@ function stringifyQuery(obj, encodeStr = encode) {
     let val = obj[key];
     if (typeof val === void 0 || val === null) {
       val = "";
-    } else if (isPlainObject(val)) {
+    } else if (isPlainObject$1(val)) {
       val = JSON.stringify(val);
     }
     return encodeStr(key) + "=" + encodeStr(val);
@@ -439,7 +439,7 @@ function validateProtocols(name, args, protocol, onFail) {
   }
 }
 function validateProp$1(name, value, prop, isAbsent) {
-  if (!isPlainObject(prop)) {
+  if (!isPlainObject$1(prop)) {
     prop = { type: prop };
   }
   const { type, required, validator } = prop;
@@ -477,7 +477,7 @@ function assertType$1(value, type) {
       valid = value instanceof type;
     }
   } else if (expectedType === "Object") {
-    valid = isObject$1(value);
+    valid = isObject(value);
   } else if (expectedType === "Array") {
     valid = isArray(value);
   } else {
@@ -577,7 +577,7 @@ function normalizeErrMsg(errMsg, name) {
   return name + errMsg.substring(errMsg.indexOf(":fail"));
 }
 function createAsyncApiCallback(name, args = {}, { beforeAll, beforeSuccess } = {}) {
-  if (!isPlainObject(args)) {
+  if (!isPlainObject$1(args)) {
     args = {};
   }
   const { success, fail, complete } = getApiCallbacks(args);
@@ -617,7 +617,7 @@ function queue$2(hooks, data, params) {
       promise = Promise.resolve(wrapperHook(hook, params));
     } else {
       const res = hook(data, params);
-      if (isPromise$1(res)) {
+      if (isPromise(res)) {
         promise = Promise.resolve(res);
       }
       if (res === false) {
@@ -699,7 +699,7 @@ function invokeApi(method, api, options, params) {
   return api(options, ...params);
 }
 function hasCallback(args) {
-  if (isPlainObject(args) && [API_SUCCESS, API_FAIL, API_COMPLETE].find((cb) => isFunction(args[cb]))) {
+  if (isPlainObject$1(args) && [API_SUCCESS, API_FAIL, API_COMPLETE].find((cb) => isFunction(args[cb]))) {
     return true;
   }
   return false;
@@ -719,7 +719,7 @@ function promisify$1(name, fn) {
 }
 function formatApiArgs(args, options) {
   const params = args[0];
-  if (!options || !options.formatArgs || !isPlainObject(options.formatArgs) && isPlainObject(params)) {
+  if (!options || !options.formatArgs || !isPlainObject$1(options.formatArgs) && isPlainObject$1(params)) {
     return;
   }
   const formatArgs = options.formatArgs;
@@ -892,20 +892,20 @@ function dedupeHooks(hooks) {
   return res;
 }
 const addInterceptor = defineSyncApi(API_ADD_INTERCEPTOR, (method, interceptor) => {
-  if (isString(method) && isPlainObject(interceptor)) {
+  if (isString(method) && isPlainObject$1(interceptor)) {
     mergeInterceptorHook(scopedInterceptors[method] || (scopedInterceptors[method] = {}), interceptor);
-  } else if (isPlainObject(method)) {
+  } else if (isPlainObject$1(method)) {
     mergeInterceptorHook(globalInterceptors, method);
   }
 }, AddInterceptorProtocol);
 const removeInterceptor = defineSyncApi(API_REMOVE_INTERCEPTOR, (method, interceptor) => {
   if (isString(method)) {
-    if (isPlainObject(interceptor)) {
+    if (isPlainObject$1(interceptor)) {
       removeInterceptorHook(scopedInterceptors[method], interceptor);
     } else {
       delete scopedInterceptors[method];
     }
-  } else if (isPlainObject(method)) {
+  } else if (isPlainObject$1(method)) {
     removeInterceptorHook(globalInterceptors, method);
   }
 }, RemoveInterceptorProtocol);
@@ -1101,7 +1101,7 @@ function initWrapper(protocols2) {
     };
   }
   function processArgs(methodName, fromArgs, argsOption = {}, returnValue = {}, keepFromArgs = false) {
-    if (isPlainObject(fromArgs)) {
+    if (isPlainObject$1(fromArgs)) {
       const toArgs = keepFromArgs === true ? fromArgs : {};
       if (isFunction(argsOption)) {
         argsOption = argsOption(fromArgs, toArgs) || {};
@@ -1116,7 +1116,7 @@ function initWrapper(protocols2) {
             console.warn(`微信小程序 ${methodName} 暂不支持 ${key}`);
           } else if (isString(keyOption)) {
             toArgs[keyOption] = fromArgs[key];
-          } else if (isPlainObject(keyOption)) {
+          } else if (isPlainObject$1(keyOption)) {
             toArgs[keyOption.name ? keyOption.name : key] = keyOption.value;
           }
         } else if (CALLBACKS.indexOf(key) !== -1) {
@@ -1561,7 +1561,7 @@ var protocols = /* @__PURE__ */ Object.freeze({
   showActionSheet
 });
 const wx$1 = initWx();
-var index$1 = initUni(shims, protocols, wx$1);
+var index = initUni(shims, protocols, wx$1);
 new Set(
   /* @__PURE__ */ Object.getOwnPropertyNames(Symbol).filter((key) => key !== "arguments" && key !== "caller").map((key) => Symbol[key]).filter(isSymbol)
 );
@@ -2148,6 +2148,15 @@ function recordEffectScope(effect2, scope = activeEffectScope) {
 function getCurrentScope() {
   return activeEffectScope;
 }
+function onScopeDispose(fn) {
+  if (activeEffectScope) {
+    activeEffectScope.cleanups.push(fn);
+  } else {
+    warn$2(
+      `onScopeDispose() is called when there is no active effect scope to be associated with.`
+    );
+  }
+}
 let activeEffect;
 class ReactiveEffect2 {
   constructor(fn, trigger2, scheduler, scope) {
@@ -2397,6 +2406,10 @@ function trigger(target, type, key, newValue, oldValue, oldTarget) {
   }
   resetScheduling();
 }
+function getDepFromReactive(object, key) {
+  var _a;
+  return (_a = targetMap.get(object)) == null ? void 0 : _a.get(key);
+}
 const isNonTrackableKeys = /* @__PURE__ */ makeMap(`__proto__,__v_isRef,__isVue`);
 const builtInSymbols = new Set(
   /* @__PURE__ */ Object.getOwnPropertyNames(Symbol).filter((key) => key !== "arguments" && key !== "caller").map((key) => Symbol[key]).filter(isSymbol)
@@ -2478,7 +2491,7 @@ class BaseReactiveHandler2 {
     if (isRef(res)) {
       return targetIsArray && isIntegerKey(key) ? res : res.value;
     }
-    if (isObject$1(res)) {
+    if (isObject(res)) {
       return isReadonly2 ? readonly(res) : reactive(res);
     }
     return res;
@@ -2623,7 +2636,7 @@ function add(value) {
 function set$1(key, value) {
   value = toRaw(value);
   const target = toRaw(this);
-  const { has: has2, get: get22 } = getProto(target);
+  const { has: has2, get: get2 } = getProto(target);
   let hadKey = has2.call(target, key);
   if (!hadKey) {
     key = toRaw(key);
@@ -2631,7 +2644,7 @@ function set$1(key, value) {
   } else {
     checkIdentityKeys(target, has2, key);
   }
-  const oldValue = get22.call(target, key);
+  const oldValue = get2.call(target, key);
   target.set(key, value);
   if (!hadKey) {
     trigger(target, "add", key, value);
@@ -2642,7 +2655,7 @@ function set$1(key, value) {
 }
 function deleteEntry(key) {
   const target = toRaw(this);
-  const { has: has2, get: get22 } = getProto(target);
+  const { has: has2, get: get2 } = getProto(target);
   let hadKey = has2.call(target, key);
   if (!hadKey) {
     key = toRaw(key);
@@ -2650,7 +2663,7 @@ function deleteEntry(key) {
   } else {
     checkIdentityKeys(target, has2, key);
   }
-  const oldValue = get22 ? get22.call(target, key) : void 0;
+  const oldValue = get2 ? get2.call(target, key) : void 0;
   const result = target.delete(key);
   if (hadKey) {
     trigger(target, "delete", key, void 0, oldValue);
@@ -2910,7 +2923,7 @@ function shallowReadonly(target) {
   );
 }
 function createReactiveObject(target, isReadonly2, baseHandlers, collectionHandlers, proxyMap) {
-  if (!isObject$1(target)) {
+  if (!isObject(target)) {
     {
       warn$2(`value cannot be made reactive: ${String(target)}`);
     }
@@ -2946,6 +2959,9 @@ function isReadonly(value) {
 function isShallow(value) {
   return !!(value && value["__v_isShallow"]);
 }
+function isProxy(value) {
+  return isReactive(value) || isReadonly(value);
+}
 function toRaw(observed) {
   const raw = observed && observed["__v_raw"];
   return raw ? toRaw(raw) : observed;
@@ -2956,8 +2972,8 @@ function markRaw(value) {
   }
   return value;
 }
-const toReactive = (value) => isObject$1(value) ? reactive(value) : value;
-const toReadonly = (value) => isObject$1(value) ? readonly(value) : value;
+const toReactive = (value) => isObject(value) ? reactive(value) : value;
+const toReadonly = (value) => isObject(value) ? readonly(value) : value;
 const COMPUTED_SIDE_EFFECT_WARN = `Computed is still dirty after getter evaluation, likely because a computed is mutating its own dependency in its getter. State mutations in computed getters should be avoided.  Check the docs for more details: https://vuejs.org/guide/essentials/computed.html#getters-should-be-side-effect-free`;
 class ComputedRefImpl {
   constructor(getter, _setter, isReadonly2, isSSR) {
@@ -3111,6 +3127,59 @@ const shallowUnwrapHandlers = {
 function proxyRefs(objectWithRefs) {
   return isReactive(objectWithRefs) ? objectWithRefs : new Proxy(objectWithRefs, shallowUnwrapHandlers);
 }
+function toRefs(object) {
+  if (!isProxy(object)) {
+    warn$2(`toRefs() expects a reactive object but received a plain one.`);
+  }
+  const ret = isArray(object) ? new Array(object.length) : {};
+  for (const key in object) {
+    ret[key] = propertyToRef(object, key);
+  }
+  return ret;
+}
+class ObjectRefImpl {
+  constructor(_object, _key, _defaultValue) {
+    this._object = _object;
+    this._key = _key;
+    this._defaultValue = _defaultValue;
+    this.__v_isRef = true;
+  }
+  get value() {
+    const val = this._object[this._key];
+    return val === void 0 ? this._defaultValue : val;
+  }
+  set value(newVal) {
+    this._object[this._key] = newVal;
+  }
+  get dep() {
+    return getDepFromReactive(toRaw(this._object), this._key);
+  }
+}
+class GetterRefImpl {
+  constructor(_getter) {
+    this._getter = _getter;
+    this.__v_isRef = true;
+    this.__v_isReadonly = true;
+  }
+  get value() {
+    return this._getter();
+  }
+}
+function toRef(source, key, defaultValue) {
+  if (isRef(source)) {
+    return source;
+  } else if (isFunction(source)) {
+    return new GetterRefImpl(source);
+  } else if (isObject(source) && arguments.length > 1) {
+    return propertyToRef(source, key, defaultValue);
+  } else {
+    return ref(source);
+  }
+}
+function propertyToRef(source, key, defaultValue) {
+  const val = source[key];
+  return isRef(val) ? val : new ObjectRefImpl(source, key, defaultValue);
+}
 const stack = [];
 function pushWarningContext(vnode) {
   stack.push(vnode);
@@ -3259,7 +3328,7 @@ function callWithErrorHandling(fn, instance, type, args) {
 function callWithAsyncErrorHandling(fn, instance, type, args) {
   if (isFunction(fn)) {
     const res = callWithErrorHandling(fn, instance, type, args);
-    if (res && isPromise$1(res)) {
+    if (res && isPromise(res)) {
       res.catch((err) => {
         handleError(err, instance, type);
       });
@@ -3711,7 +3780,7 @@ function normalizeEmitsOptions(comp, appContext, asMixin = false) {
     }
   }
   if (!raw && !hasExtends) {
-    if (isObject$1(comp)) {
+    if (isObject(comp)) {
       cache.set(comp, null);
     }
     return null;
@@ -3721,7 +3790,7 @@ function normalizeEmitsOptions(comp, appContext, asMixin = false) {
   } else {
     extend(normalized, raw);
   }
-  if (isObject$1(comp)) {
+  if (isObject(comp)) {
     cache.set(comp, normalized);
   }
   return normalized;
@@ -3982,7 +4051,7 @@ function createPathGetter(ctx, path) {
   };
 }
 function traverse(value, depth, currentDepth = 0, seen) {
-  if (!isObject$1(value) || value["__v_skip"]) {
+  if (!isObject(value) || value["__v_skip"]) {
     return value;
   }
   if (depth && depth > 0) {
@@ -4006,7 +4075,7 @@ function traverse(value, depth, currentDepth = 0, seen) {
     value.forEach((v) => {
       traverse(v, depth, currentDepth, seen);
     });
-  } else if (isPlainObject(value)) {
+  } else if (isPlainObject$1(value)) {
     for (const key in value) {
       traverse(value[key], depth, currentDepth, seen);
     }
@@ -4045,7 +4114,7 @@ function createAppAPI(render, hydrate) {
     if (!isFunction(rootComponent)) {
       rootComponent = extend({}, rootComponent);
     }
-    if (rootProps != null && !isObject$1(rootProps)) {
+    if (rootProps != null && !isObject(rootProps)) {
       warn$1(`root props passed to app.mount() must be an object.`);
       rootProps = null;
     }
@@ -4183,6 +4252,9 @@ function inject(key, defaultValue, treatDefaultAsFactory = false) {
   } else {
     warn$1(`inject() can only be used inside setup() or functional components.`);
   }
+}
+function hasInjectionContext() {
+  return !!(currentInstance || currentRenderingInstance || currentApp);
 }
 const isKeepAlive = (vnode) => vnode.type.__isKeepAlive;
 function onActivated(hook, target) {
@@ -4602,12 +4674,12 @@ function applyOptions$1(instance) {
       );
     }
     const data = dataOptions.call(publicThis, publicThis);
-    if (isPromise$1(data)) {
+    if (isPromise(data)) {
       warn$1(
         `data() returned a Promise - note data() cannot be async; If you intend to perform data fetching before component renders, use async setup() + <Suspense>.`
       );
     }
-    if (!isObject$1(data)) {
+    if (!isObject(data)) {
       warn$1(`data() should return an object.`);
     } else {
       instance.data = reactive(data);
@@ -4630,8 +4702,8 @@ function applyOptions$1(instance) {
   if (computedOptions) {
     for (const key in computedOptions) {
       const opt = computedOptions[key];
-      const get22 = isFunction(opt) ? opt.bind(publicThis, publicThis) : isFunction(opt.get) ? opt.get.bind(publicThis, publicThis) : NOOP;
-      if (get22 === NOOP) {
+      const get2 = isFunction(opt) ? opt.bind(publicThis, publicThis) : isFunction(opt.get) ? opt.get.bind(publicThis, publicThis) : NOOP;
+      if (get2 === NOOP) {
         warn$1(`Computed property "${key}" has no getter.`);
       }
       const set2 = !isFunction(opt) && isFunction(opt.set) ? opt.set.bind(publicThis) : () => {
@@ -4640,7 +4712,7 @@ function applyOptions$1(instance) {
         );
       };
       const c2 = computed({
-        get: get22,
+        get: get2,
         set: set2
       });
       Object.defineProperty(ctx, key, {
@@ -4672,11 +4744,11 @@ function applyOptions$1(instance) {
       callHook$1(created, instance, "c");
     }
   }
-  function registerLifecycleHook(register2, hook) {
+  function registerLifecycleHook(register, hook) {
     if (isArray(hook)) {
-      hook.forEach((_hook) => register2(_hook.bind(publicThis)));
+      hook.forEach((_hook) => register(_hook.bind(publicThis)));
     } else if (hook) {
-      register2(hook.bind(publicThis));
+      register(hook.bind(publicThis));
     }
   }
   registerLifecycleHook(onBeforeMount, beforeMount);
@@ -4725,7 +4797,7 @@ function resolveInjections(injectOptions, ctx, checkDuplicateProperties = NOOP) 
   for (const key in injectOptions) {
     const opt = injectOptions[key];
     let injected;
-    if (isObject$1(opt)) {
+    if (isObject(opt)) {
       if ("default" in opt) {
         injected = inject(
           opt.from || key,
@@ -4771,7 +4843,7 @@ function createWatcher(raw, ctx, publicThis, key) {
     }
   } else if (isFunction(raw)) {
     watch(getter, raw.bind(publicThis));
-  } else if (isObject$1(raw)) {
+  } else if (isObject(raw)) {
     if (isArray(raw)) {
       raw.forEach((r2) => createWatcher(r2, ctx, publicThis, key));
     } else {
@@ -4811,7 +4883,7 @@ function resolveMergedOptions(instance) {
     }
     mergeOptions(resolved, base, optionMergeStrategies);
   }
-  if (isObject$1(base)) {
+  if (isObject(base)) {
     cache.set(base, resolved);
   }
   return resolved;
@@ -5159,7 +5231,7 @@ function normalizePropsOptions(comp, appContext, asMixin = false) {
     }
   }
   if (!raw && !hasExtends) {
-    if (isObject$1(comp)) {
+    if (isObject(comp)) {
       cache.set(comp, EMPTY_ARR);
     }
     return EMPTY_ARR;
@@ -5175,7 +5247,7 @@ function normalizePropsOptions(comp, appContext, asMixin = false) {
       }
     }
   } else if (raw) {
-    if (!isObject$1(raw)) {
+    if (!isObject(raw)) {
       warn$1(`invalid props options`, raw);
     }
     for (const key in raw) {
@@ -5202,7 +5274,7 @@ function normalizePropsOptions(comp, appContext, asMixin = false) {
     }
   }
   const res = [normalized, needCastKeys];
-  if (isObject$1(comp)) {
+  if (isObject(comp)) {
     cache.set(comp, res);
   }
   return res;
@@ -5294,7 +5366,7 @@ function assertType(value, type) {
       valid = value instanceof type;
     }
   } else if (expectedType === "Object") {
-    valid = isObject$1(value);
+    valid = isObject(value);
   } else if (expectedType === "Array") {
     valid = isArray(value);
   } else if (expectedType === "null") {
@@ -5387,6 +5459,12 @@ const Comment = Symbol.for("v-cmt");
 const Static = Symbol.for("v-stc");
 function isVNode(value) {
   return value ? value.__v_isVNode === true : false;
+}
+const InternalObjectKey = `__vInternal`;
+function guardReactiveProps(props) {
+  if (!props)
+    return null;
+  return isProxy(props) || InternalObjectKey in props ? extend({}, props) : props;
 }
 const emptyAppContext = createAppContext();
 let uid = 0;
@@ -5573,7 +5651,7 @@ function setupStatefulComponent(instance, isSSR) {
     );
     resetTracking();
     reset();
-    if (isPromise$1(setupResult)) {
+    if (isPromise(setupResult)) {
       setupResult.then(unsetCurrentInstance, unsetCurrentInstance);
       {
         warn$1(
@@ -5592,7 +5670,7 @@ function handleSetupResult(instance, setupResult, isSSR) {
     {
       instance.render = setupResult;
     }
-  } else if (isObject$1(setupResult)) {
+  } else if (isObject(setupResult)) {
     if (isVNode(setupResult)) {
       warn$1(
         `setup() should not return VNodes directly - return a render function instead.`
@@ -5948,7 +6026,7 @@ function clone(src, seen) {
     return src;
   }
 }
-function deepCopy$1(src) {
+function deepCopy(src) {
   return clone(src, typeof WeakMap !== "undefined" ? /* @__PURE__ */ new WeakMap() : /* @__PURE__ */ new Map());
 }
 function getMPInstanceData(instance, keys) {
@@ -5963,7 +6041,7 @@ function patch(instance, data, oldData) {
   if (!data) {
     return;
   }
-  data = deepCopy$1(data);
+  data = deepCopy(data);
   const ctx = instance.ctx;
   const mpType = ctx.mpType;
   if (mpType === "page" || mpType === "component") {
@@ -6057,7 +6135,7 @@ function setRef$1(instance, isUnmount = false) {
   }
 }
 function toSkip(value) {
-  if (isObject$1(value)) {
+  if (isObject(value)) {
     markRaw(value);
   }
   return value;
@@ -6278,8 +6356,8 @@ function componentUpdateScopedSlotsFn() {
     mpInstance.setData(diffData);
   }
 }
-function toggleRecurse({ effect: effect2, update: update3 }, allowed) {
-  effect2.allowRecurse = update3.allowRecurse = allowed;
+function toggleRecurse({ effect: effect2, update }, allowed) {
+  effect2.allowRecurse = update.allowRecurse = allowed;
 }
 function setupRenderEffect(instance) {
   const updateScopedSlots = componentUpdateScopedSlotsFn.bind(
@@ -6333,32 +6411,32 @@ function setupRenderEffect(instance) {
   const effect2 = instance.effect = new ReactiveEffect2(
     componentUpdateFn,
     NOOP,
-    () => queueJob(update3),
+    () => queueJob(update),
     instance.scope
     // track it in component's effect scope
   );
-  const update3 = instance.update = () => {
+  const update = instance.update = () => {
     if (effect2.dirty) {
       effect2.run();
     }
   };
-  update3.id = instance.uid;
+  update.id = instance.uid;
   toggleRecurse(instance, true);
   {
     effect2.onTrack = instance.rtc ? (e2) => invokeArrayFns$1(instance.rtc, e2) : void 0;
     effect2.onTrigger = instance.rtg ? (e2) => invokeArrayFns$1(instance.rtg, e2) : void 0;
-    update3.ownerInstance = instance;
+    update.ownerInstance = instance;
   }
-  update3();
+  update();
 }
 function unmountComponent(instance) {
-  const { bum, scope, update: update3, um } = instance;
+  const { bum, scope, update, um } = instance;
   if (bum) {
     invokeArrayFns$1(bum);
   }
   scope.stop();
-  if (update3) {
-    update3.active = false;
+  if (update) {
+    update.active = false;
   }
   if (um) {
     queuePostRenderEffect(um);
@@ -6456,7 +6534,7 @@ function initHooks$1(options, instance, publicThis) {
 function applyOptions$2(options, instance, publicThis) {
   initHooks$1(options, instance, publicThis);
 }
-function set(target, key, val) {
+function set$2(target, key, val) {
   return target[key] = val;
 }
 function $callMethod(method, ...args) {
@@ -6519,7 +6597,7 @@ function b64DecodeUnicode(str) {
   }).join(""));
 }
 function getCurrentUserInfo() {
-  const token = index$1.getStorageSync("uni_id_token") || "";
+  const token = index.getStorageSync("uni_id_token") || "";
   const tokenArr = token.split(".");
   if (!token || tokenArr.length !== 3) {
     return {
@@ -6563,15 +6641,20 @@ function initApp(app) {
     uniIdMixin(globalProperties);
   }
   {
-    globalProperties.$set = set;
+    globalProperties.$set = set$2;
     globalProperties.$applyOptions = applyOptions$2;
     globalProperties.$callMethod = $callMethod;
   }
   {
-    index$1.invokeCreateVueAppHook(app);
+    index.invokeCreateVueAppHook(app);
   }
 }
 const propsCaches = /* @__PURE__ */ Object.create(null);
+function renderProps(props) {
+  const { uid: uid2, __counter } = getCurrentInstance();
+  const propsId = (propsCaches[uid2] || (propsCaches[uid2] = [])).push(guardReactiveProps(props)) - 1;
+  return uid2 + "," + propsId + "," + __counter;
+}
 function pruneComponentPropsCache(uid2) {
   delete propsCaches[uid2];
 }
@@ -6645,7 +6728,7 @@ function createInvoker(initialValue, instance) {
       setTimeout(invoke);
     } else {
       const res = invoke();
-      if (e2.type === "input" && (isArray(res) || isPromise$1(res))) {
+      if (e2.type === "input" && (isArray(res) || isPromise(res))) {
         return;
       }
       return res;
@@ -6681,10 +6764,10 @@ function patchMPEvent(event) {
       event.detail = typeof event.detail === "object" ? event.detail : {};
       event.detail.markerId = event.markerId;
     }
-    if (isPlainObject(event.detail) && hasOwn(event.detail, "checked") && !hasOwn(event.detail, "value")) {
+    if (isPlainObject$1(event.detail) && hasOwn(event.detail, "checked") && !hasOwn(event.detail, "value")) {
       event.detail.value = event.detail.checked;
     }
-    if (isPlainObject(event.detail)) {
+    if (isPlainObject$1(event.detail)) {
       event.target = extend({}, event.target, event.detail);
     }
   }
@@ -6701,8 +6784,42 @@ function patchStopImmediatePropagation(e2, value) {
     return value;
   }
 }
+function vFor(source, renderItem) {
+  let ret;
+  if (isArray(source) || isString(source)) {
+    ret = new Array(source.length);
+    for (let i = 0, l = source.length; i < l; i++) {
+      ret[i] = renderItem(source[i], i, i);
+    }
+  } else if (typeof source === "number") {
+    if (!Number.isInteger(source)) {
+      warn(`The v-for range expect an integer value but got ${source}.`);
+      return [];
+    }
+    ret = new Array(source);
+    for (let i = 0; i < source; i++) {
+      ret[i] = renderItem(i + 1, i, i);
+    }
+  } else if (isObject(source)) {
+    if (source[Symbol.iterator]) {
+      ret = Array.from(source, (item, i) => renderItem(item, i, i));
+    } else {
+      const keys = Object.keys(source);
+      ret = new Array(keys.length);
+      for (let i = 0, l = keys.length; i < l; i++) {
+        const key = keys[i];
+        ret[i] = renderItem(source[key], key, i);
+      }
+    }
+  } else {
+    ret = [];
+  }
+  return ret;
+}
 const o = (value, key) => vOn(value, key);
+const f = (source, renderItem) => vFor(source, renderItem);
 const t = (val) => toDisplayString(val);
+const p = (props) => renderProps(props);
 function createApp$1(rootComponent, rootProps = null) {
   rootComponent && (rootComponent.mpType = "app");
   return createVueApp(rootComponent, rootProps).use(plugin);
@@ -7161,10 +7278,10 @@ function initPageProps({ properties }, rawProps) {
         value: ""
       };
     });
-  } else if (isPlainObject(rawProps)) {
+  } else if (isPlainObject$1(rawProps)) {
     Object.keys(rawProps).forEach((key) => {
       const opts = rawProps[key];
-      if (isPlainObject(opts)) {
+      if (isPlainObject$1(opts)) {
         let value = opts.default;
         if (isFunction(value)) {
           value = value();
@@ -7188,7 +7305,7 @@ function findPropsData(properties, isPage2) {
 }
 function findPagePropsData(properties) {
   const propsData = {};
-  if (isPlainObject(properties)) {
+  if (isPlainObject$1(properties)) {
     Object.keys(properties).forEach((name) => {
       if (builtInProps.indexOf(name) === -1) {
         propsData[name] = properties[name];
@@ -7308,7 +7425,7 @@ function parseComponent(vueOptions, { parse, mocks: mocks2, isPage: isPage2, ini
   };
   if (isArray(vueOptions.mixins)) {
     vueOptions.mixins.forEach((item) => {
-      if (isObject$1(item.options)) {
+      if (isObject(item.options)) {
         extend(options, item.options);
       }
     });
@@ -7534,965 +7651,607 @@ const createSubpackageApp = initCreateSubpackageApp();
   wx.createPluginApp = global.createPluginApp = createPluginApp;
   wx.createSubpackageApp = global.createSubpackageApp = createSubpackageApp;
 }
+var isVue2 = false;
+function set(target, key, val) {
+  if (Array.isArray(target)) {
+    target.length = Math.max(target.length, key);
+    target.splice(key, 1, val);
+    return val;
+  }
+  target[key] = val;
+  return val;
+}
+function del(target, key) {
+  if (Array.isArray(target)) {
+    target.splice(key, 1);
+    return;
+  }
+  delete target[key];
+}
 /*!
- * vuex v4.1.0
- * (c) 2022 Evan You
+ * pinia v2.1.7
+ * (c) 2023 Eduardo San Martin Morote
  * @license MIT
  */
-var storeKey = "store";
-function useStore(key) {
-  if (key === void 0)
-    key = null;
-  return inject(key !== null ? key : storeKey);
+let activePinia;
+const setActivePinia = (pinia) => activePinia = pinia;
+const piniaSymbol = Symbol("pinia");
+function isPlainObject(o2) {
+  return o2 && typeof o2 === "object" && Object.prototype.toString.call(o2) === "[object Object]" && typeof o2.toJSON !== "function";
 }
-function find(list, f) {
-  return list.filter(f)[0];
-}
-function deepCopy(obj, cache) {
-  if (cache === void 0)
-    cache = [];
-  if (obj === null || typeof obj !== "object") {
-    return obj;
-  }
-  var hit = find(cache, function(c) {
-    return c.original === obj;
-  });
-  if (hit) {
-    return hit.copy;
-  }
-  var copy = Array.isArray(obj) ? [] : {};
-  cache.push({
-    original: obj,
-    copy
-  });
-  Object.keys(obj).forEach(function(key) {
-    copy[key] = deepCopy(obj[key], cache);
-  });
-  return copy;
-}
-function forEachValue(obj, fn) {
-  Object.keys(obj).forEach(function(key) {
-    return fn(obj[key], key);
-  });
-}
-function isObject(obj) {
-  return obj !== null && typeof obj === "object";
-}
-function isPromise(val) {
-  return val && typeof val.then === "function";
-}
-function assert(condition, msg) {
-  if (!condition) {
-    throw new Error("[vuex] " + msg);
+var MutationType;
+(function(MutationType2) {
+  MutationType2["direct"] = "direct";
+  MutationType2["patchObject"] = "patch object";
+  MutationType2["patchFunction"] = "patch function";
+})(MutationType || (MutationType = {}));
+const IS_CLIENT = typeof window !== "undefined";
+const USE_DEVTOOLS = IS_CLIENT;
+const componentStateTypes = [];
+const getStoreType = (id) => "🍍 " + id;
+function addStoreToDevtools(app, store) {
+  if (!componentStateTypes.includes(getStoreType(store.$id))) {
+    componentStateTypes.push(getStoreType(store.$id));
   }
 }
-function partial(fn, arg) {
-  return function() {
-    return fn(arg);
-  };
-}
-function genericSubscribe(fn, subs, options) {
-  if (subs.indexOf(fn) < 0) {
-    options && options.prepend ? subs.unshift(fn) : subs.push(fn);
-  }
-  return function() {
-    var i = subs.indexOf(fn);
-    if (i > -1) {
-      subs.splice(i, 1);
-    }
-  };
-}
-function resetStore(store, hot) {
-  store._actions = /* @__PURE__ */ Object.create(null);
-  store._mutations = /* @__PURE__ */ Object.create(null);
-  store._wrappedGetters = /* @__PURE__ */ Object.create(null);
-  store._modulesNamespaceMap = /* @__PURE__ */ Object.create(null);
-  var state = store.state;
-  installModule(store, state, [], store._modules.root, true);
-  resetStoreState(store, state, hot);
-}
-function resetStoreState(store, state, hot) {
-  var oldState = store._state;
-  var oldScope = store._scope;
-  store.getters = {};
-  store._makeLocalGettersCache = /* @__PURE__ */ Object.create(null);
-  var wrappedGetters = store._wrappedGetters;
-  var computedObj = {};
-  var computedCache = {};
-  var scope = effectScope(true);
-  scope.run(function() {
-    forEachValue(wrappedGetters, function(fn, key) {
-      computedObj[key] = partial(fn, store);
-      computedCache[key] = computed(function() {
-        return computedObj[key]();
-      });
-      Object.defineProperty(store.getters, key, {
-        get: function() {
-          return computedCache[key].value;
+function patchActionForGrouping(store, actionNames, wrapWithProxy) {
+  const actions = actionNames.reduce((storeActions, actionName) => {
+    storeActions[actionName] = toRaw(store)[actionName];
+    return storeActions;
+  }, {});
+  for (const actionName in actions) {
+    store[actionName] = function() {
+      const trackedStore = wrapWithProxy ? new Proxy(store, {
+        get(...args) {
+          return Reflect.get(...args);
         },
-        enumerable: true
-        // for local getters
-      });
-    });
-  });
-  store._state = reactive({
-    data: state
-  });
-  store._scope = scope;
-  if (store.strict) {
-    enableStrictMode(store);
-  }
-  if (oldState) {
-    if (hot) {
-      store._withCommit(function() {
-        oldState.data = null;
-      });
-    }
-  }
-  if (oldScope) {
-    oldScope.stop();
+        set(...args) {
+          return Reflect.set(...args);
+        }
+      }) : store;
+      const retValue = actions[actionName].apply(trackedStore, arguments);
+      return retValue;
+    };
   }
 }
-function installModule(store, rootState, path, module2, hot) {
-  var isRoot = !path.length;
-  var namespace = store._modules.getNamespace(path);
-  if (module2.namespaced) {
-    if (store._modulesNamespaceMap[namespace] && true) {
-      console.error("[vuex] duplicate namespace " + namespace + " for the namespaced module " + path.join("/"));
-    }
-    store._modulesNamespaceMap[namespace] = module2;
+function devtoolsPlugin({ app, store, options }) {
+  if (store.$id.startsWith("__hot:")) {
+    return;
   }
-  if (!isRoot && !hot) {
-    var parentState = getNestedState(rootState, path.slice(0, -1));
-    var moduleName = path[path.length - 1];
-    store._withCommit(function() {
+  store._isOptionsAPI = !!options.state;
+  patchActionForGrouping(store, Object.keys(options.actions), store._isOptionsAPI);
+  const originalHotUpdate = store._hotUpdate;
+  toRaw(store)._hotUpdate = function(newStore) {
+    originalHotUpdate.apply(this, arguments);
+    patchActionForGrouping(store, Object.keys(newStore._hmrPayload.actions), !!store._isOptionsAPI);
+  };
+  addStoreToDevtools(
+    app,
+    // FIXME: is there a way to allow the assignment from Store<Id, S, G, A> to StoreGeneric?
+    store
+  );
+}
+function createPinia() {
+  const scope = effectScope(true);
+  const state = scope.run(() => ref({}));
+  let _p = [];
+  let toBeInstalled = [];
+  const pinia = markRaw({
+    install(app) {
+      setActivePinia(pinia);
       {
-        if (moduleName in parentState) {
-          console.warn(
-            '[vuex] state field "' + moduleName + '" was overridden by a module with the same name at "' + path.join(".") + '"'
-          );
-        }
-      }
-      parentState[moduleName] = module2.state;
-    });
-  }
-  var local = module2.context = makeLocalContext(store, namespace, path);
-  module2.forEachMutation(function(mutation, key) {
-    var namespacedType = namespace + key;
-    registerMutation(store, namespacedType, mutation, local);
-  });
-  module2.forEachAction(function(action, key) {
-    var type = action.root ? key : namespace + key;
-    var handler = action.handler || action;
-    registerAction(store, type, handler, local);
-  });
-  module2.forEachGetter(function(getter, key) {
-    var namespacedType = namespace + key;
-    registerGetter(store, namespacedType, getter, local);
-  });
-  module2.forEachChild(function(child, key) {
-    installModule(store, rootState, path.concat(key), child, hot);
-  });
-}
-function makeLocalContext(store, namespace, path) {
-  var noNamespace = namespace === "";
-  var local = {
-    dispatch: noNamespace ? store.dispatch : function(_type, _payload, _options) {
-      var args = unifyObjectStyle(_type, _payload, _options);
-      var payload = args.payload;
-      var options = args.options;
-      var type = args.type;
-      if (!options || !options.root) {
-        type = namespace + type;
-        if (!store._actions[type]) {
-          console.error("[vuex] unknown local action type: " + args.type + ", global type: " + type);
-          return;
-        }
-      }
-      return store.dispatch(type, payload);
-    },
-    commit: noNamespace ? store.commit : function(_type, _payload, _options) {
-      var args = unifyObjectStyle(_type, _payload, _options);
-      var payload = args.payload;
-      var options = args.options;
-      var type = args.type;
-      if (!options || !options.root) {
-        type = namespace + type;
-        if (!store._mutations[type]) {
-          console.error("[vuex] unknown local mutation type: " + args.type + ", global type: " + type);
-          return;
-        }
-      }
-      store.commit(type, payload, options);
-    }
-  };
-  Object.defineProperties(local, {
-    getters: {
-      get: noNamespace ? function() {
-        return store.getters;
-      } : function() {
-        return makeLocalGetters(store, namespace);
+        pinia._a = app;
+        app.provide(piniaSymbol, pinia);
+        app.config.globalProperties.$pinia = pinia;
+        toBeInstalled.forEach((plugin2) => _p.push(plugin2));
+        toBeInstalled = [];
       }
     },
-    state: {
-      get: function() {
-        return getNestedState(store.state, path);
+    use(plugin2) {
+      if (!this._a && !isVue2) {
+        toBeInstalled.push(plugin2);
+      } else {
+        _p.push(plugin2);
       }
-    }
+      return this;
+    },
+    _p,
+    // it's actually undefined here
+    // @ts-expect-error
+    _a: null,
+    _e: scope,
+    _s: /* @__PURE__ */ new Map(),
+    state
   });
-  return local;
-}
-function makeLocalGetters(store, namespace) {
-  if (!store._makeLocalGettersCache[namespace]) {
-    var gettersProxy = {};
-    var splitPos = namespace.length;
-    Object.keys(store.getters).forEach(function(type) {
-      if (type.slice(0, splitPos) !== namespace) {
-        return;
-      }
-      var localType = type.slice(splitPos);
-      Object.defineProperty(gettersProxy, localType, {
-        get: function() {
-          return store.getters[type];
-        },
-        enumerable: true
-      });
-    });
-    store._makeLocalGettersCache[namespace] = gettersProxy;
+  if (USE_DEVTOOLS && typeof Proxy !== "undefined") {
+    pinia.use(devtoolsPlugin);
   }
-  return store._makeLocalGettersCache[namespace];
+  return pinia;
 }
-function registerMutation(store, type, handler, local) {
-  var entry = store._mutations[type] || (store._mutations[type] = []);
-  entry.push(function wrappedMutationHandler(payload) {
-    handler.call(store, local.state, payload);
-  });
-}
-function registerAction(store, type, handler, local) {
-  var entry = store._actions[type] || (store._actions[type] = []);
-  entry.push(function wrappedActionHandler(payload) {
-    var res = handler.call(store, {
-      dispatch: local.dispatch,
-      commit: local.commit,
-      getters: local.getters,
-      state: local.state,
-      rootGetters: store.getters,
-      rootState: store.state
-    }, payload);
-    if (!isPromise(res)) {
-      res = Promise.resolve(res);
+function patchObject(newState, oldState) {
+  for (const key in oldState) {
+    const subPatch = oldState[key];
+    if (!(key in newState)) {
+      continue;
     }
-    if (store._devtoolHook) {
-      return res.catch(function(err) {
-        store._devtoolHook.emit("vuex:error", err);
-        throw err;
-      });
+    const targetValue = newState[key];
+    if (isPlainObject(targetValue) && isPlainObject(subPatch) && !isRef(subPatch) && !isReactive(subPatch)) {
+      newState[key] = patchObject(targetValue, subPatch);
     } else {
-      return res;
+      {
+        newState[key] = subPatch;
+      }
     }
+  }
+  return newState;
+}
+const noop = () => {
+};
+function addSubscription(subscriptions, callback, detached, onCleanup = noop) {
+  subscriptions.push(callback);
+  const removeSubscription = () => {
+    const idx = subscriptions.indexOf(callback);
+    if (idx > -1) {
+      subscriptions.splice(idx, 1);
+      onCleanup();
+    }
+  };
+  if (!detached && getCurrentScope()) {
+    onScopeDispose(removeSubscription);
+  }
+  return removeSubscription;
+}
+function triggerSubscriptions(subscriptions, ...args) {
+  subscriptions.slice().forEach((callback) => {
+    callback(...args);
   });
 }
-function registerGetter(store, type, rawGetter, local) {
-  if (store._wrappedGetters[type]) {
-    {
-      console.error("[vuex] duplicate getter key: " + type);
-    }
-    return;
+const fallbackRunWithContext = (fn) => fn();
+function mergeReactiveObjects(target, patchToApply) {
+  if (target instanceof Map && patchToApply instanceof Map) {
+    patchToApply.forEach((value, key) => target.set(key, value));
   }
-  store._wrappedGetters[type] = function wrappedGetter(store2) {
-    return rawGetter(
-      local.state,
-      // local state
-      local.getters,
-      // local getters
-      store2.state,
-      // root state
-      store2.getters
-      // root getters
-    );
+  if (target instanceof Set && patchToApply instanceof Set) {
+    patchToApply.forEach(target.add, target);
+  }
+  for (const key in patchToApply) {
+    if (!patchToApply.hasOwnProperty(key))
+      continue;
+    const subPatch = patchToApply[key];
+    const targetValue = target[key];
+    if (isPlainObject(targetValue) && isPlainObject(subPatch) && target.hasOwnProperty(key) && !isRef(subPatch) && !isReactive(subPatch)) {
+      target[key] = mergeReactiveObjects(targetValue, subPatch);
+    } else {
+      target[key] = subPatch;
+    }
+  }
+  return target;
+}
+const skipHydrateSymbol = Symbol("pinia:skipHydration");
+function shouldHydrate(obj) {
+  return !isPlainObject(obj) || !obj.hasOwnProperty(skipHydrateSymbol);
+}
+const { assign } = Object;
+function isComputed(o2) {
+  return !!(isRef(o2) && o2.effect);
+}
+function createOptionsStore(id, options, pinia, hot) {
+  const { state, actions, getters } = options;
+  const initialState = pinia.state.value[id];
+  let store;
+  function setup() {
+    if (!initialState && !hot) {
+      {
+        pinia.state.value[id] = state ? state() : {};
+      }
+    }
+    const localState = hot ? (
+      // use ref() to unwrap refs inside state TODO: check if this is still necessary
+      toRefs(ref(state ? state() : {}).value)
+    ) : toRefs(pinia.state.value[id]);
+    return assign(localState, actions, Object.keys(getters || {}).reduce((computedGetters, name) => {
+      if (name in localState) {
+        console.warn(`[🍍]: A getter cannot have the same name as another state property. Rename one of them. Found with "${name}" in store "${id}".`);
+      }
+      computedGetters[name] = markRaw(computed(() => {
+        setActivePinia(pinia);
+        const store2 = pinia._s.get(id);
+        return getters[name].call(store2, store2);
+      }));
+      return computedGetters;
+    }, {}));
+  }
+  store = createSetupStore(id, setup, options, pinia, hot, true);
+  return store;
+}
+function createSetupStore($id, setup, options = {}, pinia, hot, isOptionsStore) {
+  let scope;
+  const optionsForPlugin = assign({ actions: {} }, options);
+  if (!pinia._e.active) {
+    throw new Error("Pinia destroyed");
+  }
+  const $subscribeOptions = {
+    deep: true
+    // flush: 'post',
   };
-}
-function enableStrictMode(store) {
-  watch(function() {
-    return store._state.data;
-  }, function() {
+  {
+    $subscribeOptions.onTrigger = (event) => {
+      if (isListening) {
+        debuggerEvents = event;
+      } else if (isListening == false && !store._hotUpdating) {
+        if (Array.isArray(debuggerEvents)) {
+          debuggerEvents.push(event);
+        } else {
+          console.error("🍍 debuggerEvents should be an array. This is most likely an internal Pinia bug.");
+        }
+      }
+    };
+  }
+  let isListening;
+  let isSyncListening;
+  let subscriptions = [];
+  let actionSubscriptions = [];
+  let debuggerEvents;
+  const initialState = pinia.state.value[$id];
+  if (!isOptionsStore && !initialState && !hot) {
     {
-      assert(store._committing, "do not mutate vuex store state outside mutation handlers.");
+      pinia.state.value[$id] = {};
     }
-  }, { deep: true, flush: "sync" });
-}
-function getNestedState(state, path) {
-  return path.reduce(function(state2, key) {
-    return state2[key];
-  }, state);
-}
-function unifyObjectStyle(type, payload, options) {
-  if (isObject(type) && type.type) {
-    options = payload;
-    payload = type;
-    type = type.type;
+  }
+  const hotState = ref({});
+  let activeListener;
+  function $patch(partialStateOrMutator) {
+    let subscriptionMutation;
+    isListening = isSyncListening = false;
+    {
+      debuggerEvents = [];
+    }
+    if (typeof partialStateOrMutator === "function") {
+      partialStateOrMutator(pinia.state.value[$id]);
+      subscriptionMutation = {
+        type: MutationType.patchFunction,
+        storeId: $id,
+        events: debuggerEvents
+      };
+    } else {
+      mergeReactiveObjects(pinia.state.value[$id], partialStateOrMutator);
+      subscriptionMutation = {
+        type: MutationType.patchObject,
+        payload: partialStateOrMutator,
+        storeId: $id,
+        events: debuggerEvents
+      };
+    }
+    const myListenerId = activeListener = Symbol();
+    nextTick$1().then(() => {
+      if (activeListener === myListenerId) {
+        isListening = true;
+      }
+    });
+    isSyncListening = true;
+    triggerSubscriptions(subscriptions, subscriptionMutation, pinia.state.value[$id]);
+  }
+  const $reset = isOptionsStore ? function $reset2() {
+    const { state } = options;
+    const newState = state ? state() : {};
+    this.$patch(($state) => {
+      assign($state, newState);
+    });
+  } : (
+    /* istanbul ignore next */
+    () => {
+      throw new Error(`🍍: Store "${$id}" is built using the setup syntax and does not implement $reset().`);
+    }
+  );
+  function $dispose() {
+    scope.stop();
+    subscriptions = [];
+    actionSubscriptions = [];
+    pinia._s.delete($id);
+  }
+  function wrapAction(name, action) {
+    return function() {
+      setActivePinia(pinia);
+      const args = Array.from(arguments);
+      const afterCallbackList = [];
+      const onErrorCallbackList = [];
+      function after(callback) {
+        afterCallbackList.push(callback);
+      }
+      function onError(callback) {
+        onErrorCallbackList.push(callback);
+      }
+      triggerSubscriptions(actionSubscriptions, {
+        args,
+        name,
+        store,
+        after,
+        onError
+      });
+      let ret;
+      try {
+        ret = action.apply(this && this.$id === $id ? this : store, args);
+      } catch (error) {
+        triggerSubscriptions(onErrorCallbackList, error);
+        throw error;
+      }
+      if (ret instanceof Promise) {
+        return ret.then((value) => {
+          triggerSubscriptions(afterCallbackList, value);
+          return value;
+        }).catch((error) => {
+          triggerSubscriptions(onErrorCallbackList, error);
+          return Promise.reject(error);
+        });
+      }
+      triggerSubscriptions(afterCallbackList, ret);
+      return ret;
+    };
+  }
+  const _hmrPayload = /* @__PURE__ */ markRaw({
+    actions: {},
+    getters: {},
+    state: [],
+    hotState
+  });
+  const partialStore = {
+    _p: pinia,
+    // _s: scope,
+    $id,
+    $onAction: addSubscription.bind(null, actionSubscriptions),
+    $patch,
+    $reset,
+    $subscribe(callback, options2 = {}) {
+      const removeSubscription = addSubscription(subscriptions, callback, options2.detached, () => stopWatcher());
+      const stopWatcher = scope.run(() => watch(() => pinia.state.value[$id], (state) => {
+        if (options2.flush === "sync" ? isSyncListening : isListening) {
+          callback({
+            storeId: $id,
+            type: MutationType.direct,
+            events: debuggerEvents
+          }, state);
+        }
+      }, assign({}, $subscribeOptions, options2)));
+      return removeSubscription;
+    },
+    $dispose
+  };
+  const store = reactive(assign(
+    {
+      _hmrPayload,
+      _customProperties: markRaw(/* @__PURE__ */ new Set())
+      // devtools custom properties
+    },
+    partialStore
+    // must be added later
+    // setupStore
+  ));
+  pinia._s.set($id, store);
+  const runWithContext = pinia._a && pinia._a.runWithContext || fallbackRunWithContext;
+  const setupStore = runWithContext(() => pinia._e.run(() => (scope = effectScope()).run(setup)));
+  for (const key in setupStore) {
+    const prop = setupStore[key];
+    if (isRef(prop) && !isComputed(prop) || isReactive(prop)) {
+      if (hot) {
+        set(hotState.value, key, toRef(setupStore, key));
+      } else if (!isOptionsStore) {
+        if (initialState && shouldHydrate(prop)) {
+          if (isRef(prop)) {
+            prop.value = initialState[key];
+          } else {
+            mergeReactiveObjects(prop, initialState[key]);
+          }
+        }
+        {
+          pinia.state.value[$id][key] = prop;
+        }
+      }
+      {
+        _hmrPayload.state.push(key);
+      }
+    } else if (typeof prop === "function") {
+      const actionValue = hot ? prop : wrapAction(key, prop);
+      {
+        setupStore[key] = actionValue;
+      }
+      {
+        _hmrPayload.actions[key] = prop;
+      }
+      optionsForPlugin.actions[key] = prop;
+    } else {
+      if (isComputed(prop)) {
+        _hmrPayload.getters[key] = isOptionsStore ? (
+          // @ts-expect-error
+          options.getters[key]
+        ) : prop;
+        if (IS_CLIENT) {
+          const getters = setupStore._getters || // @ts-expect-error: same
+          (setupStore._getters = markRaw([]));
+          getters.push(key);
+        }
+      }
+    }
   }
   {
-    assert(typeof type === "string", "expects string as the type, but found " + typeof type + ".");
+    assign(store, setupStore);
+    assign(toRaw(store), setupStore);
   }
-  return { type, payload, options };
-}
-var Module = function Module2(rawModule, runtime) {
-  this.runtime = runtime;
-  this._children = /* @__PURE__ */ Object.create(null);
-  this._rawModule = rawModule;
-  var rawState = rawModule.state;
-  this.state = (typeof rawState === "function" ? rawState() : rawState) || {};
-};
-var prototypeAccessors$1 = { namespaced: { configurable: true } };
-prototypeAccessors$1.namespaced.get = function() {
-  return !!this._rawModule.namespaced;
-};
-Module.prototype.addChild = function addChild(key, module2) {
-  this._children[key] = module2;
-};
-Module.prototype.removeChild = function removeChild(key) {
-  delete this._children[key];
-};
-Module.prototype.getChild = function getChild(key) {
-  return this._children[key];
-};
-Module.prototype.hasChild = function hasChild(key) {
-  return key in this._children;
-};
-Module.prototype.update = function update(rawModule) {
-  this._rawModule.namespaced = rawModule.namespaced;
-  if (rawModule.actions) {
-    this._rawModule.actions = rawModule.actions;
-  }
-  if (rawModule.mutations) {
-    this._rawModule.mutations = rawModule.mutations;
-  }
-  if (rawModule.getters) {
-    this._rawModule.getters = rawModule.getters;
-  }
-};
-Module.prototype.forEachChild = function forEachChild(fn) {
-  forEachValue(this._children, fn);
-};
-Module.prototype.forEachGetter = function forEachGetter(fn) {
-  if (this._rawModule.getters) {
-    forEachValue(this._rawModule.getters, fn);
-  }
-};
-Module.prototype.forEachAction = function forEachAction(fn) {
-  if (this._rawModule.actions) {
-    forEachValue(this._rawModule.actions, fn);
-  }
-};
-Module.prototype.forEachMutation = function forEachMutation(fn) {
-  if (this._rawModule.mutations) {
-    forEachValue(this._rawModule.mutations, fn);
-  }
-};
-Object.defineProperties(Module.prototype, prototypeAccessors$1);
-var ModuleCollection = function ModuleCollection2(rawRootModule) {
-  this.register([], rawRootModule, false);
-};
-ModuleCollection.prototype.get = function get2(path) {
-  return path.reduce(function(module2, key) {
-    return module2.getChild(key);
-  }, this.root);
-};
-ModuleCollection.prototype.getNamespace = function getNamespace(path) {
-  var module2 = this.root;
-  return path.reduce(function(namespace, key) {
-    module2 = module2.getChild(key);
-    return namespace + (module2.namespaced ? key + "/" : "");
-  }, "");
-};
-ModuleCollection.prototype.update = function update$1(rawRootModule) {
-  update2([], this.root, rawRootModule);
-};
-ModuleCollection.prototype.register = function register(path, rawModule, runtime) {
-  var this$1$1 = this;
-  if (runtime === void 0)
-    runtime = true;
+  Object.defineProperty(store, "$state", {
+    get: () => hot ? hotState.value : pinia.state.value[$id],
+    set: (state) => {
+      if (hot) {
+        throw new Error("cannot set hotState");
+      }
+      $patch(($state) => {
+        assign($state, state);
+      });
+    }
+  });
   {
-    assertRawModule(path, rawModule);
+    store._hotUpdate = markRaw((newStore) => {
+      store._hotUpdating = true;
+      newStore._hmrPayload.state.forEach((stateKey) => {
+        if (stateKey in store.$state) {
+          const newStateTarget = newStore.$state[stateKey];
+          const oldStateSource = store.$state[stateKey];
+          if (typeof newStateTarget === "object" && isPlainObject(newStateTarget) && isPlainObject(oldStateSource)) {
+            patchObject(newStateTarget, oldStateSource);
+          } else {
+            newStore.$state[stateKey] = oldStateSource;
+          }
+        }
+        set(store, stateKey, toRef(newStore.$state, stateKey));
+      });
+      Object.keys(store.$state).forEach((stateKey) => {
+        if (!(stateKey in newStore.$state)) {
+          del(store, stateKey);
+        }
+      });
+      isListening = false;
+      isSyncListening = false;
+      pinia.state.value[$id] = toRef(newStore._hmrPayload, "hotState");
+      isSyncListening = true;
+      nextTick$1().then(() => {
+        isListening = true;
+      });
+      for (const actionName in newStore._hmrPayload.actions) {
+        const action = newStore[actionName];
+        set(store, actionName, wrapAction(actionName, action));
+      }
+      for (const getterName in newStore._hmrPayload.getters) {
+        const getter = newStore._hmrPayload.getters[getterName];
+        const getterValue = isOptionsStore ? (
+          // special handling of options api
+          computed(() => {
+            setActivePinia(pinia);
+            return getter.call(store, store);
+          })
+        ) : getter;
+        set(store, getterName, getterValue);
+      }
+      Object.keys(store._hmrPayload.getters).forEach((key) => {
+        if (!(key in newStore._hmrPayload.getters)) {
+          del(store, key);
+        }
+      });
+      Object.keys(store._hmrPayload.actions).forEach((key) => {
+        if (!(key in newStore._hmrPayload.actions)) {
+          del(store, key);
+        }
+      });
+      store._hmrPayload = newStore._hmrPayload;
+      store._getters = newStore._getters;
+      store._hotUpdating = false;
+    });
   }
-  var newModule = new Module(rawModule, runtime);
-  if (path.length === 0) {
-    this.root = newModule;
+  if (USE_DEVTOOLS) {
+    const nonEnumerable = {
+      writable: true,
+      configurable: true,
+      // avoid warning on devtools trying to display this property
+      enumerable: false
+    };
+    ["_p", "_hmrPayload", "_getters", "_customProperties"].forEach((p2) => {
+      Object.defineProperty(store, p2, assign({ value: store[p2] }, nonEnumerable));
+    });
+  }
+  pinia._p.forEach((extender) => {
+    if (USE_DEVTOOLS) {
+      const extensions = scope.run(() => extender({
+        store,
+        app: pinia._a,
+        pinia,
+        options: optionsForPlugin
+      }));
+      Object.keys(extensions || {}).forEach((key) => store._customProperties.add(key));
+      assign(store, extensions);
+    } else {
+      assign(store, scope.run(() => extender({
+        store,
+        app: pinia._a,
+        pinia,
+        options: optionsForPlugin
+      })));
+    }
+  });
+  if (store.$state && typeof store.$state === "object" && typeof store.$state.constructor === "function" && !store.$state.constructor.toString().includes("[native code]")) {
+    console.warn(`[🍍]: The "state" must be a plain object. It cannot be
+	state: () => new MyClass()
+Found in store "${store.$id}".`);
+  }
+  if (initialState && isOptionsStore && options.hydrate) {
+    options.hydrate(store.$state, initialState);
+  }
+  isListening = true;
+  isSyncListening = true;
+  return store;
+}
+function defineStore(idOrOptions, setup, setupOptions) {
+  let id;
+  let options;
+  const isSetupStore = typeof setup === "function";
+  if (typeof idOrOptions === "string") {
+    id = idOrOptions;
+    options = isSetupStore ? setupOptions : setup;
   } else {
-    var parent = this.get(path.slice(0, -1));
-    parent.addChild(path[path.length - 1], newModule);
-  }
-  if (rawModule.modules) {
-    forEachValue(rawModule.modules, function(rawChildModule, key) {
-      this$1$1.register(path.concat(key), rawChildModule, runtime);
-    });
-  }
-};
-ModuleCollection.prototype.unregister = function unregister(path) {
-  var parent = this.get(path.slice(0, -1));
-  var key = path[path.length - 1];
-  var child = parent.getChild(key);
-  if (!child) {
-    {
-      console.warn(
-        "[vuex] trying to unregister module '" + key + "', which is not registered"
-      );
+    options = idOrOptions;
+    id = idOrOptions.id;
+    if (typeof id !== "string") {
+      throw new Error(`[🍍]: "defineStore()" must be passed a store id as its first argument.`);
     }
-    return;
   }
-  if (!child.runtime) {
-    return;
-  }
-  parent.removeChild(key);
-};
-ModuleCollection.prototype.isRegistered = function isRegistered(path) {
-  var parent = this.get(path.slice(0, -1));
-  var key = path[path.length - 1];
-  if (parent) {
-    return parent.hasChild(key);
-  }
-  return false;
-};
-function update2(path, targetModule, newModule) {
-  {
-    assertRawModule(path, newModule);
-  }
-  targetModule.update(newModule);
-  if (newModule.modules) {
-    for (var key in newModule.modules) {
-      if (!targetModule.getChild(key)) {
-        {
-          console.warn(
-            "[vuex] trying to add a new module '" + key + "' on hot reloading, manual reload is needed"
-          );
-        }
-        return;
+  function useStore(pinia, hot) {
+    const hasContext = hasInjectionContext();
+    pinia = // in test mode, ignore the argument provided as we can always retrieve a
+    // pinia instance with getActivePinia()
+    pinia || (hasContext ? inject(piniaSymbol, null) : null);
+    if (pinia)
+      setActivePinia(pinia);
+    if (!activePinia) {
+      throw new Error(`[🍍]: "getActivePinia()" was called but there was no active Pinia. Are you trying to use a store before calling "app.use(pinia)"?
+See https://pinia.vuejs.org/core-concepts/outside-component-usage.html for help.
+This will fail in production.`);
+    }
+    pinia = activePinia;
+    if (!pinia._s.has(id)) {
+      if (isSetupStore) {
+        createSetupStore(id, setup, options, pinia);
+      } else {
+        createOptionsStore(id, options, pinia);
       }
-      update2(
-        path.concat(key),
-        targetModule.getChild(key),
-        newModule.modules[key]
-      );
-    }
-  }
-}
-var functionAssert = {
-  assert: function(value) {
-    return typeof value === "function";
-  },
-  expected: "function"
-};
-var objectAssert = {
-  assert: function(value) {
-    return typeof value === "function" || typeof value === "object" && typeof value.handler === "function";
-  },
-  expected: 'function or object with "handler" function'
-};
-var assertTypes = {
-  getters: functionAssert,
-  mutations: functionAssert,
-  actions: objectAssert
-};
-function assertRawModule(path, rawModule) {
-  Object.keys(assertTypes).forEach(function(key) {
-    if (!rawModule[key]) {
-      return;
-    }
-    var assertOptions = assertTypes[key];
-    forEachValue(rawModule[key], function(value, type) {
-      assert(
-        assertOptions.assert(value),
-        makeAssertionMessage(path, key, type, value, assertOptions.expected)
-      );
-    });
-  });
-}
-function makeAssertionMessage(path, key, type, value, expected) {
-  var buf = key + " should be " + expected + ' but "' + key + "." + type + '"';
-  if (path.length > 0) {
-    buf += ' in module "' + path.join(".") + '"';
-  }
-  buf += " is " + JSON.stringify(value) + ".";
-  return buf;
-}
-function createStore(options) {
-  return new Store(options);
-}
-var Store = function Store2(options) {
-  var this$1$1 = this;
-  if (options === void 0)
-    options = {};
-  {
-    assert(typeof Promise !== "undefined", "vuex requires a Promise polyfill in this browser.");
-    assert(this instanceof Store2, "store must be called with the new operator.");
-  }
-  var plugins = options.plugins;
-  if (plugins === void 0)
-    plugins = [];
-  var strict = options.strict;
-  if (strict === void 0)
-    strict = false;
-  var devtools2 = options.devtools;
-  this._committing = false;
-  this._actions = /* @__PURE__ */ Object.create(null);
-  this._actionSubscribers = [];
-  this._mutations = /* @__PURE__ */ Object.create(null);
-  this._wrappedGetters = /* @__PURE__ */ Object.create(null);
-  this._modules = new ModuleCollection(options);
-  this._modulesNamespaceMap = /* @__PURE__ */ Object.create(null);
-  this._subscribers = [];
-  this._makeLocalGettersCache = /* @__PURE__ */ Object.create(null);
-  this._scope = null;
-  this._devtools = devtools2;
-  var store = this;
-  var ref2 = this;
-  var dispatch2 = ref2.dispatch;
-  var commit2 = ref2.commit;
-  this.dispatch = function boundDispatch(type, payload) {
-    return dispatch2.call(store, type, payload);
-  };
-  this.commit = function boundCommit(type, payload, options2) {
-    return commit2.call(store, type, payload, options2);
-  };
-  this.strict = strict;
-  var state = this._modules.root.state;
-  installModule(this, state, [], this._modules.root);
-  resetStoreState(this, state);
-  plugins.forEach(function(plugin2) {
-    return plugin2(this$1$1);
-  });
-};
-var prototypeAccessors = { state: { configurable: true } };
-Store.prototype.install = function install(app, injectKey) {
-  app.provide(injectKey || storeKey, this);
-  app.config.globalProperties.$store = this;
-  this._devtools !== void 0 ? this._devtools : true;
-};
-prototypeAccessors.state.get = function() {
-  return this._state.data;
-};
-prototypeAccessors.state.set = function(v) {
-  {
-    assert(false, "use store.replaceState() to explicit replace store state.");
-  }
-};
-Store.prototype.commit = function commit(_type, _payload, _options) {
-  var this$1$1 = this;
-  var ref2 = unifyObjectStyle(_type, _payload, _options);
-  var type = ref2.type;
-  var payload = ref2.payload;
-  var options = ref2.options;
-  var mutation = { type, payload };
-  var entry = this._mutations[type];
-  if (!entry) {
-    {
-      console.error("[vuex] unknown mutation type: " + type);
-    }
-    return;
-  }
-  this._withCommit(function() {
-    entry.forEach(function commitIterator(handler) {
-      handler(payload);
-    });
-  });
-  this._subscribers.slice().forEach(function(sub) {
-    return sub(mutation, this$1$1.state);
-  });
-  if (options && options.silent) {
-    console.warn(
-      "[vuex] mutation type: " + type + ". Silent option has been removed. Use the filter functionality in the vue-devtools"
-    );
-  }
-};
-Store.prototype.dispatch = function dispatch(_type, _payload) {
-  var this$1$1 = this;
-  var ref2 = unifyObjectStyle(_type, _payload);
-  var type = ref2.type;
-  var payload = ref2.payload;
-  var action = { type, payload };
-  var entry = this._actions[type];
-  if (!entry) {
-    {
-      console.error("[vuex] unknown action type: " + type);
-    }
-    return;
-  }
-  try {
-    this._actionSubscribers.slice().filter(function(sub) {
-      return sub.before;
-    }).forEach(function(sub) {
-      return sub.before(action, this$1$1.state);
-    });
-  } catch (e) {
-    {
-      console.warn("[vuex] error in before action subscribers: ");
-      console.error(e);
-    }
-  }
-  var result = entry.length > 1 ? Promise.all(entry.map(function(handler) {
-    return handler(payload);
-  })) : entry[0](payload);
-  return new Promise(function(resolve2, reject) {
-    result.then(function(res) {
-      try {
-        this$1$1._actionSubscribers.filter(function(sub) {
-          return sub.after;
-        }).forEach(function(sub) {
-          return sub.after(action, this$1$1.state);
-        });
-      } catch (e) {
-        {
-          console.warn("[vuex] error in after action subscribers: ");
-          console.error(e);
-        }
+      {
+        useStore._pinia = pinia;
       }
-      resolve2(res);
-    }, function(error) {
-      try {
-        this$1$1._actionSubscribers.filter(function(sub) {
-          return sub.error;
-        }).forEach(function(sub) {
-          return sub.error(action, this$1$1.state, error);
-        });
-      } catch (e) {
-        {
-          console.warn("[vuex] error in error action subscribers: ");
-          console.error(e);
-        }
-      }
-      reject(error);
-    });
-  });
-};
-Store.prototype.subscribe = function subscribe(fn, options) {
-  return genericSubscribe(fn, this._subscribers, options);
-};
-Store.prototype.subscribeAction = function subscribeAction(fn, options) {
-  var subs = typeof fn === "function" ? { before: fn } : fn;
-  return genericSubscribe(subs, this._actionSubscribers, options);
-};
-Store.prototype.watch = function watch$1(getter, cb, options) {
-  var this$1$1 = this;
-  {
-    assert(typeof getter === "function", "store.watch only accepts a function.");
-  }
-  return watch(function() {
-    return getter(this$1$1.state, this$1$1.getters);
-  }, cb, Object.assign({}, options));
-};
-Store.prototype.replaceState = function replaceState(state) {
-  var this$1$1 = this;
-  this._withCommit(function() {
-    this$1$1._state.data = state;
-  });
-};
-Store.prototype.registerModule = function registerModule(path, rawModule, options) {
-  if (options === void 0)
-    options = {};
-  if (typeof path === "string") {
-    path = [path];
-  }
-  {
-    assert(Array.isArray(path), "module path must be a string or an Array.");
-    assert(path.length > 0, "cannot register the root module by using registerModule.");
-  }
-  this._modules.register(path, rawModule);
-  installModule(this, this.state, path, this._modules.get(path), options.preserveState);
-  resetStoreState(this, this.state);
-};
-Store.prototype.unregisterModule = function unregisterModule(path) {
-  var this$1$1 = this;
-  if (typeof path === "string") {
-    path = [path];
-  }
-  {
-    assert(Array.isArray(path), "module path must be a string or an Array.");
-  }
-  this._modules.unregister(path);
-  this._withCommit(function() {
-    var parentState = getNestedState(this$1$1.state, path.slice(0, -1));
-    delete parentState[path[path.length - 1]];
-  });
-  resetStore(this);
-};
-Store.prototype.hasModule = function hasModule(path) {
-  if (typeof path === "string") {
-    path = [path];
-  }
-  {
-    assert(Array.isArray(path), "module path must be a string or an Array.");
-  }
-  return this._modules.isRegistered(path);
-};
-Store.prototype.hotUpdate = function hotUpdate(newOptions) {
-  this._modules.update(newOptions);
-  resetStore(this, true);
-};
-Store.prototype._withCommit = function _withCommit(fn) {
-  var committing = this._committing;
-  this._committing = true;
-  fn();
-  this._committing = committing;
-};
-Object.defineProperties(Store.prototype, prototypeAccessors);
-var mapState = normalizeNamespace(function(namespace, states) {
-  var res = {};
-  if (!isValidMap(states)) {
-    console.error("[vuex] mapState: mapper parameter must be either an Array or an Object");
-  }
-  normalizeMap(states).forEach(function(ref2) {
-    var key = ref2.key;
-    var val = ref2.val;
-    res[key] = function mappedState() {
-      var state = this.$store.state;
-      var getters = this.$store.getters;
-      if (namespace) {
-        var module2 = getModuleByNamespace(this.$store, "mapState", namespace);
-        if (!module2) {
-          return;
-        }
-        state = module2.context.state;
-        getters = module2.context.getters;
-      }
-      return typeof val === "function" ? val.call(this, state, getters) : state[val];
-    };
-    res[key].vuex = true;
-  });
-  return res;
-});
-var mapMutations = normalizeNamespace(function(namespace, mutations) {
-  var res = {};
-  if (!isValidMap(mutations)) {
-    console.error("[vuex] mapMutations: mapper parameter must be either an Array or an Object");
-  }
-  normalizeMap(mutations).forEach(function(ref2) {
-    var key = ref2.key;
-    var val = ref2.val;
-    res[key] = function mappedMutation() {
-      var args = [], len = arguments.length;
-      while (len--)
-        args[len] = arguments[len];
-      var commit2 = this.$store.commit;
-      if (namespace) {
-        var module2 = getModuleByNamespace(this.$store, "mapMutations", namespace);
-        if (!module2) {
-          return;
-        }
-        commit2 = module2.context.commit;
-      }
-      return typeof val === "function" ? val.apply(this, [commit2].concat(args)) : commit2.apply(this.$store, [val].concat(args));
-    };
-  });
-  return res;
-});
-var mapGetters = normalizeNamespace(function(namespace, getters) {
-  var res = {};
-  if (!isValidMap(getters)) {
-    console.error("[vuex] mapGetters: mapper parameter must be either an Array or an Object");
-  }
-  normalizeMap(getters).forEach(function(ref2) {
-    var key = ref2.key;
-    var val = ref2.val;
-    val = namespace + val;
-    res[key] = function mappedGetter() {
-      if (namespace && !getModuleByNamespace(this.$store, "mapGetters", namespace)) {
-        return;
-      }
-      if (!(val in this.$store.getters)) {
-        console.error("[vuex] unknown getter: " + val);
-        return;
-      }
-      return this.$store.getters[val];
-    };
-    res[key].vuex = true;
-  });
-  return res;
-});
-var mapActions = normalizeNamespace(function(namespace, actions) {
-  var res = {};
-  if (!isValidMap(actions)) {
-    console.error("[vuex] mapActions: mapper parameter must be either an Array or an Object");
-  }
-  normalizeMap(actions).forEach(function(ref2) {
-    var key = ref2.key;
-    var val = ref2.val;
-    res[key] = function mappedAction() {
-      var args = [], len = arguments.length;
-      while (len--)
-        args[len] = arguments[len];
-      var dispatch2 = this.$store.dispatch;
-      if (namespace) {
-        var module2 = getModuleByNamespace(this.$store, "mapActions", namespace);
-        if (!module2) {
-          return;
-        }
-        dispatch2 = module2.context.dispatch;
-      }
-      return typeof val === "function" ? val.apply(this, [dispatch2].concat(args)) : dispatch2.apply(this.$store, [val].concat(args));
-    };
-  });
-  return res;
-});
-var createNamespacedHelpers = function(namespace) {
-  return {
-    mapState: mapState.bind(null, namespace),
-    mapGetters: mapGetters.bind(null, namespace),
-    mapMutations: mapMutations.bind(null, namespace),
-    mapActions: mapActions.bind(null, namespace)
-  };
-};
-function normalizeMap(map2) {
-  if (!isValidMap(map2)) {
-    return [];
-  }
-  return Array.isArray(map2) ? map2.map(function(key) {
-    return { key, val: key };
-  }) : Object.keys(map2).map(function(key) {
-    return { key, val: map2[key] };
-  });
-}
-function isValidMap(map2) {
-  return Array.isArray(map2) || isObject(map2);
-}
-function normalizeNamespace(fn) {
-  return function(namespace, map2) {
-    if (typeof namespace !== "string") {
-      map2 = namespace;
-      namespace = "";
-    } else if (namespace.charAt(namespace.length - 1) !== "/") {
-      namespace += "/";
     }
-    return fn(namespace, map2);
-  };
-}
-function getModuleByNamespace(store, helper, namespace) {
-  var module2 = store._modulesNamespaceMap[namespace];
-  if (!module2) {
-    console.error("[vuex] module namespace not found in " + helper + "(): " + namespace);
-  }
-  return module2;
-}
-function createLogger(ref2) {
-  if (ref2 === void 0)
-    ref2 = {};
-  var collapsed = ref2.collapsed;
-  if (collapsed === void 0)
-    collapsed = true;
-  var filter = ref2.filter;
-  if (filter === void 0)
-    filter = function(mutation, stateBefore, stateAfter) {
-      return true;
-    };
-  var transformer = ref2.transformer;
-  if (transformer === void 0)
-    transformer = function(state) {
-      return state;
-    };
-  var mutationTransformer = ref2.mutationTransformer;
-  if (mutationTransformer === void 0)
-    mutationTransformer = function(mut) {
-      return mut;
-    };
-  var actionFilter = ref2.actionFilter;
-  if (actionFilter === void 0)
-    actionFilter = function(action, state) {
-      return true;
-    };
-  var actionTransformer = ref2.actionTransformer;
-  if (actionTransformer === void 0)
-    actionTransformer = function(act) {
-      return act;
-    };
-  var logMutations = ref2.logMutations;
-  if (logMutations === void 0)
-    logMutations = true;
-  var logActions = ref2.logActions;
-  if (logActions === void 0)
-    logActions = true;
-  var logger = ref2.logger;
-  if (logger === void 0)
-    logger = console;
-  return function(store) {
-    var prevState = deepCopy(store.state);
-    if (typeof logger === "undefined") {
-      return;
+    const store = pinia._s.get(id);
+    if (hot) {
+      const hotId = "__hot:" + id;
+      const newStore = isSetupStore ? createSetupStore(hotId, setup, options, pinia, true) : createOptionsStore(hotId, assign({}, options), pinia, true);
+      hot._hotUpdate(newStore);
+      delete pinia.state.value[hotId];
+      pinia._s.delete(hotId);
     }
-    if (logMutations) {
-      store.subscribe(function(mutation, state) {
-        var nextState = deepCopy(state);
-        if (filter(mutation, prevState, nextState)) {
-          var formattedTime = getFormattedTime();
-          var formattedMutation = mutationTransformer(mutation);
-          var message = "mutation " + mutation.type + formattedTime;
-          startMessage(logger, message, collapsed);
-          logger.log("%c prev state", "color: #9E9E9E; font-weight: bold", transformer(prevState));
-          logger.log("%c mutation", "color: #03A9F4; font-weight: bold", formattedMutation);
-          logger.log("%c next state", "color: #4CAF50; font-weight: bold", transformer(nextState));
-          endMessage(logger);
-        }
-        prevState = nextState;
-      });
+    if (IS_CLIENT) {
+      const currentInstance2 = getCurrentInstance();
+      if (currentInstance2 && currentInstance2.proxy && // avoid adding stores that are just built for hot module replacement
+      !hot) {
+        const vm = currentInstance2.proxy;
+        const cache = "_pStores" in vm ? vm._pStores : vm._pStores = {};
+        cache[id] = store;
+      }
     }
-    if (logActions) {
-      store.subscribeAction(function(action, state) {
-        if (actionFilter(action, state)) {
-          var formattedTime = getFormattedTime();
-          var formattedAction = actionTransformer(action);
-          var message = "action " + action.type + formattedTime;
-          startMessage(logger, message, collapsed);
-          logger.log("%c action", "color: #03A9F4; font-weight: bold", formattedAction);
-          endMessage(logger);
-        }
-      });
-    }
-  };
-}
-function startMessage(logger, message, collapsed) {
-  var startMessage2 = collapsed ? logger.groupCollapsed : logger.group;
-  try {
-    startMessage2.call(logger, message);
-  } catch (e) {
-    logger.log(message);
+    return store;
   }
+  useStore.$id = id;
+  return useStore;
 }
-function endMessage(logger) {
-  try {
-    logger.groupEnd();
-  } catch (e) {
-    logger.log("—— log end ——");
-  }
-}
-function getFormattedTime() {
-  var time = /* @__PURE__ */ new Date();
-  return " @ " + pad(time.getHours(), 2) + ":" + pad(time.getMinutes(), 2) + ":" + pad(time.getSeconds(), 2) + "." + pad(time.getMilliseconds(), 3);
-}
-function repeat(str, times) {
-  return new Array(times + 1).join(str);
-}
-function pad(num, maxLength) {
-  return repeat("0", maxLength - num.toString().length) + num;
-}
-var index = {
-  version: "4.1.0",
-  Store,
-  storeKey,
-  createStore,
-  useStore,
-  mapState,
-  mapMutations,
-  mapGetters,
-  mapActions,
-  createNamespacedHelpers,
-  createLogger
-};
 exports._export_sfc = _export_sfc;
+exports.createPinia = createPinia;
 exports.createSSRApp = createSSRApp;
-exports.createStore = createStore;
-exports.index = index$1;
-exports.index$1 = index;
-exports.mapMutations = mapMutations;
-exports.mapState = mapState;
+exports.defineStore = defineStore;
+exports.f = f;
+exports.index = index;
 exports.o = o;
+exports.p = p;
 exports.resolveComponent = resolveComponent;
 exports.t = t;
