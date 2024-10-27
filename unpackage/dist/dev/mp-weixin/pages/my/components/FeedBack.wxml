@@ -1,1 +1,1 @@
-<view class="feedback data-v-0c7fcf34"> feedback </view>
+<view class="feedback data-v-0c7fcf34"><view class="name data-v-0c7fcf34">姓名</view><view class="phone data-v-0c7fcf34">手机号码</view><view class="email data-v-0c7fcf34">电子邮件</view><view class="wechatnum data-v-0c7fcf34">反馈的微信号</view><view class="message data-v-0c7fcf34">反馈意见内容</view><view class="pictures data-v-0c7fcf34">反馈图片</view></view>

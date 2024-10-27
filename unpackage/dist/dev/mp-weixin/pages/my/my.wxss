@@ -23,6 +23,12 @@
   font-size: 32rpx;
   font-weight: bold;
 }
+.icon.data-v-2f1ef635{
+	height: 50rpx;
+	width: 50rpx;
+	text-align: left;
+	margin-right: 0rpx;
+}
 .settings-section.data-v-2f1ef635, .section.data-v-2f1ef635 {
   margin-top: 20rpx;
 }
@@ -30,10 +36,4 @@
   padding: 20rpx;
   background-color: #fff;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.arrow.data-v-2f1ef635 {
-  color: #888;
-  font-size: 30rpx;
 }

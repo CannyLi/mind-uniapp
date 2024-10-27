@@ -5,9 +5,7 @@ const FullArticle = () => "./Article/FullArticle2.js";
 const _sfc_main = {
   data() {
     return {
-      articles: [],
-      carouselImages: []
-      // 存储轮播图数据
+      articles: []
     };
   },
   components: {
@@ -16,7 +14,6 @@ const _sfc_main = {
   },
   onLoad() {
     this.fetchArticles();
-    this.fetchCarouselImages();
   },
   methods: {
     fetchArticles() {
@@ -48,29 +45,6 @@ const _sfc_main = {
         url: `/pages/index/Article/ArticleContent?article_id=${article.article_id}`
         // 使用反引号
       });
-    },
-    fetchCarouselImages() {
-      common_vendor.index.request({
-        url: "http://localhost:3000/api/getCarousels",
-        // 后端接口
-        method: "GET",
-        success: (res) => {
-          if (res.data.success === "0") {
-            this.carouselImages = res.data.data;
-          } else {
-            common_vendor.index.showToast({
-              title: "获取轮播图失败",
-              icon: "none"
-            });
-          }
-        },
-        fail: () => {
-          common_vendor.index.showToast({
-            title: "请求失败，请稍后重试",
-            icon: "none"
-          });
-        }
-      });
     }
   }
 };
@@ -80,10 +54,7 @@ if (!Array) {
 }
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
-    a: common_vendor.p({
-      images: $data.carouselImages
-    }),
-    b: common_vendor.f($data.articles, (article, k0, i0) => {
+    a: common_vendor.f($data.articles, (article, k0, i0) => {
       return {
         a: article.article_image,
         b: common_vendor.t(article.title),

@@ -1,5 +1,8 @@
 <template>
 	<view class="wrapper">
+		<view class="article-search ">
+			<input class="uni-input" confirm-type="search" placeholder="键盘右下角按钮显示为搜索" />
+		</view>
 		<view class="article-list">
 			<view v-for="article in articles" :key="article.article_id" class="article-item" @click="goToArticleDetail(article)">
 				<image class="article-image" :src="article.article_image"></image>

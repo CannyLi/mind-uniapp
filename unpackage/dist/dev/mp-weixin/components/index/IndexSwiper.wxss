@@ -1,12 +1,12 @@
 
-swiper.data-v-0c4e0226{
-	/* 居中 */
-	margin: 0 auto;
-	width: 90%;
-	height: 200rpx;
+swiper.data-v-0c4e0226 {
+  /* 居中 */
+  margin: 0 auto;
+  width: 90%;
+  height: 200rpx;
 }
-.swiper-img.data-v-0c4e0226{
-	width: 100%;
-	height: 200rpx;
-	border-radius: 20rpx;
+.swiper-img.data-v-0c4e0226 {
+  width: 100%;
+  height: 200rpx;
+  border-radius: 20rpx;
 }

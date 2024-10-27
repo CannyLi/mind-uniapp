@@ -43,7 +43,7 @@ export const useUserStore = defineStore('users', {
     },
 	
 	//退出登录
-	logout() {
+	logout(userInfo) {
 	    this.userInfo = {};
 	    this.loginStatus = false;
 	    this.token = null;

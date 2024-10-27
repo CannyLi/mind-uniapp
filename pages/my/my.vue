@@ -12,40 +12,40 @@
     <!-- 设置 -->
     <navigator class="settings-section" url="/pages/my/components/settings">
       <view class="settings-item">
+		<img src="@/static/images/settings.png" class="icon" />
         <text>设置</text>
-        <text class="arrow">></text>
       </view>
     </navigator>
 
     <!-- 我的预约 -->
     <navigator class="section" url="/pages/my/components/MyAppointment">
       <view class="item">
+		<img src="@/static/images/appointment.png" class="icon" />
         <text>我的预约</text>
-        <text class="arrow">></text>
       </view>
     </navigator>
 
     <!-- 我的发布 -->
     <navigator class="section" url="/pages/my/components/MyRelease">
       <view class="item">
+		<img src="@/static/images/myrelease.png" class="icon" />
         <text>我的发布</text>
-        <text class="arrow">></text>
       </view>
     </navigator>
 
     <!-- 我的收藏 -->
     <navigator class="section" url="/pages/my/components/Favorites">
       <view class="item">
+		<img src="@/static/images/myfavorites.png" class="icon" />
         <text>我的收藏</text>
-        <text class="arrow">></text>
       </view>
     </navigator>
 
     <!-- 意见反馈 -->
     <navigator class="section" url="/pages/my/components/FeedBack">
       <view class="item">
+		<img src="@/static/images/feedback.png" class="icon" />
         <text>意见反馈</text>
-        <text class="arrow">></text>
       </view>
     </navigator>
   </view>
@@ -105,6 +105,13 @@ export default {
   font-weight: bold;
 }
 
+.icon{
+	height: 50rpx;
+	width: 50rpx;
+	text-align: left;
+	margin-right: 0rpx;
+}
+
 .settings-section, .section {
   margin-top: 20rpx;
 }
@@ -113,12 +120,5 @@ export default {
   padding: 20rpx;
   background-color: #fff;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.arrow {
-  color: #888;
-  font-size: 30rpx;
 }
 </style>

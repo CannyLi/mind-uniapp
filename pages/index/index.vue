@@ -4,7 +4,7 @@
             <view class="flex-item left">找到你想要的健康解决方案</view>
 		</view>
 		<view class="swiper">
-			<IndexSwiper :images="carouselImages"></IndexSwiper>
+			<IndexSwiper></IndexSwiper>
 		</view>
 		<view class="uni-flex uni-row funtions">
 			<navigator class="flex-item iconfont icon-yuyue" url="/pages/index/Appointment/AppointmentTable"></navigator>
@@ -46,8 +46,7 @@
 	export default {
 		data() {
 			return {
-				articles:[],
-				carouselImages: [], // 存储轮播图数据
+				articles:[]
 			}
 		},
 		components: {
@@ -56,7 +55,6 @@
 		},
 		onLoad() {
 			this.fetchArticles();
-			this.fetchCarouselImages(); // 页面加载时获取轮播图
 		},
 		methods: {
 			fetchArticles(){
@@ -88,28 +86,6 @@
 			        url: `/pages/index/Article/ArticleContent?article_id=${article.article_id}` // 使用反引号
 			    });
 			},
-			fetchCarouselImages() {
-				uni.request({
-					url: 'http://localhost:3000/api/getCarousels', // 后端接口
-					method: 'GET',
-					success: (res) => {
-						if (res.data.success === "0") {
-							this.carouselImages = res.data.data; // 更新轮播图数据
-						} else {
-							uni.showToast({
-								title: '获取轮播图失败',
-								icon: 'none'
-							});
-						}
-					},
-					fail: () => {
-						uni.showToast({
-							title: '请求失败，请稍后重试',
-							icon: 'none'
-						});
-					}
-				});
-			}
 		}
 	}
 </script>

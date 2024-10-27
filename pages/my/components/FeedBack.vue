@@ -1,6 +1,11 @@
 <template>
   <view class="feedback">
-    feedback
+    <view class="name">姓名</view>
+	<view class="phone">手机号码</view>
+	<view class="email">电子邮件</view>
+	<view class="wechatnum">反馈的微信号</view>
+	<view class="message">反馈意见内容</view>
+	<view class="pictures">反馈图片</view>
   </view>
 </template>
 

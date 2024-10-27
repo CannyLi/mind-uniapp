@@ -36,7 +36,7 @@ const useUserStore = common_vendor.defineStore("users", {
       common_vendor.index.setStorageSync("userInfo", JSON.stringify(userInfo));
     },
     //退出登录
-    logout() {
+    logout(userInfo) {
       this.userInfo = {};
       this.loginStatus = false;
       this.token = null;

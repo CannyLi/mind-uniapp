@@ -1,6 +1,7 @@
 import App from './App';
 import pinia from './stores'; // 导入 pinia
 
+
 // Vue 3
 import { createSSRApp } from 'vue';
 
