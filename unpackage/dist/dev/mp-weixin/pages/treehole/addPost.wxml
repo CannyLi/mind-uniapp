@@ -1,0 +1,1 @@
+<view class="wrapper data-v-53c25809"><input class="data-v-53c25809" placeholder="请输入标签" value="{{a}}" bindinput="{{b}}"/><block wx:if="{{r0}}"><textarea class="data-v-53c25809" placeholder="请输入分享内容" value="{{c}}" bindinput="{{d}}"></textarea></block><button class="data-v-53c25809" bindtap="{{e}}">发布</button></view>

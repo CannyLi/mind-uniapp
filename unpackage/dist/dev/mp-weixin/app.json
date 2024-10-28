@@ -13,6 +13,8 @@
     "pages/my/components/Favorites",
     "pages/my/components/FeedBack",
     "pages/treehole/treehole",
+    "pages/treehole/addPost",
+    "pages/treehole/comments",
     "pages/consult/consult",
     "pages/login/login",
     "pages/signup/signup",

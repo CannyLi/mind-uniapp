@@ -51,10 +51,24 @@
 			}
 		},
 		{
+			"path": "pages/treehole/addPost",
+			"style" :
+			{
+				"navigationBarTitleText" : "发表"
+			}
+		},
+		{
+			"path": "pages/treehole/comments",
+			"style" :
+			{
+				"navigationBarTitleText" : "评论"
+			}
+		},
+		{
 			"path" : "pages/consult/consult",
 			"style" : 
 			{
-				"navigationBarTitleText" : ""
+				"navigationBarTitleText" : "咨询"
 			}
 		},
 		{

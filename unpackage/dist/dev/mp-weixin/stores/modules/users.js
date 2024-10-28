@@ -33,6 +33,7 @@ const useUserStore = common_vendor.defineStore("users", {
       this.userInfo = userInfo.userInfo;
       this.loginStatus = true;
       this.token = userInfo.token;
+      console.log("User logged in:", userInfo);
       common_vendor.index.setStorageSync("userInfo", JSON.stringify(userInfo));
     },
     //退出登录

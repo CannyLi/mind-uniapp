@@ -17,6 +17,8 @@ if (!Math) {
   "./pages/my/components/Favorites.js";
   "./pages/my/components/FeedBack.js";
   "./pages/treehole/treehole.js";
+  "./pages/treehole/addPost.js";
+  "./pages/treehole/comments.js";
   "./pages/consult/consult.js";
   "./pages/login/login.js";
   "./pages/signup/signup.js";

@@ -29,6 +29,7 @@ export const useUserStore = defineStore('users', {
 
 	//登录方法
     login(userInfo) {
+
 	  // 清除上一次的用户数据
 	  this.userInfo = {};
 	  this.loginStatus = false;
@@ -38,6 +39,8 @@ export const useUserStore = defineStore('users', {
       this.userInfo = userInfo.userInfo;
       this.loginStatus = true;
       this.token = userInfo.token;
+	  console.log('User logged in:', userInfo); // 确认返回的用户信息是否包含 id
+
       // 持久化存储 -> 把对象转换成字符串
       uni.setStorageSync('userInfo', JSON.stringify(userInfo));
     },
