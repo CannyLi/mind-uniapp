@@ -1,11 +1,15 @@
 <template>
   <view class="text">医生推荐</view>
   <view v-for="doctor in doctors" :key="doctor.doctor_id" class="doctor-profile" @click="goToDoctorInfo(doctor)">
-    <image :src="doctor.doctor_image" class="doctor-image"></image>
     <view class="doctor-info">
-      <view class="doctor-name">{{ doctor.name }}</view>
-      <view class="doctor-introduction">{{ doctor.introduction }}</view>
-      <view class="doctor-direction">{{ doctor.expertise }}</view>
+	  <view class="image">
+		  <image :src="doctor.doctor_image" class="doctor-image"></image>
+	  </view>
+	  <view class="info">
+		  <view class="doctor-name">{{ doctor.name }}</view>
+		  <view class="doctor-introduction">{{ doctor.introduction }}</view>
+		  <view class="doctor-direction">{{ doctor.expertise }}</view>
+	  </view>
     </view>
   </view>
 </template>
@@ -55,42 +59,50 @@ export default {
 </script>
 
 <style scoped>
-.text{
-	font-size: 80rpx;
-	text-align: center;
+.text {
+  font-size: 80rpx;
+  text-align: center;
 }
+
 .doctor-profile {
   display: flex;
-  align-items: center;
-  margin: 20px;
+  align-items: center; /* 垂直居中头像和信息 */
+  margin: 20rpx;
   padding-bottom: 20rpx;
+  flex-direction: row;  /* 水平排列头像和信息 */
+}
+
+.image {
+  margin-right: 20rpx; /* 头像与信息之间的间距 */
 }
 
 .doctor-image {
-  width: 250px; 
-  height: 100px; 
-  border-radius: 50%; /* 圆形 */
+  width: 200rpx; 
+  height: 200rpx; 
+  border-radius: 50%;  /* 圆形头像 */
   object-fit: cover;
-  margin-right: 20px; 
 }
 
 .doctor-info {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: center; /* 保持信息居中 */
+  flex: 1; /* 使信息部分占据剩余空间 */
 }
 
 .doctor-name {
   font-size: 20px;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 10rpx;
 }
 
 .doctor-introduction {
-  margin-bottom: 10px;
+  margin-bottom: 10rpx;
 }
 
 .doctor-direction {
   font-style: italic;
 }
 </style>
+
+

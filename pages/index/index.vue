@@ -1,7 +1,7 @@
 <template>
 	<view class="index">
 		<view class="uni-flex uni-row intro">
-            <view class="flex-item left">找到你想要的健康解决方案</view>
+            <view class="left">找到你想要的健康解决方案</view>
 		</view>
 		<view class="swiper">
 			<IndexSwiper></IndexSwiper>
@@ -25,11 +25,11 @@
 						<view class="article-meta">
 							<text>{{ article.publish_date }}</text>
 							<view class="article-actions">
-								<text>{{ article.likes }}点赞</text>
-								<text>{{ article.favorites }}收藏</text>
+								<view class="iconfont icon-xihuan">{{ article.likes }}</view>
+								<view class="iconfont icon-a-shoucangyishoucang1x1">{{ article.favorites }}</view>
 							</view>
 						</view>
-					</view>
+					</view> 
 				</view>
 			</view>
 		</view>
@@ -106,7 +106,7 @@
 	padding-top: 50rpx;
 	font-size: 110rpx;
 }
-.iconfont{
+.flex-item{
 	font-size: 100rpx;
 	padding: 15rpx;
 	margin: 0 auto;
@@ -169,12 +169,13 @@
 	color: #999;
 }
 .article-actions {
-	display: flex;
-	gap: 10rpx;
+    display: flex;
+    gap: 8rpx; 
 }
-.article-actions text {
-	font-size: 28rpx;
-	color: #666;
+.article-actions text, 
+.article-actions .iconfont {
+    font-size: 28rpx;
 }
+
 
 </style>

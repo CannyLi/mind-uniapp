@@ -15,6 +15,14 @@ const _sfc_main = {
   },
   methods: {
     submitPost() {
+      const { users_id, users_image } = this.userStore.userInfo;
+      if (!users_id) {
+        common_vendor.index.showToast({
+          title: "用户未登录，无法发布！",
+          icon: "none"
+        });
+        return;
+      }
       const date = (/* @__PURE__ */ new Date()).toISOString().split("T")[0];
       common_vendor.index.request({
         url: "http://localhost:3000/api/posts",
@@ -23,7 +31,8 @@ const _sfc_main = {
           date,
           tag: this.tag,
           posts_content: this.posts_content,
-          users_id
+          users_id,
+          users_image
         },
         success: (res) => {
           if (res.data.success === "0") {
@@ -70,11 +79,12 @@ const _sfc_main = {
 };
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
-    a: $data.tag,
-    b: common_vendor.o(($event) => $data.tag = $event.detail.value),
-    c: $data.posts_content,
-    d: common_vendor.o(($event) => $data.posts_content = $event.detail.value),
-    e: common_vendor.o((...args) => $options.submitPost && $options.submitPost(...args))
+    a: $data.posts_content,
+    b: common_vendor.o(($event) => $data.posts_content = $event.detail.value),
+    c: common_vendor.t($data.posts_content.length),
+    d: $data.tag,
+    e: common_vendor.o(($event) => $data.tag = $event.detail.value),
+    f: common_vendor.o((...args) => $options.submitPost && $options.submitPost(...args))
   };
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-53c25809"]]);

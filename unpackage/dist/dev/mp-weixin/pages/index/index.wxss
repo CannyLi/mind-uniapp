@@ -14,7 +14,7 @@
 	padding-top: 50rpx;
 	font-size: 110rpx;
 }
-.iconfont.data-v-1cf27b2a{
+.flex-item.data-v-1cf27b2a{
 	font-size: 100rpx;
 	padding: 15rpx;
 	margin: 0 auto;
@@ -77,11 +77,12 @@
 	color: #999;
 }
 .article-actions.data-v-1cf27b2a {
-	display: flex;
-	gap: 10rpx;
+    display: flex;
+    gap: 8rpx;
 }
-.article-actions text.data-v-1cf27b2a {
-	font-size: 28rpx;
-	color: #666;
+.article-actions text.data-v-1cf27b2a, 
+.article-actions .iconfont.data-v-1cf27b2a {
+    font-size: 28rpx;
 }
+
 

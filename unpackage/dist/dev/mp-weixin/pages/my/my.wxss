@@ -20,20 +20,33 @@
   flex: 1;
 }
 .nickname.data-v-2f1ef635 {
-  font-size: 32rpx;
+  font-size: 40rpx;
   font-weight: bold;
+  text-align: center;
+  margin-top: 45rpx;
+  margin-bottom: 40rpx;
 }
-.icon.data-v-2f1ef635{
-	height: 50rpx;
-	width: 50rpx;
-	text-align: left;
-	margin-right: 0rpx;
-}
-.settings-section.data-v-2f1ef635, .section.data-v-2f1ef635 {
+.section.data-v-2f1ef635 {
   margin-top: 20rpx;
 }
-.item.data-v-2f1ef635, .settings-item.data-v-2f1ef635 {
+.item.data-v-2f1ef635{
   padding: 20rpx;
+  padding-bottom: 40rpx;
   background-color: #fff;
   display: flex;
+  border-bottom: 1px solid #e6e6e6;
 }
+.icon.data-v-2f1ef635{
+	flex:1;
+	font-size: 35rpx;
+	height: 60rpx;
+	width: 60rpx;
+	text-align: left;
+	margin-right: 0rpx;
+	color: #4ac8bd;
+}
+.text.data-v-2f1ef635{
+	flex:7;
+	font-size: 35rpx;
+}
+

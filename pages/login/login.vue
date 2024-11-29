@@ -70,6 +70,7 @@ export default {
 
         if (res.data.data.success) {
           const userInfo = {
+			users_id: res.data.data.data.users_id,
             nickname: res.data.data.data.nickname,
             users_image: res.data.data.data.users_image,
           };

@@ -5,47 +5,52 @@
 	<!-- loginStatus为真且userInfo.users_image存在，则显示userInfo.users_image作为头像 -->
       <image class="avatar" :src="loginStatus && userInfo.users_image ? userInfo.users_image : '../../static/images/Swiper/swiper1.jpg'" mode="aspectFill"></image>
       <view class="user-details">
-        <text class="nickname">{{ loginStatus && userInfo.nickname ? userInfo.nickname : "用户登录" }}</text>
+        <view class="nickname">{{ loginStatus && userInfo.nickname ? userInfo.nickname : "用户登录" }}</view>
       </view>
     </view>
 
     <!-- 设置 -->
-    <navigator class="settings-section" url="/pages/my/components/settings">
-      <view class="settings-item">
-		<img src="@/static/images/settings.png" class="icon" />
-        <text>设置</text>
+    <navigator class="section" url="/pages/my/components/settings">
+      <view class="item">
+		<view class="iconfont icon-shezhi icon"></view>
+        <view class="text">设置</view>
+		<view class="iconfont icon-youjiantou"></view>
       </view>
     </navigator>
 
     <!-- 我的预约 -->
     <navigator class="section" url="/pages/my/components/MyAppointment">
       <view class="item">
-		<img src="@/static/images/appointment.png" class="icon" />
-        <text>我的预约</text>
+		<view class="iconfont icon-yuyuexinxi icon"></view>
+        <view class="text">我的预约</view>
+		<view class="iconfont icon-youjiantou"></view>
       </view>
     </navigator>
 
     <!-- 我的发布 -->
     <navigator class="section" url="/pages/my/components/MyRelease">
       <view class="item">
-		<img src="@/static/images/myrelease.png" class="icon" />
-        <text>我的发布</text>
+		<view class="iconfont icon-fabu icon"></view>
+        <view class="text">我的发布</view>
+		<view class="iconfont icon-youjiantou"></view>
       </view>
     </navigator>
 
     <!-- 我的收藏 -->
     <navigator class="section" url="/pages/my/components/Favorites">
       <view class="item">
-		<img src="@/static/images/myfavorites.png" class="icon" />
-        <text>我的收藏</text>
+		<view class="iconfont icon-a-shoucangyishoucang1x1 icon"></view>
+        <view class="text">我的收藏</view>
+		<view class="iconfont icon-youjiantou"></view>
       </view>
     </navigator>
 
     <!-- 意见反馈 -->
     <navigator class="section" url="/pages/my/components/FeedBack">
       <view class="item">
-		<img src="@/static/images/feedback.png" class="icon" />
-        <text>意见反馈</text>
+		<view class="iconfont icon-yijianfankui icon"></view>
+        <view class="text">意见反馈</view>
+		<view class="iconfont icon-youjiantou"></view>
       </view>
     </navigator>
   </view>
@@ -101,24 +106,37 @@ export default {
 }
 
 .nickname {
-  font-size: 32rpx;
+  font-size: 40rpx;
   font-weight: bold;
+  text-align: center;
+  margin-top: 45rpx;
+  margin-bottom: 40rpx;
 }
 
-.icon{
-	height: 50rpx;
-	width: 50rpx;
-	text-align: left;
-	margin-right: 0rpx;
-}
-
-.settings-section, .section {
+.section {
   margin-top: 20rpx;
 }
 
-.item, .settings-item {
+.item{
   padding: 20rpx;
+  padding-bottom: 40rpx;
   background-color: #fff;
   display: flex;
+  border-bottom: 1px solid #e6e6e6; 
 }
+
+.icon{
+	flex:1;
+	font-size: 35rpx;
+	height: 60rpx;
+	width: 60rpx;
+	text-align: left;
+	margin-right: 0rpx;
+	color: #4ac8bd;
+}
+.text{
+	flex:7;
+	font-size: 35rpx;
+}
+
 </style>

@@ -6,7 +6,7 @@
       <view class="doctor-introduction">个人简介：{{ doctor.introduction }}</view>
       <view class="doctor-expertise">擅长领域：{{ doctor.expertise }}</view>
       <view class="consultation-notes">咨询须知：{{ doctor.consultation_notice }}</view>
-      <button class="book-button">立即咨询</button>
+      <button class="book-button" @click="goToAppointmentTable()">立即预约</button>
     </view>
   </view>
 </template>
@@ -45,6 +45,11 @@ export default {
             icon: 'none'
           });
         }
+      });
+    },
+    goToAppointmentTable(){
+      uni.navigateTo({
+        url: '/pages/index/Appointment/AppointmentTable'
       });
     }
   }

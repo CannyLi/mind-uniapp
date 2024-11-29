@@ -7,7 +7,10 @@
 			}
 		},
 		{
-		    "path": "pages/index/Article/FullArticle"
+		    "path": "pages/index/Article/FullArticle",
+			"style": {
+				"navigationBarTitleText": "文章"
+			}
 		},
 		{
 		    "path": "pages/index/Article/ArticleContent" 
@@ -19,7 +22,10 @@
 		    "path": "pages/index/Doctor/DoctorInfo" 
 		},
 		{
-		    "path": "pages/index/Appointment/AppointmentTable" 
+		    "path": "pages/index/Appointment/AppointmentTable",
+			"style": {
+				"navigationBarTitleText": "预约"
+			}
 		},
 		{
 			"path" : "pages/my/my",
@@ -68,7 +74,7 @@
 			"path" : "pages/consult/consult",
 			"style" : 
 			{
-				"navigationBarTitleText" : "咨询"
+				"navigationBarTitleText" : "AI咨询"
 			}
 		},
 		{
@@ -132,7 +138,7 @@
 			"pagePath": "pages/consult/consult",
 			"iconPath": "static/images/tabber/consult-unselected.png",
 			"selectedIconPath": "static/images/tabber/consult-selected.png",
-			"text": "咨询"
+			"text": "AI咨询"
 		}, {
 			"pagePath": "pages/my/my",
 			"iconPath": "static/images/tabber/my-unselected.png",

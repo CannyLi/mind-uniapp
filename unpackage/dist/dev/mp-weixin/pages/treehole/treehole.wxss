@@ -1,6 +1,6 @@
 
-.wrapper.data-v-2b7b037f{
-	padding-bottom: 10rpx;
+.wrapper.data-v-2b7b037f {
+  padding-bottom: 10rpx;
 }
 .post-list.data-v-2b7b037f {
   background-color: none;
@@ -12,8 +12,8 @@
   margin-bottom: 80rpx;
 }
 .avatar.data-v-2b7b037f {
-  width: 50rpx; 
-  height: 50rpx; 
+  width: 50rpx;
+  height: 50rpx;
   border-radius: 50%;
   margin-right: -250rpx;
 }
@@ -41,16 +41,18 @@
 .floating-button.data-v-2b7b037f {
   position: fixed; /* 固定定位 */
   bottom: 30rpx;
-  right: 30rpx; 
-  width: 100rpx; 
-  height: 100rpx; 
-  background-color: #4ac8bd; 
+  right: 30rpx;
+  width: 100rpx;
+  height: 100rpx;
+  background-color: #4ac8bd;
   border-radius: 50%;
   display: flex;
-  align-items: center; 
-  justify-content: center; 
-  box-shadow: 0 0px 4px darkgrey; 
-  font-size: 50rpx; 
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0px 4px darkgrey;
+  font-size: 50rpx;
   color: white;
 }
-
+.liked.data-v-2b7b037f {
+  color: red;
+}

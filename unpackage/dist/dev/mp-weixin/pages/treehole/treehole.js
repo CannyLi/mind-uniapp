@@ -23,7 +23,11 @@ const _sfc_main = {
         method: "GET",
         success: (res) => {
           if (res.data.success === "0") {
-            this.posts = res.data.data;
+            this.posts = res.data.data.map((post) => ({
+              ...post,
+              liked: false
+              // 默认未点赞
+            }));
           } else {
             common_vendor.index.showToast({
               title: res.data.msg,
@@ -39,16 +43,34 @@ const _sfc_main = {
         }
       });
     },
-    likePost(postId) {
-      common_vendor.index.showToast({
-        title: "点赞成功",
-        icon: "success"
-      });
-    },
-    //跳转到评论页面
-    viewComments(postId) {
-      common_vendor.index.navigateTo({
-        url: `/pages/treehole/comments?pid=${postId}`
+    toggleLike(post) {
+      const api = post.liked ? `http://localhost:3000/api/posts/${post.posts_id}/unlike` : `http://localhost:3000/api/posts/${post.posts_id}/like`;
+      common_vendor.index.request({
+        url: api,
+        method: "POST",
+        success: (res) => {
+          if (res.data.success) {
+            post.liked = !post.liked;
+            post.like_count += post.liked ? 1 : -1;
+            const msg = post.liked ? "点赞成功" : "取消点赞成功";
+            common_vendor.index.showToast({
+              title: msg,
+              icon: "success"
+            });
+          } else {
+            const msg = post.liked ? "取消点赞失败" : "点赞失败";
+            common_vendor.index.showToast({
+              title: msg,
+              icon: "none"
+            });
+          }
+        },
+        fail: (error) => {
+          common_vendor.index.showToast({
+            title: "操作失败，请稍后再试",
+            icon: "none"
+          });
+        }
       });
     },
     navigateToPublish() {
@@ -83,8 +105,8 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         d: common_vendor.t(post.posts_content),
         e: common_vendor.t(post.tag),
         f: common_vendor.t(post.like_count),
-        g: common_vendor.t(post.comment_count),
-        h: common_vendor.o(($event) => $options.viewComments(post.id), post.id),
+        g: post.liked ? 1 : "",
+        h: common_vendor.o(($event) => $options.toggleLike(post), post.id),
         i: post.id
       };
     }),

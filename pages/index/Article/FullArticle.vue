@@ -1,7 +1,7 @@
 <template>
 	<view class="wrapper">
 		<view class="article-search ">
-			<input class="uni-input" confirm-type="search" placeholder="键盘右下角按钮显示为搜索" />
+			<input class="uni-input" confirm-type="search" placeholder="搜索" />
 		</view>
 		<view class="article-list">
 			<view v-for="article in articles" :key="article.article_id" class="article-item" @click="goToArticleDetail(article)">
@@ -11,8 +11,8 @@
 					<view class="article-meta">
 						<text>{{ article.publish_date }}</text>
 						<view class="article-actions">
-							<text>{{ article.likes }} 点赞</text>
-							<text>{{ article.favorites }} 收藏</text>
+							<view class="iconfont icon-xihuan">{{ article.likes }} </view>
+							<view class="iconfont icon-a-shoucangyishoucang1x1">{{ article.favorites }} </view>
 						</view>
 					</view>
 				</view>
@@ -22,12 +22,12 @@
 </template>
 
 <script>
-	export default {
+	export default { 
 		data() {
 			return {
 				articles: [] // 存储文章数据
 			}
-		},
+		}, 
 		onLoad() {
 			this.fetchArticles(); // 页面加载时获取所有文章
 		},
@@ -92,7 +92,8 @@
   border: 1px solid #4ac8bd;
   border-radius: 15upx;
   outline: none;
-}s
+}
+
 .search-icon {
   width: 20px;
   height: 30px;
@@ -133,12 +134,12 @@
 	color: #999;
 }
 .article-actions {
-	display: flex;
-	gap: 10rpx;
+    display: flex;
+    gap: 8rpx; 
 }
-.article-actions text {
-	font-size: 28rpx;
-	color: #666;
+.article-actions text, 
+.article-actions .iconfont {
+    font-size: 28rpx;
 }
 	
 </style>

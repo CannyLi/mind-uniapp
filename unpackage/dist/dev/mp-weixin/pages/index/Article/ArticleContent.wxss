@@ -1,18 +1,28 @@
 
 .article-container.data-v-3a803f59 {
-  padding: 20px;
+	padding: 20px;
 }
 .article-header.data-v-3a803f59 {
-  margin-bottom: 10px;
+	margin-bottom: 10px;
 }
 .article-title.data-v-3a803f59 {
-  font-size: 24px;
-  font-weight: bold;
+	font-size: 24px;
+	font-weight: bold;
 }
 .article-meta.data-v-3a803f59 {
-  color: #666;
-  margin-bottom: 10px;
+	color: #666;
+	margin-bottom: 10px;
 }
 .article-content.data-v-3a803f59 {
-  margin-top: 10px;
+	margin-top: 10px;
+}
+.article-actions.data-v-3a803f59 {
+	display: flex;
+	gap: 10px;
+}
+.liked.data-v-3a803f59 {
+	color: red;
+}
+.favorited.data-v-3a803f59 {
+	color: yellow;
 }

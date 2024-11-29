@@ -1,8 +1,12 @@
 <template>
   <view class="wrapper">
-    <input v-model="tag" placeholder="请输入标签" />
-    <textarea v-model="posts_content" placeholder="请输入分享内容"></textarea>
-    <button @click="submitPost">发布</button>
+    <textarea class="content" v-model="posts_content" placeholder="请输入分享内容" maxlength="1000"></textarea>
+	<span class="char-count">{{ posts_content.length }}/1000</span>
+	<view class="tag">
+		<view class="iconfont icon-tag"></view>
+		<textarea v-model="tag" placeholder="请输入自定义标签(最多5个字)" maxlength="5" />
+	</view>
+    <button class="submitPost-btn" @click="submitPost">发布</button>
   </view>
 </template>
 
@@ -24,15 +28,15 @@ export default {
   },
   methods: {
     submitPost() {
-	  // const users_id = this.userStore.userInfo.users_id; // 获取当前登录用户的ID
-	  // // console.log('当前用户ID:', users_id); // 添加调试输出
-	  // if (!users_id) {
-	  //   uni.showToast({
-	  //     title: '用户未登录，无法发布！',
-	  //     icon: 'none'
-	  //   });
-	  //   return;
-	  //  }
+	  const { users_id, users_image } = this.userStore.userInfo; // 获取当前登录用户的ID、用户头像
+	  // console.log('当前用户ID:', users_id); // 添加调试输出
+	  if (!users_id) {
+	    uni.showToast({
+	      title: '用户未登录，无法发布！',
+	      icon: 'none'
+	    });
+	    return;
+	   }
 	  const date = new Date().toISOString().split('T')[0]; // 获取当前日期，格式化为 YYYY-MM-DD
 	  
       uni.request({
@@ -42,7 +46,8 @@ export default {
 		  date: date,
           tag: this.tag,
           posts_content: this.posts_content,
-          users_id: users_id
+          users_id,
+		  users_image
         },
         success: (res) => {
           if (res.data.success === "0") {
@@ -91,5 +96,28 @@ export default {
 </script>
 
 <style scoped>
-/* 样式根据需要调整 */
+.wrapper{
+	padding: 25rpx;
+}
+.content{
+	width: 100%;
+}
+.char-count {
+  float: right; 
+  margin-top: 10px; 
+  font-size: 14px; 
+  color: #888;
+}
+.tag{
+	margin-top: 80rpx;
+	display: flex;
+}
+.submitPost-btn{
+	background-color: #4ac8bd;
+	color: white; 
+	border: none;
+	border-radius: 4px; 
+	padding: 10rpx 0; 
+	width: 100%; 
+}
 </style>

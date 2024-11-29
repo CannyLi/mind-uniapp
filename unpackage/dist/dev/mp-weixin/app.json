@@ -46,7 +46,7 @@
         "pagePath": "pages/consult/consult",
         "iconPath": "static/images/tabber/consult-unselected.png",
         "selectedIconPath": "static/images/tabber/consult-selected.png",
-        "text": "咨询"
+        "text": "AI咨询"
       },
       {
         "pagePath": "pages/my/my",

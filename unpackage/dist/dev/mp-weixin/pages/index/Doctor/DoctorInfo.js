@@ -35,6 +35,11 @@ const _sfc_main = {
           });
         }
       });
+    },
+    goToAppointmentTable() {
+      common_vendor.index.navigateTo({
+        url: "/pages/index/Appointment/AppointmentTable"
+      });
     }
   }
 };
@@ -44,7 +49,8 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     b: common_vendor.t($data.doctor.name),
     c: common_vendor.t($data.doctor.introduction),
     d: common_vendor.t($data.doctor.expertise),
-    e: common_vendor.t($data.doctor.consultation_notice)
+    e: common_vendor.t($data.doctor.consultation_notice),
+    f: common_vendor.o(($event) => $options.goToAppointmentTable())
   };
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render]]);

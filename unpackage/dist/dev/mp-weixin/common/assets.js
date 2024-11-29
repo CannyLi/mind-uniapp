@@ -1,15 +1,5 @@
 "use strict";
-const _imports_0$2 = "/static/images/settings.png";
-const _imports_1 = "/static/images/appointment.png";
-const _imports_2 = "/static/images/myrelease.png";
-const _imports_3 = "/static/images/myfavorites.png";
-const _imports_4 = "/static/images/feedback.png";
 const _imports_0$1 = "/static/images/WeChatLogo.png";
 const _imports_0 = "/static/images/Swiper/swiper1.jpg";
-exports._imports_0 = _imports_0$2;
-exports._imports_0$1 = _imports_0$1;
-exports._imports_0$2 = _imports_0;
-exports._imports_1 = _imports_1;
-exports._imports_2 = _imports_2;
-exports._imports_3 = _imports_3;
-exports._imports_4 = _imports_4;
+exports._imports_0 = _imports_0$1;
+exports._imports_0$1 = _imports_0;

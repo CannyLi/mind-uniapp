@@ -44,6 +44,7 @@ const _sfc_main = {
         console.log(res);
         if (res.data.data.success) {
           const userInfo = {
+            users_id: res.data.data.data.users_id,
             nickname: res.data.data.data.nickname,
             users_image: res.data.data.data.users_image
           };
@@ -108,7 +109,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     f: common_vendor.o((...args) => $options.goToSignup && $options.goToSignup(...args)),
     g: common_vendor.o((...args) => $options.handleLogin && $options.handleLogin(...args)),
     h: common_vendor.o((...args) => $options.handleWeChatLogin && $options.handleWeChatLogin(...args)),
-    i: common_assets._imports_0$1
+    i: common_assets._imports_0
   };
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-e4e4508d"]]);
