@@ -7,105 +7,84 @@
 			}
 		},
 		{
-		    "path": "pages/index/Article/FullArticle",
+			"path": "pages/index/Article/FullArticle",
 			"style": {
 				"navigationBarTitleText": "文章"
 			}
 		},
 		{
-		    "path": "pages/index/Article/ArticleContent" 
+			"path": "pages/index/Article/ArticleContent"
 		},
 		{
-		    "path": "pages/index/Doctor/AllDoctor" 
+			"path": "pages/index/Doctor/AllDoctor",
+			"style": {
+				"navigationBarTitleText": "医生推荐"
+			}
 		},
 		{
-		    "path": "pages/index/Doctor/DoctorInfo" 
+			"path": "pages/index/Doctor/DoctorInfo",
+			"style": {
+				"navigationBarTitleText": ""
+			}
 		},
 		{
-		    "path": "pages/index/Appointment/AppointmentTable",
+			"path": "pages/index/Appointment/AppointmentTable",
 			"style": {
 				"navigationBarTitleText": "预约"
 			}
 		},
 		{
-			"path" : "pages/my/my",
-			"style" : 
-			{
-				"navigationBarTitleText" : ""
+			"path": "pages/my/my",
+			"style": {
+				"navigationBarTitleText": ""
 			}
 		},
 		{
-		    "path": "pages/my/components/settings" 
+			"path": "pages/my/components/settings",
+			"style": {
+				"navigationBarTitleText": "设置"
+			}
 		},
 		{
-		    "path": "pages/my/components/MyAppointment" 
+			"path": "pages/my/components/MyAppointment",
+			"style": {
+				"navigationBarTitleText": "我的预约"
+			}
 		},
 		{
-		    "path": "pages/my/components/MyRelease" 
+			"path": "pages/my/components/MyRelease",
+			"style": {
+				"navigationBarTitleText": "我的发布"
+			}
 		},
 		{
-		    "path": "pages/my/components/Favorites" 
+			"path": "pages/my/components/FeedBack",
+			"style": {
+				"navigationBarTitleText": "意见反馈"
+			}
 		},
 		{
-		    "path": "pages/my/components/FeedBack" 
-		},
-		{
-			"path" : "pages/treehole/treehole",
-			"style" : 
-			{
-				"navigationBarTitleText" : "情绪树洞"
+			"path": "pages/treehole/treehole",
+			"style": {
+				"navigationBarTitleText": "情绪树洞"
 			}
 		},
 		{
 			"path": "pages/treehole/addPost",
-			"style" :
-			{
-				"navigationBarTitleText" : "发表"
+			"style": {
+				"navigationBarTitleText": "发表"
 			}
 		},
 		{
-			"path": "pages/treehole/comments",
-			"style" :
-			{
-				"navigationBarTitleText" : "评论"
+			"path": "pages/consult/consult",
+			"style": {
+				"navigationBarTitleText": "AI咨询"
 			}
 		},
 		{
-			"path" : "pages/consult/consult",
-			"style" : 
-			{
-				"navigationBarTitleText" : "AI咨询"
-			}
-		},
-		{
-			"path" : "pages/login/login",
-			"style" : 
-			{
+			"path": "pages/login/login",
+			"style": {
 				"navigationBarTitleText": "登录",
-				//取消头部
-				"app-plus": {
-					"titleNView": false,
-					"scrollIndicator": "none"
-				}
-			}
-		},
-		{
-			"path" : "pages/signup/signup",
-			"style" : 
-			{
-				"navigationBarTitleText": "注册",
-				//取消头部
-				"app-plus": {
-					"titleNView": false,
-					"scrollIndicator": "none"
-				}
-			}
-		},
-		{
-			"path" : "pages/LoginSignupHome/LoginSignupHome",
-			"style" : 
-			{
-				"navigationBarTitleText": "登录注册",
 				//取消头部
 				"app-plus": {
 					"titleNView": false,
@@ -123,7 +102,7 @@
 	"tabBar": {
 		"color": "#535353",
 		"selectedColor": "#4ac8bd",
-		
+
 		"list": [{
 			"pagePath": "pages/index/index",
 			"iconPath": "static/images/tabber/home-unselected.png",

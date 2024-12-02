@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
 const common_vendor = require("./common/vendor.js");
-const stores_modules_users = require("./stores/modules/users.js");
+const stores_modules_userStore = require("./stores/modules/userStore.js");
 const stores_index = require("./stores/index.js");
 if (!Math) {
   "./pages/index/index.js";
@@ -14,19 +14,15 @@ if (!Math) {
   "./pages/my/components/settings.js";
   "./pages/my/components/MyAppointment.js";
   "./pages/my/components/MyRelease.js";
-  "./pages/my/components/Favorites.js";
   "./pages/my/components/FeedBack.js";
   "./pages/treehole/treehole.js";
   "./pages/treehole/addPost.js";
-  "./pages/treehole/comments.js";
   "./pages/consult/consult.js";
   "./pages/login/login.js";
-  "./pages/signup/signup.js";
-  "./pages/LoginSignupHome/LoginSignupHome.js";
 }
 const _sfc_main = {
   setup() {
-    const userStore = stores_modules_users.useUserStore();
+    const userStore = stores_modules_userStore.useUserStore();
     userStore.initUser();
     return {};
   },

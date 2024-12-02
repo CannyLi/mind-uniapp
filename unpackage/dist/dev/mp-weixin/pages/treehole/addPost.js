@@ -1,6 +1,6 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
-const stores_modules_users = require("../../stores/modules/users.js");
+const stores_modules_userStore = require("../../stores/modules/userStore.js");
 const _sfc_main = {
   data() {
     return {
@@ -9,13 +9,20 @@ const _sfc_main = {
     };
   },
   setup() {
-    const userStore = stores_modules_users.useUserStore();
+    const userStore = stores_modules_userStore.useUserStore();
     userStore.initUser();
-    return { userStore };
+    return {
+      userStore
+    };
   },
   methods: {
     submitPost() {
-      const { users_id, users_image } = this.userStore.userInfo;
+      const {
+        users_id,
+        users_image
+      } = this.userStore.userInfo;
+      console.log("当前用户ID:", users_id);
+      console.log("当前用户头像:", users_image);
       if (!users_id) {
         common_vendor.index.showToast({
           title: "用户未登录，无法发布！",

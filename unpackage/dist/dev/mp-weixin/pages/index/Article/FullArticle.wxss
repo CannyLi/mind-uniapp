@@ -1,76 +1,56 @@
 
 .wrapper.data-v-8bd2a792 {
-  display: flex;
-  flex-direction: column;
+		display: flex;
+		flex-direction: column;
 }
-.back-icon.data-v-8bd2a792 {
-  position: absolute;
-  left: 20rpx; 
-  top: 25rpx;
-  z-index: 999;
-  cursor: pointer;
+.article-search.data-v-8bd2a792 {
+		display: flex;
+		align-items: center;
 }
-.search-box.data-v-8bd2a792 {
-  display: flex;
-  padding: 10rpx;
-  padding-left: 70rpx;
-  background-color: #fff;
-  border-radius: 5px;
-/*  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
-}
-.search-input.data-v-8bd2a792 {
-  flex: 1;
-  height: 50rpx;
-  padding: 0 10px;
-  border: 1px solid #4ac8bd;
-  border-radius: 15rpx;
-  outline: none;
-}
-.search-icon.data-v-8bd2a792 {
-  width: 20px;
-  height: 30px;
-  margin-left: 10px;
+.uni-input.data-v-8bd2a792 {
+		display: flex;
+		align-items: center;
+		padding-left: 30rpx;
 }
 .article-list.data-v-8bd2a792 {
-	padding: 20rpx;
-	display: flex;
-	flex-direction: column;
+		padding: 20rpx;
+		display: flex;
+		flex-direction: column;
 }
 .article-item.data-v-8bd2a792 {
-	display: flex;
-	margin-bottom: 40rpx;
+		display: flex;
+		margin-bottom: 40rpx;
 }
 .article-image.data-v-8bd2a792 {
-	width: 300rpx;
-	height: 150rpx;
-	border-radius: 10rpx;
-	margin-right: 20rpx;
+		width: 300rpx;
+		height: 150rpx;
+		border-radius: 10rpx;
+		margin-right: 20rpx;
 }
 .article-info.data-v-8bd2a792 {
-	flex: 1;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	padding-left: 20rpx;
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		padding-left: 20rpx;
 }
 .article-title.data-v-8bd2a792 {
-	font-size: 35rpx;
-	font-weight: bold;
-	color: #333;
+		font-size: 35rpx;
+		font-weight: bold;
+		color: #333;
 }
 .article-meta.data-v-8bd2a792 {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	font-size: 28rpx;
-	color: #999;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		font-size: 28rpx;
+		color: #999;
 }
 .article-actions.data-v-8bd2a792 {
-    display: flex;
-    gap: 8rpx;
+		display: flex;
+		gap: 8rpx;
 }
-.article-actions text.data-v-8bd2a792, 
-.article-actions .iconfont.data-v-8bd2a792 {
-    font-size: 28rpx;
+.article-actions text.data-v-8bd2a792,
+	.article-actions .iconfont.data-v-8bd2a792 {
+		font-size: 28rpx;
 }
-	

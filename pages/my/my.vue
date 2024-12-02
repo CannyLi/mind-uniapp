@@ -1,142 +1,170 @@
 <template>
-  <view class="container">
-    <!-- 用户信息 -->
-    <view class="user-info" @tap="goToLoginSignupHome">
-	<!-- loginStatus为真且userInfo.users_image存在，则显示userInfo.users_image作为头像 -->
-      <image class="avatar" :src="loginStatus && userInfo.users_image ? userInfo.users_image : '../../static/images/Swiper/swiper1.jpg'" mode="aspectFill"></image>
-      <view class="user-details">
-        <view class="nickname">{{ loginStatus && userInfo.nickname ? userInfo.nickname : "用户登录" }}</view>
-      </view>
-    </view>
+	<view class="container">
+		<!-- 用户信息 -->
+		<view class="user-info">
+			<!-- loginStatus为真且userInfo.users_image存在，则显示userInfo.users_image作为头像 -->
+			<image class="avatar" :src="loginStatus && userInfo.users_image " mode="aspectFill"></image>
+			<view class="user-details">
+				<view v-if="loginStatus" class="nickname">{{ loginStatus && userInfo.nickname }}</view>
+				<view v-else class="nickname" @tap="goToLogin">未登录，点击登录 </view>
+			</view>
+		</view>
 
-    <!-- 设置 -->
-    <navigator class="section" url="/pages/my/components/settings">
-      <view class="item">
-		<view class="iconfont icon-shezhi icon"></view>
-        <view class="text">设置</view>
-		<view class="iconfont icon-youjiantou"></view>
-      </view>
-    </navigator>
+		<!-- 设置 -->
+		<navigator class="section" url="/pages/my/components/settings">
+			<view class="item">
+				<view class="iconfont icon-shezhi icon"></view>
+				<view class="text">编辑资料</view>
+				<view class="iconfont icon-youjiantou"></view>
+			</view>
+		</navigator>
 
-    <!-- 我的预约 -->
-    <navigator class="section" url="/pages/my/components/MyAppointment">
-      <view class="item">
-		<view class="iconfont icon-yuyuexinxi icon"></view>
-        <view class="text">我的预约</view>
-		<view class="iconfont icon-youjiantou"></view>
-      </view>
-    </navigator>
+		<!-- 我的预约 -->
+		<navigator class="section" url="/pages/my/components/MyAppointment">
+			<view class="item">
+				<view class="iconfont icon-yuyuexinxi icon"></view>
+				<view class="text">我的预约</view>
+				<view class="iconfont icon-youjiantou"></view>
+			</view>
+		</navigator>
 
-    <!-- 我的发布 -->
-    <navigator class="section" url="/pages/my/components/MyRelease">
-      <view class="item">
-		<view class="iconfont icon-fabu icon"></view>
-        <view class="text">我的发布</view>
-		<view class="iconfont icon-youjiantou"></view>
-      </view>
-    </navigator>
+		<!-- 我的发布 -->
+		<navigator class="section" url="/pages/my/components/MyRelease">
+			<view class="item">
+				<view class="iconfont icon-fabu icon"></view>
+				<view class="text">我的发布</view>
+				<view class="iconfont icon-youjiantou"></view>
+			</view>
+		</navigator>
 
-    <!-- 我的收藏 -->
-    <navigator class="section" url="/pages/my/components/Favorites">
+		<!-- 我的收藏 -->
+		<!--    <navigator class="section">
       <view class="item">
 		<view class="iconfont icon-a-shoucangyishoucang1x1 icon"></view>
         <view class="text">我的收藏</view>
 		<view class="iconfont icon-youjiantou"></view>
       </view>
-    </navigator>
+    </navigator> -->
 
-    <!-- 意见反馈 -->
-    <navigator class="section" url="/pages/my/components/FeedBack">
-      <view class="item">
-		<view class="iconfont icon-yijianfankui icon"></view>
-        <view class="text">意见反馈</view>
-		<view class="iconfont icon-youjiantou"></view>
-      </view>
-    </navigator>
-  </view>
+		<!-- 意见反馈 -->
+		<navigator class="section" url="/pages/my/components/FeedBack">
+			<view class="item">
+				<view class="iconfont icon-yijianfankui icon"></view>
+				<view class="text">意见反馈</view>
+				<view class="iconfont icon-youjiantou"></view>
+			</view>
+		</navigator>
+
+		<!-- 退出登录 -->
+		<view class="section" @click="handleLogout()">
+			<view class="item">
+				<view class="iconfont icon-a-shoucangyishoucang1x1 icon"></view>
+				<view class="text">退出登录</view>
+
+			</view>
+		</view>
+	</view>
 </template>
 
 <script>
-import { useUserStore } from '@/stores/modules/users'; // 导入 Pinia store
+	import {
+		useUserStore
+	} from '@/stores/modules/userStore.js'; // 导入 Pinia store
 
-export default {
-  setup() {
-    const userStore = useUserStore(); // 使用 Pinia store
-    return { userStore };
-  },
-  computed: {
-    loginStatus() {
-      return this.userStore.loginStatus; // 从 Pinia store 获取状态
-    },
-    userInfo() {
-      return this.userStore.userInfo; // 从 Pinia store 获取用户信息
-    }
-  },
-  methods: {
-    goToLoginSignupHome() {
-      uni.navigateTo({ url: '/pages/LoginSignupHome/LoginSignupHome' });
-    }
-  }
-};
+	export default {
+		setup() {
+			const userStore = useUserStore(); // 使用 Pinia store
+			// 初始化用户信息
+			userStore.initUser();
+
+			return {
+				userStore
+			};
+		},
+		computed: {
+			loginStatus() {
+				return this.userStore.loginStatus; // 从 Pinia store 获取状态
+			},
+			userInfo() {
+				return this.userStore.userInfo; // 从 Pinia store 获取用户信息
+			}
+		},
+		methods: {
+			// 退出登录
+			handleLogout() {
+				this.userStore.logout();
+				uni.redirectTo({
+					url: '/pages/login/login',
+				});
+			},
+			goToLogin() {
+				uni.navigateTo({
+					url: '/pages/login/login'
+				});
+			}
+		}
+	};
 </script>
 
 <style scoped>
-.container {
-  padding: 20rpx;
-}
+	.container {
+		padding: 20rpx;
+	}
 
-.user-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: center; 
-  align-items: center;
-  padding: 20rpx;
-  background-color: #fff;
-}
+	.user-info {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		padding: 20rpx;
+		background-color: #fff;
+	}
 
-.avatar {
-  width: 120rpx;
-  height: 120rpx;
-  border-radius: 50%;
-  margin-right: 20rpx;
-}
+	.avatar {
+		width: 120rpx;
+		height: 120rpx;
+		border-radius: 50%;
+		margin-right: 20rpx;
+		background-color: darkgrey;
+	}
 
-.user-details {
-  flex: 1;
-}
+	.user-details {
+		flex: 1;
+	}
 
-.nickname {
-  font-size: 40rpx;
-  font-weight: bold;
-  text-align: center;
-  margin-top: 45rpx;
-  margin-bottom: 40rpx;
-}
+	.nickname {
+		font-size: 40rpx;
+		font-weight: bold;
+		text-align: center;
+		margin-top: 45rpx;
+		margin-bottom: 40rpx;
+		margin-left: -20rpx;
+	}
 
-.section {
-  margin-top: 20rpx;
-}
+	.section {
+		margin-top: 20rpx;
+	}
 
-.item{
-  padding: 20rpx;
-  padding-bottom: 40rpx;
-  background-color: #fff;
-  display: flex;
-  border-bottom: 1px solid #e6e6e6; 
-}
+	.item {
+		padding: 20rpx;
+		padding-bottom: 40rpx;
+		background-color: #fff;
+		display: flex;
+		border-bottom: 1px solid #e6e6e6;
+	}
 
-.icon{
-	flex:1;
-	font-size: 35rpx;
-	height: 60rpx;
-	width: 60rpx;
-	text-align: left;
-	margin-right: 0rpx;
-	color: #4ac8bd;
-}
-.text{
-	flex:7;
-	font-size: 35rpx;
-}
+	.icon {
+		flex: 1;
+		font-size: 35rpx;
+		height: 60rpx;
+		width: 60rpx;
+		text-align: left;
+		margin-right: 0rpx;
+		color: #4ac8bd;
+	}
 
+	.text {
+		flex: 7;
+		font-size: 35rpx;
+	}
 </style>

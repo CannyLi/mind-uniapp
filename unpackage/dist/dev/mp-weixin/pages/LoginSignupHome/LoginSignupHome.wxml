@@ -1,1 +1,0 @@
-<view class="container data-v-b496d3da"><image class="top-image data-v-b496d3da" src="{{a}}" mode="aspectFill"></image><view class="button-container data-v-b496d3da"><button class="login-btn data-v-b496d3da" bindtap="{{b}}">Login</button><button class="signup-btn data-v-b496d3da" bindtap="{{c}}">Sign up</button></view></view>

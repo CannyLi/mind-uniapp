@@ -1,20 +1,47 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
+const stores_modules_userStore = require("../../stores/modules/userStore.js");
 const _sfc_main = {
+  setup() {
+    const userStore = stores_modules_userStore.useUserStore();
+    userStore.initUser();
+    return {
+      userStore
+    };
+  },
   data() {
     return {
       messages: [],
       inputMessage: ""
     };
   },
+  onLoad() {
+    if (!this.userStore.loginStatus) {
+      common_vendor.index.navigateTo({
+        url: "/pages/login/login"
+        // 登录页面的路径
+      });
+      common_vendor.index.showToast({
+        title: "请先登录！",
+        icon: "none",
+        duration: 2e3
+      });
+    }
+  },
   methods: {
     sendMessage() {
       if (this.inputMessage.trim() !== "") {
-        const message = { text: this.inputMessage, isUser: true };
+        const message = {
+          text: this.inputMessage,
+          isUser: true
+        };
         this.messages.push(message);
         this.inputMessage = "";
         this.getAIChatResponse(message.text).then((aiResponse) => {
-          this.messages.push({ text: aiResponse, isUser: false });
+          this.messages.push({
+            text: aiResponse,
+            isUser: false
+          });
         }).catch((error) => {
           console.error("获取AI回复失败：", error);
         });

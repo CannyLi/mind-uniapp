@@ -1,208 +1,251 @@
 <template>
-  <view class="login-container">
-    <view class="input-group">
-      <view class="label">账号</view>
-      <input type="text" placeholder="请输入手机号/用户名" v-model="username" />
-    </view>
-    <view class="input-group">
-      <view class="label">密码</view>
-      <input type="password" placeholder="6-16位字符" v-model="password" />
-    </view>
-    <view class="others">
-      <view class="forget-btn" @click="sendSMS">忘记密码？</view>
-      <view class="gotologin" @click="goToSignup">去注册</view>
-    </view>
+	<view class="login-container">
+		<view class="input-group">
+			<view class="label">头像</view>
+			<view class="avatar-upload" @click="chooseAvatar">
+				<image v-if="users_image" :src="users_image" class="avatar-preview" />
+				<view v-else class="upload-placeholder">点击上传头像</view>
+			</view>
+		</view>
 
-    <button @click="handleLogin" class="login-button">登录</button>
+		<view class="input-group">
+			<view class="label">昵称</view>
+			<input type="text" placeholder="请输入昵称" v-model="nickname" />
+		</view>
 
-    <view class="other-login">
-      <view class="text2">--或者使用以下方式登录--</view>
-      <image class="wechat-icon" @click="handleWeChatLogin" 
-        src="../../static/images/WeChatLogo.png" alt="微信登录" />
-    </view>
-  </view>
+		<view class="input-group">
+			<view class="label">手机</view>
+			<input type="text" placeholder="请输入手机号" v-model="mobile_phone" />
+		</view>
+
+		<button @click="handleSave" class="login-button">保存设置</button>
+	</view>
 </template>
 
 <script>
-import { useUserStore } from '@/stores/modules/users'; // 导入 Pinia store
+	import {
+		useUserStore
+	} from '@/stores/modules/userStore.js'; // Pinia Store
 
-export default {
-  data() {
-    return {
-      username: '',
-      password: '',
-      rules: {
-        username: {
-          rule: /\S+/,
-          msg: "账号不能为空！"
-        },
-        password: {
-          rule: /^[0-9a-zA-Z]{6,16}$/,
-          msg: "密码应该为6-16位字符"
-        }
-      }
-    };
-  },
-  setup() {
-    const userStore = useUserStore(); // 使用 Pinia store
-    return { userStore };
-  },
-  methods: {
-    handleLogin() {
-      // 验证账号和密码
-      if (!this.validate('username')) return;
-      if (!this.validate('password')) return;
+	export default {
+		data() {
+			return {
+				users_image: '',
+				nickname: '',
+				mobile_phone: ''
+			};
+		},
+		setup() {
+			const userStore = useUserStore();
+			return {
+				userStore
+			};
+		},
+		methods: {
+			// 选择头像
+			chooseAvatar() {
+				uni.chooseImage({
+					count: 1,
+					success: (res) => {
+						const filePath = res.tempFilePaths[0];
+						// 转换图片为 Base64
+						uni.getFileSystemManager().readFile({
+							filePath: filePath,
+							encoding: 'base64',
+							success: (readRes) => {
+								// 将 Base64 数据添加到 users_image
+								this.users_image = 'data:image/png;base64,' + readRes.data;
+							},
+						});
+					},
+				});
+			},
+			// 保存设置
+			handleSave() {
+				if (!this.nickname || !this.mobile_phone) {
+					uni.showToast({
+						title: '请完整填写信息！',
+						icon: 'none',
+					});
+					return;
+				}
+				// 验证手机号长度是否为11位
+				if (!/^1[3-9]\d{9}$/.test(this.mobile_phone)) {
+					uni.showToast({
+						title: '请输入有效的11位手机号',
+						icon: 'none',
+					});
+					return;
+				}
+				uni.showLoading({
+					title: '保存中...',
+				});
 
-      uni.showLoading({
-        title: "登录中..."
-      });
+				// 如果有头像，直接使用 Base64 数据
+				let users_image = this.users_image;
+				this.saveUserInfo(users_image);
+			},
 
-      uni.request({
-        url: 'http://localhost:3000/api/login',
-        method: 'POST',
-        data: {
-          username: this.username,
-          password: this.password
-        }
-      }).then((res) => {
-        uni.hideLoading();
-        console.log(res);
+			saveUserInfo(users_image) {
+				uni.request({
+					url: 'http://localhost:3000/api/saveUser',
+					method: 'POST',
+					data: {
+						users_image: users_image, // 发送 Base64 数据
+						nickname: this.nickname,
+						mobile_phone: this.mobile_phone,
+					},
+					success: (res) => {
+						console.log('后端响应:', res);
+						uni.hideLoading();
+						if (res.data.data.success) {
+							const userInfo = {
+								users_image: users_image,
+								nickname: this.nickname,
+								mobile_phone: this.mobile_phone,
+								users_id: res.data.data.userInfo.users_id
+							};
 
-        if (res.data.data.success) {
-          const userInfo = {
-			users_id: res.data.data.data.users_id,
-            nickname: res.data.data.data.nickname,
-            users_image: res.data.data.data.users_image,
-          };
-          const token = res.data.data.token;
+							this.userStore.login(userInfo);
 
-          // 使用 Pinia 的 login 方法
-          this.userStore.login({ userInfo, token });
-          uni.showToast({
-            title: res.data.data.msg,
-            icon: 'success'
-          });
-          setTimeout(() => {
-            uni.navigateBack({ delta: 2 });
-          }, 1000);
-        } else {
-          uni.showToast({
-            title: res.data.data.msg,
-            icon: 'none'
-          });
-        }
-      }).catch(() => {
-        uni.hideLoading();
-        uni.showToast({
-          title: '请求失败',
-          icon: 'none'
-        });
-      });
-    },
-    validate(key) {
-      let isValid = true;
-      if (!this.rules[key].rule.test(this[key])) {
-        uni.showToast({
-          title: this.rules[key].msg,
-          icon: "none"
-        });
-        isValid = false;
-      }
-      return isValid;
-    },
-    handleWeChatLogin() {
-      console.log('Login with WeChat');
-      uni.switchTab({ url: '/pages/index/index' });
-    },
-    sendSMS() {
-      console.log(`Sending SMS to the registered phone number for ${this.username}`);
-      uni.showToast({
-        title: 'SMS sent!',
-        icon: 'success',
-        duration: 2000,
-      });
-    },
-    goToSignup() {
-      uni.navigateTo({ url: '/pages/signup/signup' });
-    }
-  }
-};
+							uni.showToast({
+								title: '设置保存成功',
+								icon: 'success',
+							});
+
+							uni.switchTab({
+								url: '/pages/index/index',
+							});
+						} else {
+							uni.showToast({
+								title: res.data.data.msg,
+								icon: 'none',
+							});
+						}
+					},
+					fail: (err) => {
+						uni.hideLoading();
+						console.error('请求失败:', err);
+						uni.showToast({
+							title: '请求失败，请稍后再试',
+							icon: 'none',
+						});
+					}
+				});
+			}
+
+		},
+		// 页面加载时获取用户信息
+		mounted() {
+			// 初始化用户信息（从 Pinia store 或本地存储获取）
+			if (this.userStore.loginStatus) {
+				this.users_image = this.userStore.userInfo.users_image;
+				this.nickname = this.userStore.userInfo.nickname;
+				this.mobile_phone = this.userStore.userInfo.mobile_phone;
+			}
+		}
+	};
 </script>
 
 
+
+
 <style scoped>
-.login-container {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	height: 100%;
-}
-	
-.label {
-	width: 15%;
-	margin: 10px 0;
-	font-size: 16px;
-	font-weight: bold;
-	text-align: left;
-}
+	.login-container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		height: 100%;
+	}
 
-input {
-	width: 100%;
-	padding: 10px;
-	margin: 10px 0;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-}
+	.label {
+		width: 15%;
+		margin: 10px 0;
+		font-size: 16px;
+		font-weight: bold;
+		text-align: left;
+	}
 
-.input-group {
-	display: flex;
-	align-items: center;
-	width: 90%;
-	margin: 10px 0;
-}
+	input {
+		width: 100%;
+		padding: 10px;
+		margin: 10px 0;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+	}
 
-.others{
-	display: flex;
-	justify-content: space-between;
-	width: 90%;
-}
+	.input-group {
+		display: flex;
+		align-items: center;
+		width: 90%;
+		margin: 10px 0;
+	}
 
-.forget-btn {
-	text-align: left;
-	width: 100%; 
-}
+	.others {
+		display: flex;
+		justify-content: space-between;
+		width: 90%;
+	}
 
-.gotologin{
-	width: 100%;
-	text-align: right;
-}
-	
-.login-button {
-	width: 70%;
-	height: 100rpx;
-	padding: 10px;
-	background-color: #4ac8bd;
-	color: white;
-	border: none;
-	border-radius: 4px;
-	margin-top: 20px;
-	text-align: center;
-	display: flex; 
-	justify-content: center; 
-	align-items: center; 
-}
+	.forget-btn {
+		text-align: left;
+		width: 100%;
+	}
 
-.other-login {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	margin-top: 20px;
-}
+	.gotologin {
+		width: 100%;
+		text-align: right;
+	}
 
-.wechat-icon {
-	margin-top: 50rpx;
-	width: 50px; 
-	height: 50px; 
-}
+	.login-button {
+		width: 70%;
+		height: 100rpx;
+		padding: 10px;
+		background-color: #4ac8bd;
+		color: white;
+		border: none;
+		border-radius: 4px;
+		margin-top: 20px;
+		text-align: center;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.avatar-upload {
+		width: 100px;
+		height: 100px;
+		margin: 10px 0;
+		border-radius: 50%;
+		background-color: #f0f0f0;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		overflow: hidden;
+	}
+
+	.upload-placeholder {
+		font-size: 12px;
+		color: #999;
+	}
+
+	.avatar-preview {
+		width: 100px;
+		height: 100px;
+		object-fit: cover;
+	}
+
+	.other-login {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		margin-top: 20px;
+	}
+
+	.wechat-icon {
+		margin-top: 50rpx;
+		width: 50px;
+		height: 50px;
+	}
 </style>

@@ -1,2 +1,43 @@
 
-/* 样式 */
+.myrelease.data-v-45a0525d {
+		padding: 20px;
+}
+.post-item.data-v-45a0525d {
+		margin-bottom: 10px;
+		border: none;
+		border-radius: 8px;
+		background-color: #fff;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		padding: 15px;
+}
+.post-info.data-v-45a0525d {
+		margin-bottom: 15px;
+}
+.post-field.data-v-45a0525d {
+		display: flex;
+		flex-wrap: wrap;
+		/* 允许内容换行 */
+		justify-content: space-between;
+		margin-bottom: 10px;
+}
+.field-label.data-v-45a0525d {
+		font-weight: bold;
+		color: #333;
+}
+.field-value.data-v-45a0525d {
+		color: #666;
+}
+.post-actions.data-v-45a0525d {
+		display: flex;
+		justify-content: flex-end;
+}
+.delete-btn.data-v-45a0525d {
+		background-color: #4ac8bd;
+		color: #fff;
+		font-size: 14px;
+		font-weight: 600;
+		cursor: pointer;
+}
+.delete-btn.data-v-45a0525d:hover {
+		color: #333;
+}

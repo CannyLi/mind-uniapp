@@ -4,7 +4,7 @@
 			<view class="article-title">{{ article.title }}</view>
 		</view>
 		<view class="article-meta">
-			<text>发布日期：{{ article.publish_date }}</text>
+			<text>发布日期：{{ article.publish_date }}</text><br>
 			<text>作者：{{ article.author }}</text>
 		</view>
 		<view class="article-content">
@@ -12,10 +12,11 @@
 		</view>
 		<view class="article-actions">
 			<view class="iconfont icon-xihuan" :class="{ 'liked': isLiked }" @click="toggleLike">
-				{{ article.likes }}
+				赞{{ article.likes }}
 			</view>
-			<view class="iconfont icon-a-shoucangyishoucang1x1" :class="{ 'favorited': isFavorited }" @click="toggleFavorite">
-				{{ article.favorites }}
+			<view class="iconfont icon-a-shoucangyishoucang1x1" :class="{ 'favorited': isFavorited }"
+				@click="toggleFavorite">
+				收藏{{ article.favorites }}
 			</view>
 		</view>
 	</view>
@@ -179,31 +180,40 @@
 </script>
 
 <style scoped>
-.article-container {
-	padding: 20px;
-}
-.article-header {
-	margin-bottom: 10px;
-}
-.article-title {
-	font-size: 24px;
-	font-weight: bold;
-}
-.article-meta {
-	color: #666;
-	margin-bottom: 10px;
-}
-.article-content {
-	margin-top: 10px;
-}
-.article-actions {
-	display: flex;
-	gap: 10px;
-}
-.liked {
-	color: red;
-}
-.favorited {
-	color: yellow;
-}
+	.article-container {
+		padding: 20px;
+	}
+
+	.article-header {
+		margin-bottom: 10px;
+	}
+
+	.article-title {
+		font-size: 24px;
+		font-weight: bold;
+	}
+
+	.article-meta {
+		color: #666;
+		margin-bottom: 10px;
+	}
+
+	.article-content {
+		margin-top: 10px;
+	}
+
+	.article-actions {
+		display: flex;
+		gap: 30rpx;
+		margin-top: 50rpx;
+		margin-left: 350rpx;
+	}
+
+	.liked {
+		color: red;
+	}
+
+	.favorited {
+		color: #4ac8bd;
+	}
 </style>

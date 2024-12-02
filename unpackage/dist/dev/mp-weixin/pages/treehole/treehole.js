@@ -1,6 +1,6 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
-const stores_modules_users = require("../../stores/modules/users.js");
+const stores_modules_userStore = require("../../stores/modules/userStore.js");
 const _sfc_main = {
   data() {
     return {
@@ -9,10 +9,20 @@ const _sfc_main = {
     };
   },
   setup() {
-    const userStore = stores_modules_users.useUserStore();
+    const userStore = stores_modules_userStore.useUserStore();
     userStore.initUser();
+    const formatDate = (dateString) => {
+      if (!dateString)
+        return "未填写";
+      const date = new Date(dateString);
+      const year = date.getFullYear();
+      const month = (date.getMonth() + 1).toString().padStart(2, "0");
+      const day = date.getDate().toString().padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    };
     return {
-      userStore
+      userStore,
+      formatDate
     };
   },
   methods: {
@@ -25,8 +35,10 @@ const _sfc_main = {
           if (res.data.success === "0") {
             this.posts = res.data.data.map((post) => ({
               ...post,
-              liked: false
+              liked: false,
               // 默认未点赞
+              date: this.formatDate(post.date)
+              // 格式化日期字段
             }));
           } else {
             common_vendor.index.showToast({
@@ -82,7 +94,7 @@ const _sfc_main = {
   onLoad() {
     if (!this.userStore.loginStatus) {
       common_vendor.index.navigateTo({
-        url: "/pages/LoginSignupHome/LoginSignupHome"
+        url: "/pages/login/login"
         // 登录页面的路径
       });
       common_vendor.index.showToast({

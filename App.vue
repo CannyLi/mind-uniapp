@@ -1,5 +1,5 @@
 <script>
-import { useUserStore } from '@/stores/modules/users'; 
+import { useUserStore } from '@/stores/modules/userStore.js'; 
 
 export default {
   setup() {

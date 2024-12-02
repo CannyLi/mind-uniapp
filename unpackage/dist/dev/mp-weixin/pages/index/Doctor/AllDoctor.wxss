@@ -1,38 +1,40 @@
 
-.text.data-v-cb1005e8 {
-  font-size: 80rpx;
-  text-align: center;
-}
 .doctor-profile.data-v-cb1005e8 {
-  display: flex;
-  align-items: center; /* 垂直居中头像和信息 */
-  margin: 20rpx;
-  padding-bottom: 20rpx;
-  flex-direction: row;  /* 水平排列头像和信息 */
+		display: flex;
+		align-items: center;
+		background-color: #fff;
+		border-radius: 8px;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		padding: 15px;
+		margin-bottom: 10px;
 }
 .image.data-v-cb1005e8 {
-  margin-right: 20rpx; /* 头像与信息之间的间距 */
+		margin-right: 15px;
 }
 .doctor-image.data-v-cb1005e8 {
-  width: 200rpx; 
-  height: 200rpx; 
-  border-radius: 50%;  /* 圆形头像 */
-  object-fit: cover;
+		width: 60px;
+		height: 60px;
+		border-radius: 50%;
+		object-fit: cover;
 }
 .doctor-info.data-v-cb1005e8 {
-  display: flex;
-  flex-direction: row;
-  justify-content: center; /* 保持信息居中 */
-  flex: 1; /* 使信息部分占据剩余空间 */
+		display: flex;
+		flex-direction: flex;
+		justify-content: center;
+		flex: 1;
 }
 .doctor-name.data-v-cb1005e8 {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 10rpx;
+		font-size: 16px;
+		font-weight: bold;
+		color: #333;
+		margin-bottom: 5px;
 }
 .doctor-introduction.data-v-cb1005e8 {
-  margin-bottom: 10rpx;
+		font-size: 14px;
+		color: #666;
+		margin-bottom: 10px;
 }
-.doctor-direction.data-v-cb1005e8 {
-  font-style: italic;
+.distance.data-v-cb1005e8 {
+		font-size: 12px;
+		color: #999;
 }

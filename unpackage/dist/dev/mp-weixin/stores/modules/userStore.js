@@ -3,7 +3,6 @@ const common_vendor = require("../../common/vendor.js");
 const useUserStore = common_vendor.defineStore("users", {
   state: () => ({
     loginStatus: false,
-    token: null,
     userInfo: {}
   }),
   actions: {
@@ -14,8 +13,7 @@ const useUserStore = common_vendor.defineStore("users", {
           userInfo = JSON.parse(userInfo);
           this.$patch({
             userInfo,
-            loginStatus: true,
-            token: userInfo.token
+            loginStatus: true
           });
           console.log("User is logged in:", userInfo);
         } catch (error) {
@@ -25,22 +23,17 @@ const useUserStore = common_vendor.defineStore("users", {
         console.log("No user info found. User is not logged in.");
       }
     },
-    //登录方法
+    // 登录方法
     login(userInfo) {
-      this.userInfo = {};
-      this.loginStatus = false;
-      this.token = null;
       this.userInfo = userInfo.userInfo;
       this.loginStatus = true;
-      this.token = userInfo.token;
       console.log("User logged in:", userInfo);
       common_vendor.index.setStorageSync("userInfo", JSON.stringify(userInfo));
     },
-    //退出登录
-    logout(userInfo) {
+    // 退出登录
+    logout() {
       this.userInfo = {};
       this.loginStatus = false;
-      this.token = null;
       common_vendor.index.removeStorageSync("userInfo");
       console.log("User logged out");
     }
