@@ -4,7 +4,6 @@ const stores_modules_userStore = require("../../stores/modules/userStore.js");
 const _sfc_main = {
   data() {
     return {
-      users_image: "",
       nickname: "",
       mobile_phone: ""
     };
@@ -12,7 +11,8 @@ const _sfc_main = {
   setup() {
     const userStore = stores_modules_userStore.useUserStore();
     return {
-      userStore
+      userStore,
+      users_image: userStore.userInfo.users_image
     };
   },
   methods: {
@@ -26,7 +26,9 @@ const _sfc_main = {
             filePath,
             encoding: "base64",
             success: (readRes) => {
-              this.users_image = "data:image/png;base64," + readRes.data;
+              const base64Image = "data:image/png;base64," + readRes.data;
+              this.users_image = base64Image;
+              this.userStore.userInfo.users_image = base64Image;
             }
           });
         }
@@ -69,7 +71,8 @@ const _sfc_main = {
           common_vendor.index.hideLoading();
           if (res.data.data.success) {
             const userInfo = {
-              users_image,
+              users_image: this.users_image || res.data.data.userInfo.users_image,
+              // 使用本地头像或后端返回头像
               nickname: this.nickname,
               mobile_phone: this.mobile_phone,
               users_id: res.data.data.userInfo.users_id
@@ -79,6 +82,7 @@ const _sfc_main = {
               title: "设置保存成功",
               icon: "success"
             });
+            this.userStore.initUser();
             common_vendor.index.switchTab({
               url: "/pages/index/index"
             });
@@ -111,9 +115,9 @@ const _sfc_main = {
 };
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return common_vendor.e({
-    a: $data.users_image
-  }, $data.users_image ? {
-    b: $data.users_image
+    a: $setup.users_image
+  }, $setup.users_image ? {
+    b: $setup.users_image
   } : {}, {
     c: common_vendor.o((...args) => $options.chooseAvatar && $options.chooseAvatar(...args)),
     d: $data.nickname,

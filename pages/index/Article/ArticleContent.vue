@@ -47,7 +47,7 @@
 		methods: {
 			fetchArticle(articleId) {
 				uni.request({
-					url: `http://localhost:3000/api/articles/${articleId}`, // 后端接口
+					url: `http://localhost:3000/api/articles/${articleId}`, 
 					method: 'GET',
 					success: (res) => {
 						if (res.data.success) {

@@ -118,7 +118,6 @@
 		justify-content: space-between;
 	}
 
-	/* 聊天消息容器 */
 	.chat-container {
 		flex: 1;
 		/* 使聊天区域占据剩余空间 */
@@ -128,7 +127,6 @@
 		flex-direction: column;
 	}
 
-	/* 消息样式：根据是否是用户消息改变样式 */
 	.message {
 		display: flex;
 		align-items: flex-start;
@@ -149,7 +147,6 @@
 		/* 向右对齐 */
 	}
 
-	/* 头像样式 */
 	.avatar {
 		width: 40px;
 		height: 40px;
@@ -163,7 +160,6 @@
 		border-radius: 50%;
 	}
 
-	/* 用户头像和消息对齐方式 */
 	.user-avatar {
 		margin-left: 10px;
 	}
@@ -172,7 +168,6 @@
 		margin-right: 10px;
 	}
 
-	/* 消息内容样式 */
 	.message-content {
 		padding: 10px;
 		border-radius: 10px;
@@ -192,7 +187,6 @@
 		color: #333;
 	}
 
-	/* 输入框和按钮容器 */
 	.input-container {
 		display: flex;
 		align-items: center;

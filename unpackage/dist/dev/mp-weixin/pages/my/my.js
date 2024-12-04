@@ -6,7 +6,9 @@ const _sfc_main = {
     const userStore = stores_modules_userStore.useUserStore();
     userStore.initUser();
     return {
-      userStore
+      userStore,
+      loginStatus: userStore.loginStatus,
+      userInfo: userStore.userInfo
     };
   },
   computed: {
@@ -34,14 +36,17 @@ const _sfc_main = {
 };
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return common_vendor.e({
-    a: $options.loginStatus && $options.userInfo.users_image,
-    b: $options.loginStatus
-  }, $options.loginStatus ? {
-    c: common_vendor.t($options.loginStatus && $options.userInfo.nickname)
+    a: $options.loginStatus && $options.userInfo && $options.userInfo.users_image
+  }, $options.loginStatus && $options.userInfo && $options.userInfo.users_image ? {
+    b: $options.userInfo.users_image
+  } : {}, {
+    c: $options.loginStatus && $options.userInfo && $options.userInfo.nickname
+  }, $options.loginStatus && $options.userInfo && $options.userInfo.nickname ? {
+    d: common_vendor.t($options.userInfo.nickname)
   } : {
-    d: common_vendor.o((...args) => $options.goToLogin && $options.goToLogin(...args))
+    e: common_vendor.o((...args) => $options.goToLogin && $options.goToLogin(...args))
   }, {
-    e: common_vendor.o(($event) => $options.handleLogout())
+    f: common_vendor.o(($event) => $options.handleLogout())
   });
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-2f1ef635"]]);

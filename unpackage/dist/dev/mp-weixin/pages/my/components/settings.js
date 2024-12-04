@@ -133,7 +133,6 @@ const _sfc_main = {
       try {
         const response = await common_vendor.index.request({
           url: "http://localhost:3000/api/getUserInfo",
-          // 替换为实际接口
           method: "GET",
           data: {
             mobile_phone: userStore.userInfo.mobile_phone

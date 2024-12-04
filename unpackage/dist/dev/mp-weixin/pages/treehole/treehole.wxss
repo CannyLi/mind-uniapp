@@ -17,6 +17,9 @@
 		border-radius: 50%;
 		margin-right: -250rpx;
 }
+.name.data-v-2b7b037f {
+		margin-right: -80rpx;
+}
 .top.data-v-2b7b037f {
 		display: flex;
 		justify-content: space-between;
@@ -40,7 +43,6 @@
 }
 .floating-button.data-v-2b7b037f {
 		position: fixed;
-		/* 固定定位 */
 		bottom: 30rpx;
 		right: 30rpx;
 		width: 100rpx;
@@ -56,4 +58,56 @@
 }
 .liked.data-v-2b7b037f {
 		color: red;
+}
+.comments-section.data-v-2b7b037f {
+		margin-top: 20rpx;
+		border-top: 1px solid #ccc;
+		padding-top: 20rpx;
+}
+.comment-list.data-v-2b7b037f {
+		margin: 30rpx;
+		border-bottom: 1px solid #ccc;
+}
+.sendComments.data-v-2b7b037f {
+		color: #fff;
+		background-color: #4ac8bd;
+		padding-inline: 20rpx;
+		padding-top: 12rpx;
+		padding-bottom: 12rpx;
+}
+.comment-input.data-v-2b7b037f {
+		display: flex;
+		align-items: center;
+}
+.comment-input input.data-v-2b7b037f {
+		flex: 1;
+		border: 1px solid #ccc;
+		border-radius: 5rpx;
+		padding: 10rpx;
+		margin-right: 10rpx;
+}
+.comment-input button.data-v-2b7b037f {
+		background-color: #4ac8bd;
+		color: white;
+		border: none;
+		padding: 10rpx 20rpx;
+		border-radius: 5rpx;
+		cursor: pointer;
+}
+.comment-input button.data-v-2b7b037f:hover {
+		background-color: #2a9d8f;
+}
+.comment-name.data-v-2b7b037f {
+		margin-right: -150rpx;
+}
+.comment-message.data-v-2b7b037f {
+		margin-bottom: 20rpx;
+		border-radius: 0 0 1rpx 0;
+}
+.comment-footer.data-v-2b7b037f {
+		display: flex;
+}
+.comment-delete.data-v-2b7b037f {
+		flex: 1;
+		color: #CD3333;
 }

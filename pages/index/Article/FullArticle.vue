@@ -37,7 +37,7 @@
 		methods: {
 			fetchArticles() {
 				uni.request({
-					url: 'http://localhost:3000/api/articles', // 后端接口
+					url: 'http://localhost:3000/api/articles', 
 					method: 'GET',
 					success: (res) => {
 						if (res.data.success) {
@@ -63,7 +63,7 @@
 					this.fetchArticles(); // 如果搜索框为空，显示所有文章
 				} else {
 					uni.request({
-						url: `http://localhost:3000/api/articles/search?q=${this.searchQuery}`, // 搜索接口
+						url: `http://localhost:3000/api/articles/search?q=${this.searchQuery}`, 
 						method: 'GET',
 						success: (res) => {
 							if (res.data.success) {
@@ -141,6 +141,14 @@
 		font-size: 35rpx;
 		font-weight: bold;
 		color: #333;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		-webkit-line-clamp: 2;
+		/* 限制显示的行数为2行 */
+		line-height: 45rpx;
+		/* 设置行高 */
 	}
 
 	.article-meta {

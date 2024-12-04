@@ -80,7 +80,7 @@
 		methods: {
 			fetchArticles() {
 				uni.request({
-					url: 'http://localhost:3000/api/articles',
+					url: 'http://101.33.203.222:3000/api/articles',
 					method: 'GET',
 					success: (res) => {
 						console.log('Fetched article:', res.data); // 查看获取的文章数据
@@ -221,6 +221,14 @@
 		font-size: 35rpx;
 		font-weight: bold;
 		color: #333;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		-webkit-line-clamp: 2;
+		/* 限制显示的行数为2行 */
+		line-height: 45rpx;
+		/* 设置行高 */
 	}
 
 	.article-meta {

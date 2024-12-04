@@ -9,6 +9,7 @@ export const useUserStore = defineStore('users', {
 		userInfo: {}
 	}),
 	actions: {
+		//用户初始化
 		initUser() {
 			let userInfo = uni.getStorageSync('userInfo');
 			if (userInfo) {
@@ -30,7 +31,7 @@ export const useUserStore = defineStore('users', {
 		// 登录方法
 		login(userInfo) {
 			// 更新为新的用户数据
-			this.userInfo = userInfo.userInfo;
+			this.userInfo = userInfo;
 			this.loginStatus = true;
 			console.log('User logged in:', userInfo);
 

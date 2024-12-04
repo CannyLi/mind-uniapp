@@ -1,0 +1,1 @@
+<view class="feedback data-v-56af5836"><block wx:if="{{r0}}"><textarea class="feedback-input data-v-56af5836" placeholder="请输入您的反馈意见（最多1000字）" bindinput="{{a}}" maxlength="1000" value="{{b}}"/></block><view class="feedback-length data-v-56af5836">{{c}}/1000</view><button class="submit-btn data-v-56af5836" bindtap="{{d}}">提交反馈</button></view>

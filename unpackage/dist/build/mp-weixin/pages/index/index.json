@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "心灵",
+  "usingComponents": {
+    "index-swiper": "../../components/index/IndexSwiper"
+  }
+}

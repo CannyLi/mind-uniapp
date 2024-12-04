@@ -1,7 +1,7 @@
 {
-    "name" : "mind",
-    "appid" : "",
-    "description" : "",
+    "name" : "心灵mind校园",
+    "appid" : "__UNI__C530B09",
+    "description" : "心灵mind校园为校园用户提供预约心理医生、进行AI咨询、匿名分享心事、阅读心理健康科普文章功能，帮助学生保持良好的心理状态。",
     "versionName" : "1.0.0",
     "versionCode" : "100",
     "transformPx" : false,
@@ -59,11 +59,12 @@
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "",
+        "appid" : "wx687a690c41933c30",
         "setting" : {
             "urlCheck" : false
         },
-        "usingComponents" : true
+        "usingComponents" : true,
+        "permission" : {}
     },
     "mp-alipay" : {
         "usingComponents" : true

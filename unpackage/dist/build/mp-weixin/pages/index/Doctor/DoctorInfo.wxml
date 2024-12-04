@@ -1,0 +1,1 @@
+<view class="doctor-profile"><image src="{{a}}" class="doctor-image"></image><view class="doctor-info"><view class="doctor-name">{{b}}</view><view class="doctor-introduction">个人简介：{{c}}</view><view class="doctor-expertise">擅长领域：{{d}}</view><view class="consultation-notes">咨询须知：{{e}}</view><button class="book-button" bindtap="{{f}}">立即预约</button></view></view>

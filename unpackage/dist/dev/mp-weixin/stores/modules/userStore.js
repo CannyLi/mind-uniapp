@@ -6,6 +6,7 @@ const useUserStore = common_vendor.defineStore("users", {
     userInfo: {}
   }),
   actions: {
+    //用户初始化
     initUser() {
       let userInfo = common_vendor.index.getStorageSync("userInfo");
       if (userInfo) {
@@ -25,7 +26,7 @@ const useUserStore = common_vendor.defineStore("users", {
     },
     // 登录方法
     login(userInfo) {
-      this.userInfo = userInfo.userInfo;
+      this.userInfo = userInfo;
       this.loginStatus = true;
       console.log("User logged in:", userInfo);
       common_vendor.index.setStorageSync("userInfo", JSON.stringify(userInfo));

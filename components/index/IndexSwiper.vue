@@ -19,7 +19,7 @@
 		methods: {
 			fetchCarouselImages() {
 				uni.request({
-					url: 'http://localhost:3000/api/getCarousels', // 后端接口
+					url: 'http://localhost:3000/api/getCarousels',
 					method: 'GET',
 					success: (res) => {
 						if (res.data.success && res.data.data) {

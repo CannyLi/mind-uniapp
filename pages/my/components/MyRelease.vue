@@ -24,7 +24,7 @@
 					</view>
 				</view>
 				<view class="post-actions">
-					<button class="delete-btn" @click="deletePost(post.posts_id)">删除</button>
+					<button class="delete-btn iconfont icon-shanchu" @click="deletePost(post.posts_id)">删除</button>
 				</view>
 			</view>
 		</view>

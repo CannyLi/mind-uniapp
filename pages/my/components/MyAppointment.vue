@@ -37,7 +37,7 @@
 					</view>
 				</view>
 				<view class="appointment-actions">
-					<button class="delete-btn" @click="deleteAppointment(appointment.appointment_id)">删除</button>
+					<button class="delete-btn iconfont icon-shanchu" @click="deleteAppointment(appointment.appointment_id)">删除</button>
 				</view>
 			</view>
 		</view>
@@ -202,8 +202,8 @@
 	}
 
 	.delete-btn {
-		background-color: transparent;
-		color: #4ac8bd;
+		background-color: #4ac8bd;
+		color: #f0f0f0;
 		border: none;
 		font-size: 14px;
 		cursor: pointer;

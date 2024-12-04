@@ -30,7 +30,6 @@
 	export default {
 		data() {
 			return {
-				users_image: '',
 				nickname: '',
 				mobile_phone: ''
 			};
@@ -38,7 +37,8 @@
 		setup() {
 			const userStore = useUserStore();
 			return {
-				userStore
+				userStore,
+				users_image: userStore.userInfo.users_image,
 			};
 		},
 		methods: {
@@ -54,7 +54,9 @@
 							encoding: 'base64',
 							success: (readRes) => {
 								// 将 Base64 数据添加到 users_image
-								this.users_image = 'data:image/png;base64,' + readRes.data;
+								const base64Image = 'data:image/png;base64,' + readRes.data;
+								this.users_image = base64Image; // 更新本地数据
+								this.userStore.userInfo.users_image = base64Image; // 同步到 Pinia
 							},
 						});
 					},
@@ -99,8 +101,15 @@
 						console.log('后端响应:', res);
 						uni.hideLoading();
 						if (res.data.data.success) {
+							// const userInfo = {
+							// 	users_image: users_image,
+							// 	nickname: this.nickname,
+							// 	mobile_phone: this.mobile_phone,
+							// 	users_id: res.data.data.userInfo.users_id
+							// };
 							const userInfo = {
-								users_image: users_image,
+								users_image: this.users_image || res.data.data.userInfo
+								.users_image, // 使用本地头像或后端返回头像
 								nickname: this.nickname,
 								mobile_phone: this.mobile_phone,
 								users_id: res.data.data.userInfo.users_id
@@ -112,6 +121,9 @@
 								title: '设置保存成功',
 								icon: 'success',
 							});
+
+							// 初始化用户信息
+							this.userStore.initUser();
 
 							uni.switchTab({
 								url: '/pages/index/index',
@@ -137,7 +149,7 @@
 		},
 		// 页面加载时获取用户信息
 		mounted() {
-			// 初始化用户信息（从 Pinia store 或本地存储获取）
+			// 初始化用户信息（从Pinia store 获取）
 			if (this.userStore.loginStatus) {
 				this.users_image = this.userStore.userInfo.users_image;
 				this.nickname = this.userStore.userInfo.nickname;

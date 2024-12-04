@@ -2,10 +2,11 @@
 	<view class="container">
 		<!-- 用户信息 -->
 		<view class="user-info">
-			<!-- loginStatus为真且userInfo.users_image存在，则显示userInfo.users_image作为头像 -->
-			<image class="avatar" :src="loginStatus && userInfo.users_image " mode="aspectFill"></image>
+			<image class="avatar" v-if="loginStatus && userInfo && userInfo.users_image" :src="userInfo.users_image"
+				mode="aspectFill"></image>
 			<view class="user-details">
-				<view v-if="loginStatus" class="nickname">{{ loginStatus && userInfo.nickname }}</view>
+				<!-- 确保 userInfo 存在且有 nickname 时才显示昵称 -->
+				<view v-if="loginStatus && userInfo && userInfo.nickname" class="nickname">{{ userInfo.nickname }}</view>
 				<view v-else class="nickname" @tap="goToLogin">未登录，点击登录 </view>
 			</view>
 		</view>
@@ -78,15 +79,17 @@
 			userStore.initUser();
 
 			return {
-				userStore
+				userStore,
+				loginStatus: userStore.loginStatus,
+				userInfo: userStore.userInfo,
 			};
 		},
 		computed: {
 			loginStatus() {
-				return this.userStore.loginStatus; // 从 Pinia store 获取状态
+				return this.userStore.loginStatus; // 从Pinia store获取状态
 			},
 			userInfo() {
-				return this.userStore.userInfo; // 从 Pinia store 获取用户信息
+				return this.userStore.userInfo; // 从Pinia store获取用户信息
 			}
 		},
 		methods: {

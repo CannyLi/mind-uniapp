@@ -18,7 +18,7 @@ const _sfc_main = {
   methods: {
     fetchArticles() {
       common_vendor.index.request({
-        url: "http://localhost:3000/api/articles",
+        url: "http://101.33.203.222:3000/api/articles",
         method: "GET",
         success: (res) => {
           console.log("Fetched article:", res.data);

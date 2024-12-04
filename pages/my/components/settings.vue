@@ -231,7 +231,7 @@
 
 				try {
 					const response = await uni.request({
-						url: 'http://localhost:3000/api/getUserInfo', // 替换为实际接口
+						url: 'http://localhost:3000/api/getUserInfo',
 						method: 'GET',
 						data: {
 							mobile_phone: userStore.userInfo.mobile_phone, // 根据当前登录用户的 ID 获取信息

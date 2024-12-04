@@ -14,7 +14,6 @@ const _sfc_main = {
     fetchCarouselImages() {
       common_vendor.index.request({
         url: "http://localhost:3000/api/getCarousels",
-        // 后端接口
         method: "GET",
         success: (res) => {
           if (res.data.success && res.data.data) {

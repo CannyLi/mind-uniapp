@@ -62,7 +62,6 @@
 							feedback: feedback.value,
 						},
 					});
-
 					if (response.statusCode === 200 && response.data.success) {
 						uni.showToast({
 							title: '反馈提交成功',
